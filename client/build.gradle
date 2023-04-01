@@ -1,0 +1,18 @@
+plugins {
+    id 'ru.guess_the_song.java-application-conventions'
+    id 'org.openjfx.javafxplugin' version '0.0.13'
+}
+
+application {
+    mainModule = 'ru.guess_the_song.client'
+    mainClass = 'ru.guess_the_song.client.App'
+}
+
+dependencies {
+//    implementation project(':core')
+}
+
+javafx {
+    version = '19'
+    modules = ['javafx.controls', 'javafx.fxml']
+}

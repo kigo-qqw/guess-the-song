@@ -1,0 +1,7 @@
+rootProject.name = 'guess-the-song'
+
+include 'server'
+include 'client'
+include 'core'
+include 'core'
+

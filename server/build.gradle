@@ -1,0 +1,13 @@
+plugins {
+    id 'ru.guess_the_song.java-application-conventions'
+}
+
+application {
+    mainModule = 'ru.guess_the_song.server'
+    mainClass = 'ru.guess_the_song.server.Main'
+}
+
+dependencies {
+    implementation 'org.slf4j:slf4j-log4j12:1.2'
+//    testImplementation
+}
