@@ -1,4 +1,6 @@
 module ru.guess_the_song.client {
+    requires ru.guess_the_song.core;
+
     requires javafx.controls;
 //    requires javafx.fxml;
 
