@@ -26,6 +26,10 @@ public class DispatcherImpl implements Dispatcher {
 
     @Override
     public void dispatch(Session session, Object object) {
-        session.send(this.routes.get(object.getClass()).request((Request) object));
+        var response = this.routes.get(object.getClass()).request((Request) object);
+        session.send(response);
+        if (response.isPresent())
+            log.error("response: {}", response.get());
+        else log.error("response empty");
     }
 }

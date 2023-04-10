@@ -20,7 +20,7 @@ public class Result<T extends Serializable> implements Serializable {
     }
 
     public boolean isPresent() {
-        return this.value == null;
+        return this.value != null;
     }
 
     public T get() throws NoSuchElementException {

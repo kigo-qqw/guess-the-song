@@ -1,45 +1,32 @@
 package ru.guess_the_song.server.service.impl;
 
-import ru.guess_the_song.core.dto.*;
+import lombok.extern.slf4j.Slf4j;
+import ru.guess_the_song.core.dto.GetMusicPackDto;
+import ru.guess_the_song.core.dto.GetMusicPackResponseDto;
+import ru.guess_the_song.core.dto.Result;
+import ru.guess_the_song.server.entity.MusicPack;
+import ru.guess_the_song.server.mapper.MusicPackMapper;
+import ru.guess_the_song.server.mapper.impl.MusicPackMapperImpl;
+import ru.guess_the_song.server.repository.MusicPackRepository;
+import ru.guess_the_song.server.repository.impl.MusicPackRepositoryImpl;
 import ru.guess_the_song.server.service.MusicPackService;
 
-import java.util.List;
-import java.util.UUID;
+import java.util.Optional;
 
+@Slf4j
 public class MusicPackServiceImpl implements MusicPackService {
+    private final MusicPackRepository musicPackRepository;
+    private final MusicPackMapper musicPackMapper;
+
+    public MusicPackServiceImpl() {
+        this.musicPackRepository = new MusicPackRepositoryImpl(); // FIXME: 10.04.2023
+        this.musicPackMapper = new MusicPackMapperImpl();
+
+    }
 
     @Override
     public Result<GetMusicPackResponseDto> get(GetMusicPackDto request) {
-        // TODO
-
-        return Result.of(
-                GetMusicPackResponseDto.builder()
-                        .uuid(request.getUuid())
-                        .songs(
-                                List.of(
-                                        SongEntryDto.builder()
-                                                .song(SongDto.builder()
-                                                        .uuid(UUID.randomUUID())
-                                                        .build()
-                                                ).answers(List.of(
-                                                        "[1] - [1]",
-                                                        "[1] - [2]",
-                                                        "[1] - [3]",
-                                                        "[1] - [4]")
-                                                ).build(),
-                                        SongEntryDto.builder()
-                                                .song(SongDto.builder()
-                                                        .uuid(UUID.randomUUID())
-                                                        .build()
-                                                ).answers(List.of(
-                                                        "[2] - [1]",
-                                                        "[2] - [2]",
-                                                        "[2] - [3]",
-                                                        "[2] - [4]")
-                                                ).build()
-                                )
-                        ).build()
-        );
-
+        Optional<MusicPack> musicPack = this.musicPackRepository.findById(request.getUuid());
+        return musicPack.map(pack -> Result.of(this.musicPackMapper.map(pack))).orElseGet(Result::empty);
     }
 }
