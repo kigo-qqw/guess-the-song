@@ -1,4 +1,4 @@
 package ru.guess_the_song.server.entity;
 
-public abstract class Entity {
+public abstract class EntityEE {
 }

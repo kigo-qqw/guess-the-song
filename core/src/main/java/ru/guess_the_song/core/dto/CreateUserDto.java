@@ -5,7 +5,6 @@ import lombok.Getter;
 
 @Getter
 @Builder
-public class CreateUserDto extends Request {
+public class CreateUserDto extends RequestDto {
     private String username;
-    private String password;
 }

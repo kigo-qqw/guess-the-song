@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.UUID;
 
 @Builder
-public class SongEntry extends Entity {
+public class SongEntry extends EntityEE {
     @Getter
     @Setter
     private UUID uuid;

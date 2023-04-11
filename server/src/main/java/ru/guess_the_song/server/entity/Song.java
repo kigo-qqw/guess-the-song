@@ -7,7 +7,7 @@ import lombok.Setter;
 import java.util.UUID;
 
 @Builder
-public class Song extends Entity {
+public class Song extends EntityEE {
     @Getter
     @Setter
     UUID uuid;

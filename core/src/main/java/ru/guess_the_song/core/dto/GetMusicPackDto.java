@@ -8,6 +8,6 @@ import java.util.UUID;
 
 @Getter
 @Builder
-public class GetMusicPackDto extends Request {
+public class GetMusicPackDto extends RequestDto {
     private UUID uuid;
 }

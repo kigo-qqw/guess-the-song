@@ -5,7 +5,7 @@ import lombok.Getter;
 
 @Getter
 @Builder
-public class CreateGameDto {
+public class CreateGameDto extends RequestDto {
     private UserDto initiator;
-    private MusicPackWithAnswersDto musicPack;
+    private MusicPackWithCorrectAnswersDto musicPack;
 }

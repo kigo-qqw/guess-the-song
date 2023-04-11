@@ -9,8 +9,7 @@ import java.util.UUID;
 
 @Getter
 @Builder
-public class MusicPackWithAnswersDto {
+public class MusicPackDto extends EntityDto {
     private UUID uuid;
     private List<SongEntryDto> songs;
-
 }

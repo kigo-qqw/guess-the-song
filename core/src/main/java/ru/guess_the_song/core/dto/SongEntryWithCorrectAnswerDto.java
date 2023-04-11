@@ -7,7 +7,8 @@ import java.util.List;
 
 @Getter
 @Builder
-public class SongEntryDto extends EntityDto {
+public class SongEntryWithCorrectAnswerDto extends EntityDto {
     private SongDto song;
     private List<String> answers;
+    private int correctAnswerIdx;
 }

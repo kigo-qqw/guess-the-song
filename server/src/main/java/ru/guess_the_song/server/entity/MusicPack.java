@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.UUID;
 
 @Builder
-public class MusicPack extends Entity {
+public class MusicPack extends EntityEE {
     @Getter
     @Setter
     private UUID uuid;

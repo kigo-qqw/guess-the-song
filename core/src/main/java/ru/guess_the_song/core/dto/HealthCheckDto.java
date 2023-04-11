@@ -6,5 +6,5 @@ import lombok.Getter;
 
 @Getter
 @Builder
-public class HealthCheckDto extends Request {
+public class HealthCheckDto extends RequestDto {
 }

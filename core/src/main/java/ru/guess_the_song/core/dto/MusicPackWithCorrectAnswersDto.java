@@ -1,13 +1,15 @@
 package ru.guess_the_song.core.dto;
 
+
 import lombok.Builder;
 import lombok.Getter;
 
+import java.util.List;
 import java.util.UUID;
 
 @Getter
 @Builder
-public class SongDto extends EntityDto {
+public class MusicPackWithCorrectAnswersDto extends EntityDto {
     private UUID uuid;
-    private byte[] data;
+    private List<SongEntryDto> songs;
 }

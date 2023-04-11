@@ -8,7 +8,7 @@ import java.util.UUID;
 
 @Getter
 @Builder
-public class GetMusicPackResponseDto extends Response {
+public class GetMusicPackResponseDto extends ResponseDto {
     private UUID uuid;
     private List<SongEntryDto> songs;
 }

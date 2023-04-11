@@ -29,7 +29,7 @@ public class App extends Application {
             ObjectInputStream ois = new ObjectInputStream(socket.getInputStream());
 
 
-                        oos.writeObject(GetMusicPackDto.builder().uuid(uuid).build());
+            oos.writeObject(GetMusicPackDto.builder().uuid(uuid).build());
             Result<GetMusicPackResponseDto> response = (Result<GetMusicPackResponseDto>) ois.readObject();
             if (response != null)
                 info.setText(response.get().toString());

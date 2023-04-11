@@ -1,8 +1,5 @@
 package ru.guess_the_song.server.repository.impl;
 
-import ru.guess_the_song.core.dto.GetMusicPackResponseDto;
-import ru.guess_the_song.core.dto.SongDto;
-import ru.guess_the_song.core.dto.SongEntryDto;
 import ru.guess_the_song.server.entity.MusicPack;
 import ru.guess_the_song.server.entity.Song;
 import ru.guess_the_song.server.entity.SongEntry;

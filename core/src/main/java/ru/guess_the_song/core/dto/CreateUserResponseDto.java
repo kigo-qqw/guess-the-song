@@ -5,6 +5,6 @@ import lombok.Getter;
 
 @Getter
 @Builder
-public class CreateUserResponseDto extends Response {
+public class CreateUserResponseDto extends ResponseDto {
     private UserDto user;
 }
