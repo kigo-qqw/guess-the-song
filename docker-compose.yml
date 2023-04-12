@@ -1,14 +1,42 @@
 version: '3.8'
 
 services:
-  postgres :
-    image: postgres:14-alpine
+  postgres:
+    container_name: postgres_db
+    image: postgres:15-alpine
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+      - ./configs/postgres.conf:/etc/postgresql/postgresql.conf
+    networks:
+      - guess-the-song
+    restart: always
+    user: postgres
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: postgres
+    ports:
+      - "5432:5432"
 
   server:
     build:
       context: .
       dockerfile: ./server/Dockerfile
+    networks:
+      - guess-the-song
+    environment:
+      - DATABASE_USERNAME=postgres
+      - DATABASE_PASSWORD=postgres
+      - DATABASE_URL=jdbc:postgresql://postgres_db:5432/postgres
     ports:
       - "8000:8000"
     depends_on:
       - postgres
+
+volumes:
+  postgres-data:
+
+networks:
+  guess-the-song:
+    name: guess-the-song
+#    external: true

@@ -1,4 +1,6 @@
 package ru.guess_the_song.server.entity;
 
-public class Game extends EntityEE {
+import ru.guess_the_song.server.entity.base.BaseEntity;
+
+public class Game extends BaseEntity {
 }

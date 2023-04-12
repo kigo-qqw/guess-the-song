@@ -1,7 +1,9 @@
 package ru.guess_the_song.server.net.impl;
 
 import lombok.extern.slf4j.Slf4j;
+import ru.guess_the_song.core.dto.CreateUserDto;
 import ru.guess_the_song.core.dto.HealthCheckDto;
+import ru.guess_the_song.server.controller.impl.CreateUserControllerImpl;
 import ru.guess_the_song.server.controller.impl.HealthCheckControllerImpl;
 import ru.guess_the_song.server.dispatcher.Dispatcher;
 import ru.guess_the_song.server.dispatcher.impl.DispatcherImpl;
@@ -25,6 +27,7 @@ public class SessionImpl implements Session {
         this.out = new ObjectOutputStream(socket.getOutputStream());
         this.dispatcher = new DispatcherImpl(); // TODO
         this.dispatcher.use(HealthCheckDto.class, new HealthCheckControllerImpl());
+        this.dispatcher.use(CreateUserDto.class, new CreateUserControllerImpl());
 //        this.dispatcher.use(GetMusicPackDto.class, new GetMusicPackController());
     }
 

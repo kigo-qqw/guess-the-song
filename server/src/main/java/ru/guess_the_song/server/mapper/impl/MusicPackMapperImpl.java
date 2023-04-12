@@ -10,18 +10,18 @@ public class MusicPackMapperImpl implements MusicPackMapper {
     @Override
     public GetMusicPackResponseDto map(MusicPack data) {
         return GetMusicPackResponseDto.builder()
-                .uuid(data.getUuid())
-                .songs(
-                        data.getSongs().stream().map(
-                                songEntry ->
-                                        SongEntryDto.builder()
-                                                .song(SongDto.builder()
-                                                        .uuid(songEntry.getSong().getUuid())
-                                                        .build())
-                                                .answers(songEntry.getAnswers())
-                                                .build()
-                        ).toList()
-                )
+//                .uuid(data.getUuid())
+//                .songs(
+//                        data.getSongs().stream().map(
+//                                songEntry ->
+//                                        SongEntryDto.builder()
+//                                                .song(SongDto.builder()
+//                                                        .uuid(songEntry.getSong().getUuid())
+//                                                        .build())
+//                                                .answers(songEntry.getAnswers())
+//                                                .build()
+//                        ).toList()
+//                )
                 .build();
     }
 }

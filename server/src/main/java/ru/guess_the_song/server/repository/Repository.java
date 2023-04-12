@@ -1,10 +1,10 @@
 package ru.guess_the_song.server.repository;
 
-import ru.guess_the_song.server.entity.EntityEE;
+import ru.guess_the_song.server.entity.base.BaseEntity;
 
 import java.util.Optional;
 
-public interface Repository<T extends EntityEE, ID> {
+public interface Repository<T extends BaseEntity, ID> {
     long count();
     void delete(T entity);
     void deleteAll();

@@ -1,19 +1,23 @@
 package ru.guess_the_song.server.entity;
 
 
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.Id;
+import lombok.*;
+import org.hibernate.annotations.UuidGenerator;
+import ru.guess_the_song.server.entity.base.BaseEntity;
 
 import java.util.List;
 import java.util.UUID;
 
-@Builder
-public class MusicPack extends EntityEE {
-    @Getter
-    @Setter
-    private UUID uuid;
-    @Getter
-    @Setter
-    private List<SongEntry> songs;
+@Getter
+@Setter
+//@Builder
+//@NoArgsConstructor
+//@AllArgsConstructor
+@Entity
+public class MusicPack extends BaseEntity {
+//    private List<SongEntry> songs;
 }

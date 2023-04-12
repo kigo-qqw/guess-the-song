@@ -1,14 +1,20 @@
 package ru.guess_the_song.server.entity;
 
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
+import jakarta.persistence.*;
+import lombok.*;
+import org.hibernate.annotations.UuidGenerator;
+import ru.guess_the_song.server.entity.base.BaseEntity;
 
 import java.util.UUID;
 
-@Builder
-public class Song extends EntityEE {
-    @Getter
-    @Setter
-    UUID uuid;
+@Getter
+@Setter
+//@Builder
+//@NoArgsConstructor
+//@AllArgsConstructor
+@Entity
+//@Table(name = "SONG")
+public class Song extends BaseEntity {
+//    @OneToOne(mappedBy = "song")
+//    private SongEntry songEntry;
 }
