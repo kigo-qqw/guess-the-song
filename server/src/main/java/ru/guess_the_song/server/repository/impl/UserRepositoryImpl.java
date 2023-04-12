@@ -3,6 +3,7 @@ package ru.guess_the_song.server.repository.impl;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.Persistence;
+import jakarta.persistence.PersistenceUnit;
 import ru.guess_the_song.server.entity.User;
 import ru.guess_the_song.server.repository.UserRepository;
 
@@ -12,6 +13,7 @@ import java.util.UUID;
 import java.util.stream.Stream;
 
 public class UserRepositoryImpl implements UserRepository {
+    @PersistenceUnit(name="ru.guess_the_song.server")
     private final EntityManagerFactory entityManagerFactory;
 
     public UserRepositoryImpl() {
@@ -67,7 +69,7 @@ public class UserRepositoryImpl implements UserRepository {
     public Optional<User> findById(UUID id) {
         EntityManager entityManager = this.entityManagerFactory.createEntityManager();
         entityManager.getTransaction().begin();
-        User result = (User) entityManager.createQuery("SELECT u FROM User u WHERE u.uuid = :userUUID").setParameter("userUUID", id).getSingleResult(); // FIXME: 12.04.2023
+        User result = (User) entityManager.createQuery("FROM User u WHERE u.id = :userID").setParameter("userID", id).getSingleResult(); // FIXME: 12.04.2023
         entityManager.getTransaction().commit();
         entityManager.close();
 

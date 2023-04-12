@@ -16,6 +16,6 @@ public abstract class BaseEntity implements Serializable {
     @GeneratedValue
     @UuidGenerator(style = UuidGenerator.Style.TIME)
     @Basic(optional = false)
-    @Column(name = "uuid", nullable = false)
-    private UUID uuid;
+    @Column(name = "id", nullable = false)
+    private UUID id;
 }

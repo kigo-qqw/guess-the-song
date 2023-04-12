@@ -8,9 +8,9 @@
 
         <!-- Connection settings -->
         <property name="hibernate.connection.driver_class">org.postgresql.Driver</property>
-        <property name="hibernate.connection.url">$DATABASE_URL</property>
-        <property name="hibernate.connection.username">$DATABASE_USERNAME</property>
-        <property name="hibernate.connection.password">$DATABASE_PASSWORD</property>
+        <property name="hibernate.connection.url">${DATABASE_URL}</property>
+        <property name="hibernate.connection.username">${DATABASE_USERNAME}</property>
+        <property name="hibernate.connection.password">${DATABASE_PASSWORD}</property>
 
         <!-- SQL dialect -->
         <property name="hibernate.dialect">org.hibernate.dialect.PostgreSQLDialect</property>
@@ -23,6 +23,10 @@
 
         <!-- Annotated entity classes -->
         <mapping class="ru.guess_the_song.server.entity.User"/>
+        <mapping class="ru.guess_the_song.server.entity.Song"/>
+        <mapping class="ru.guess_the_song.server.entity.SongEntry"/>
+        <mapping class="ru.guess_the_song.server.entity.MusicPack"/>
+        <mapping class="ru.guess_the_song.server.entity.Game"/>
 
     </session-factory>
 </hibernate-configuration>

@@ -13,7 +13,7 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-//@Table(name = "USER")
+@Table(name = "Users")
 public class User extends BaseEntity {
     private String username;
 }

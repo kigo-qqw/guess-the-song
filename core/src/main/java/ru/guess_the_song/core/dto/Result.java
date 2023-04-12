@@ -1,8 +1,11 @@
 package ru.guess_the_song.core.dto;
 
+import lombok.ToString;
+
 import java.io.Serializable;
 import java.util.NoSuchElementException;
 
+@ToString
 public class Result<T extends Serializable> implements Serializable {
     private final T value;
 
