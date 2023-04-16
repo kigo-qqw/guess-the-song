@@ -4,72 +4,33 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.Persistence;
 import jakarta.persistence.PersistenceUnit;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Component;
 import ru.guess_the_song.server.entity.User;
 import ru.guess_the_song.server.repository.UserRepository;
 
-import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
-import java.util.stream.Stream;
 
+@Slf4j
+@Component
 public class UserRepositoryImpl implements UserRepository {
     @PersistenceUnit(name="ru.guess_the_song.server")
     private final EntityManagerFactory entityManagerFactory;
 
     public UserRepositoryImpl() {
+        log.error("UserRepositoryImpl created");
         this.entityManagerFactory = Persistence.createEntityManagerFactory("ru.guess_the_song.server");
-    }
-
-    @Override
-    public long count() {
-        return 0;
-    }
-
-    @Override
-    public void delete(User entity) {
-
-    }
-
-    @Override
-    public void deleteAll() {
-
-    }
-
-    @Override
-    public void deleteAll(Iterable<User> entities) {
-
-    }
-
-    @Override
-    public void deleteAllById(Iterable<User> ids) {
-
-    }
-
-    @Override
-    public void deleteById(UUID uuid) {
-
-    }
-
-    @Override
-    public boolean existsById(UUID uuid) {
-        return false;
-    }
-
-    @Override
-    public Iterable<User> findAll() {
-        return null;
-    }
-
-    @Override
-    public Iterable<User> findAllById(Iterable<User> ids) {
-        return null;
     }
 
     @Override
     public Optional<User> findById(UUID id) {
         EntityManager entityManager = this.entityManagerFactory.createEntityManager();
         entityManager.getTransaction().begin();
-        User result = (User) entityManager.createQuery("FROM User u WHERE u.id = :userID").setParameter("userID", id).getSingleResult(); // FIXME: 12.04.2023
+        User result = (User) entityManager
+                .createQuery("FROM User u WHERE u.id = :userID")
+                .setParameter("userID", id)
+                .getSingleResult();
         entityManager.getTransaction().commit();
         entityManager.close();
 
@@ -85,10 +46,5 @@ public class UserRepositoryImpl implements UserRepository {
         entityManager.close();
 
         return entity;
-    }
-
-    @Override
-    public <S extends User> Iterable<S> saveAll(Iterable<S> entities) {
-        return null;
     }
 }

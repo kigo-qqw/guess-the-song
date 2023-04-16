@@ -30,7 +30,7 @@ public class App extends Application {
 
 
             oos.writeObject(CreateUserDto.builder().username("random username").build());
-            Result<CreateGameResponseDto> response = (Result<CreateGameResponseDto>) ois.readObject();
+            Result<CreateUserResponseDto> response = (Result<CreateUserResponseDto>) ois.readObject();
             if (response != null)
                 info.setText(response.get().toString());
 

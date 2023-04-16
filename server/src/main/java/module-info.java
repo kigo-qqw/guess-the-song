@@ -6,10 +6,10 @@ module ru.guess_the_song.server {
     requires org.hibernate.orm.core;
     requires org.hibernate.orm.jpamodelgen;
     requires jakarta.persistence;
-//    requires static org.hibernate.orm.jpamodelgen;
+    requires spring.context;
+    requires spring.beans;
     requires static lombok;
 
-//    opens ru.guess_the_song.server.entity to org.hibernate.commons.annotations;
     opens ru.guess_the_song.server.entity to jakarta.persistence;
 
     exports ru.guess_the_song.server;

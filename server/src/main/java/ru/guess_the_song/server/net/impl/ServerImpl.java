@@ -1,8 +1,11 @@
 package ru.guess_the_song.server.net.impl;
 
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import ru.guess_the_song.server.net.Server;
 import ru.guess_the_song.server.net.Session;
+import ru.guess_the_song.server.net.SessionFactory;
 
 import java.io.IOException;
 import java.net.ServerSocket;
@@ -10,12 +13,16 @@ import java.net.Socket;
 
 
 @Slf4j
+@Component
 public class ServerImpl implements Server {
-
+    private final SessionFactory sessionFactory;
     private final ServerSocket socket;
     private boolean isRunning = true;
 
-    public ServerImpl(int port) throws IOException {
+    @Autowired
+    public ServerImpl(SessionFactory sessionFactory, int port) throws IOException {
+        log.error("sessionFactory: {}", sessionFactory);
+        this.sessionFactory = sessionFactory;
         try {
             this.socket = new ServerSocket(port);
         } catch (IOException e) {
@@ -29,9 +36,8 @@ public class ServerImpl implements Server {
         while (this.isRunning) {
             try {
                 Socket clientSocket = this.socket.accept();
-                Session connection = new SessionImpl(clientSocket);  // TODO: factory
+                Session connection = this.sessionFactory.createSession(clientSocket);
                 new Thread(connection).start();
-                log.info("Accept: {}", clientSocket.getPort());
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }

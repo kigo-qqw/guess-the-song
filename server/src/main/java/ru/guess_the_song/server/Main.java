@@ -1,28 +1,22 @@
 package ru.guess_the_song.server;
 
 
-
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.EntityManagerFactory;
-import jakarta.persistence.Persistence;
-import jakarta.persistence.PersistenceUnit;
 import lombok.extern.slf4j.Slf4j;
-import ru.guess_the_song.server.entity.User;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import ru.guess_the_song.server.config.AppConfig;
 import ru.guess_the_song.server.net.Server;
-import ru.guess_the_song.server.net.impl.ServerImpl;
+import ru.guess_the_song.server.net.ServerFactory;
 
 import java.io.IOException;
 
 @Slf4j
+
 public class Main {
     public static void main(String[] args) {
-        log.error("DATABASE_URL: {}", System.getenv("DATABASE_URL"));
-        log.error("DATABASE_USERNAME: {}", System.getenv("DATABASE_USERNAME"));
-        log.error("DATABASE_PASSWORD: {}", System.getenv("DATABASE_PASSWORD"));
-
+        AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(AppConfig.class);
         try {
-            log.info("starting...");
-            Server server = new ServerImpl(8000);  // TODO: factory
+            ServerFactory serverFactory = context.getBean(ServerFactory.class);
+            Server server = serverFactory.createServer(8000);
             server.serveForever();
         } catch (IOException ignored) {
         }

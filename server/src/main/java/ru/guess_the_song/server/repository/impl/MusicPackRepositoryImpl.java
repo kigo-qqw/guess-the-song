@@ -1,74 +1,8 @@
 package ru.guess_the_song.server.repository.impl;
 
-import ru.guess_the_song.server.entity.MusicPack;
-import ru.guess_the_song.server.entity.Song;
-import ru.guess_the_song.server.entity.SongEntry;
 import ru.guess_the_song.server.repository.MusicPackRepository;
 
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
-
 public class MusicPackRepositoryImpl implements MusicPackRepository {
-    @Override
-    public long count() {
-        return 0;
-    }
-
-    @Override
-    public void delete(MusicPack entity) {
-
-    }
-
-    @Override
-    public void deleteAll() {
-
-    }
-
-    @Override
-    public void deleteAll(Iterable<MusicPack> entities) {
-
-    }
-
-    @Override
-    public void deleteAllById(Iterable<MusicPack> ids) {
-
-    }
-
-    @Override
-    public void deleteById(UUID uuid) {
-
-    }
-
-    @Override
-    public boolean existsById(UUID uuid) {
-        return false;
-    }
-
-    @Override
-    public Iterable<MusicPack> findAll() {
-        return null;
-    }
-
-    @Override
-    public Iterable<MusicPack> findAllById(Iterable<MusicPack> ids) {
-        return null;
-    }
-
-    @Override
-    public Optional<MusicPack> findById(UUID uuid) {
-        return Optional.empty();
-    }
-
-    @Override
-    public <S extends MusicPack> S save(S entity) {
-        return null;
-    }
-
-    @Override
-    public <S extends MusicPack> Iterable<S> saveAll(Iterable<S> entities) {
-        return null;
-    }
 //    @Override
 //    public Optional<MusicPack> findById(UUID uuid) {
 //        return Optional.of(

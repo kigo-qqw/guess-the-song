@@ -4,14 +4,11 @@ import lombok.extern.slf4j.Slf4j;
 import ru.guess_the_song.core.dto.GetMusicPackDto;
 import ru.guess_the_song.core.dto.GetMusicPackResponseDto;
 import ru.guess_the_song.core.dto.Result;
-import ru.guess_the_song.server.entity.MusicPack;
 import ru.guess_the_song.server.mapper.MusicPackMapper;
 import ru.guess_the_song.server.mapper.impl.MusicPackMapperImpl;
 import ru.guess_the_song.server.repository.MusicPackRepository;
 import ru.guess_the_song.server.repository.impl.MusicPackRepositoryImpl;
 import ru.guess_the_song.server.service.MusicPackService;
-
-import java.util.Optional;
 
 @Slf4j
 public class MusicPackServiceImpl implements MusicPackService {
@@ -26,7 +23,8 @@ public class MusicPackServiceImpl implements MusicPackService {
 
     @Override
     public Result<GetMusicPackResponseDto> get(GetMusicPackDto request) {
-        Optional<MusicPack> musicPack = this.musicPackRepository.findById(request.getUuid());
-        return musicPack.map(pack -> Result.of(this.musicPackMapper.map(pack))).orElseGet(Result::empty);
+//        Optional<MusicPack> musicPack = this.musicPackRepository.findById(request.getUuid());
+//        return musicPack.map(pack -> Result.of(this.musicPackMapper.map(pack))).orElseGet(Result::empty);
+        return Result.empty();
     }
 }

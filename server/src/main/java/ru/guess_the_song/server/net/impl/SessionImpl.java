@@ -1,12 +1,9 @@
 package ru.guess_the_song.server.net.impl;
 
 import lombok.extern.slf4j.Slf4j;
-import ru.guess_the_song.core.dto.CreateUserDto;
-import ru.guess_the_song.core.dto.HealthCheckDto;
-import ru.guess_the_song.server.controller.impl.CreateUserControllerImpl;
-import ru.guess_the_song.server.controller.impl.HealthCheckControllerImpl;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import ru.guess_the_song.server.dispatcher.Dispatcher;
-import ru.guess_the_song.server.dispatcher.impl.DispatcherImpl;
 import ru.guess_the_song.server.net.Session;
 
 import java.io.IOException;
@@ -15,20 +12,19 @@ import java.io.ObjectOutputStream;
 import java.net.Socket;
 
 @Slf4j
+@Component
 public class SessionImpl implements Session {
     private final Socket socket;
     private final ObjectInputStream in;
     private final ObjectOutputStream out;
     private final Dispatcher dispatcher;
 
-    public SessionImpl(Socket socket) throws IOException {
+    @Autowired
+    public SessionImpl(Socket socket, Dispatcher dispatcher) throws IOException {
         this.socket = socket;
         this.in = new ObjectInputStream(socket.getInputStream());
         this.out = new ObjectOutputStream(socket.getOutputStream());
-        this.dispatcher = new DispatcherImpl(); // TODO
-        this.dispatcher.use(HealthCheckDto.class, new HealthCheckControllerImpl());
-        this.dispatcher.use(CreateUserDto.class, new CreateUserControllerImpl());
-//        this.dispatcher.use(GetMusicPackDto.class, new GetMusicPackController());
+        this.dispatcher = dispatcher;
     }
 
     @Override
