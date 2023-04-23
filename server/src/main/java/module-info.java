@@ -13,4 +13,5 @@ module ru.guess_the_song.server {
     opens ru.guess_the_song.server.entity to jakarta.persistence;
 
     exports ru.guess_the_song.server;
+    exports ru.guess_the_song.server.net;
 }

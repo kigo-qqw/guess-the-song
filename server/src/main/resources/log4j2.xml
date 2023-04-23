@@ -9,17 +9,9 @@
         </File>
     </Appenders>
     <Loggers>
-        <Root level="error">
+        <Root level="debug">
             <AppenderRef ref="Console" />
             <AppenderRef ref="Audit"/>
         </Root>
-        <Logger name="xdd1" level="info">
-            <AppenderRef ref="Console" />
-            <AppenderRef ref="Audit"/>
-        </Logger>
-        <Logger name="xdd2" level="debug">
-            <AppenderRef ref="Console" />
-            <AppenderRef ref="Audit"/>
-        </Logger>
     </Loggers>
 </Configuration>

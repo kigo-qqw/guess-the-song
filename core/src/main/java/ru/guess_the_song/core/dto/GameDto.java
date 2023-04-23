@@ -9,7 +9,8 @@ import java.util.UUID;
 @Getter
 @Builder
 @ToString
-public class SongDto extends EntityDto {
+public class GameDto extends EntityDto {
     private UUID uuid;
-    private byte[] data;
+    private UserDto leader;
+    private MusicPackDto musicPack;
 }

@@ -29,7 +29,7 @@ public class DispatcherImpl implements Dispatcher {
         var response = this.routes.get(object.getClass()).request((RequestDto) object);
         session.send(response);
         if (response.isPresent())
-            log.error("response: {}", response.get());
-        else log.error("response empty");
+            log.debug("response: {}", response.get());
+        else log.debug("response empty");
     }
 }

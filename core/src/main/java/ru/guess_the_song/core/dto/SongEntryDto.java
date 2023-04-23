@@ -10,6 +10,6 @@ import java.util.List;
 @Builder
 @ToString
 public class SongEntryDto extends EntityDto {
-    private SongDto song;
+    private byte[] data;
     private List<String> answers;
 }

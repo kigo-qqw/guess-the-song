@@ -19,7 +19,7 @@ public class UserRepositoryImpl implements UserRepository {
     private final EntityManagerFactory entityManagerFactory;
 
     public UserRepositoryImpl() {
-        log.error("UserRepositoryImpl created");
+        log.debug("UserRepositoryImpl created");
         this.entityManagerFactory = Persistence.createEntityManagerFactory("ru.guess_the_song.server");
     }
 

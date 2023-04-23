@@ -13,5 +13,5 @@ import java.util.UUID;
 @ToString
 public class MusicPackWithCorrectAnswersDto extends EntityDto {
     private UUID uuid;
-    private List<SongEntryDto> songs;
+    private List<SongEntryWithCorrectAnswerDto> songs;
 }

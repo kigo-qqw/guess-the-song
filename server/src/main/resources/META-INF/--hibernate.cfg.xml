@@ -23,7 +23,6 @@
 
         <!-- Annotated entity classes -->
         <mapping class="ru.guess_the_song.server.entity.User"/>
-        <mapping class="ru.guess_the_song.server.entity.Song"/>
         <mapping class="ru.guess_the_song.server.entity.SongEntry"/>
         <mapping class="ru.guess_the_song.server.entity.MusicPack"/>
         <mapping class="ru.guess_the_song.server.entity.Game"/>

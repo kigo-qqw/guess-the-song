@@ -33,7 +33,6 @@ public class SessionImpl implements Session {
             while (true) {
                 Object data = this.in.readObject();
                 this.dispatcher.dispatch(this, data);
-                log.error("Message: {}", data);
             }
         } catch (IOException e) {
             e.printStackTrace();

@@ -17,5 +17,10 @@ public class SongEntry extends BaseEntity {
 //    private Song song;
 //    @ElementCollection(targetClass = String.class)
 //    private List<String> answers;
+
+    @Lob
+    @Column(name = "data", columnDefinition="BLOB")
+    private byte[] data;
+
     private int correctAnswerIdx;
 }

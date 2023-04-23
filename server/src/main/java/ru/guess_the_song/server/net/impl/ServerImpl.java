@@ -19,9 +19,8 @@ public class ServerImpl implements Server {
     private final ServerSocket socket;
     private boolean isRunning = true;
 
-    @Autowired
     public ServerImpl(SessionFactory sessionFactory, int port) throws IOException {
-        log.error("sessionFactory: {}", sessionFactory);
+        log.debug("sessionFactory: {}", sessionFactory);
         this.sessionFactory = sessionFactory;
         try {
             this.socket = new ServerSocket(port);

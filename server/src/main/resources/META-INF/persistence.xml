@@ -10,7 +10,6 @@
         <class>ru.guess_the_song.server.entity.User</class>
         <class>ru.guess_the_song.server.entity.Game</class>
         <class>ru.guess_the_song.server.entity.MusicPack</class>
-        <class>ru.guess_the_song.server.entity.Song</class>
         <class>ru.guess_the_song.server.entity.SongEntry</class>
 
                 <properties>
