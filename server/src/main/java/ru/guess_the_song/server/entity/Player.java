@@ -6,10 +6,12 @@ import jakarta.persistence.Table;
 import lombok.*;
 import ru.guess_the_song.server.entity.base.BaseEntity;
 
+import java.util.UUID;
+
 
 @Getter
 @Setter
-@Builder
+//@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
@@ -17,4 +19,10 @@ import ru.guess_the_song.server.entity.base.BaseEntity;
 public class Player extends BaseEntity {
     @ManyToOne
     private User user;
+
+    @Builder
+    private Player(UUID id, User user) {
+        super(id);
+        this.user = user;
+    }
 }

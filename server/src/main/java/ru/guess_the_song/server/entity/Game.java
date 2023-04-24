@@ -7,11 +7,12 @@ import lombok.*;
 import ru.guess_the_song.server.entity.base.BaseEntity;
 
 import java.util.List;
+import java.util.UUID;
 
 
 @Getter
 @Setter
-@Builder
+//@Builder
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
@@ -22,4 +23,12 @@ public class Game extends BaseEntity {
     private List<Player> players;
     @OneToOne
     private MusicPack musicPack;
+
+    @Builder
+    private Game(UUID id, Player leader, List<Player> players, MusicPack musicPack) {
+        super(id);
+        this.leader = leader;
+        this.players = players;
+        this.musicPack = musicPack;
+    }
 }
