@@ -21,7 +21,7 @@ public class UserServiceImpl implements UserService {
     }
 
     public Optional<User> create(String username) {
-        return Optional.of(this.userRepository.save(new User(username)));
+        return Optional.of(this.userRepository.save(User.builder().username(username).build()));
     }
 
     @Override

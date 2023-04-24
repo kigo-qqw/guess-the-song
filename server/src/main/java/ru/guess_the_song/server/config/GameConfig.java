@@ -12,17 +12,24 @@ import ru.guess_the_song.server.service.GameService;
 import ru.guess_the_song.server.service.impl.GameServiceImpl;
 
 @Configuration
-@Import(UserConfig.class)
+@Import({UserConfig.class, MusicPackConfig.class})
 public class GameConfig {
     private final UserConfig userConfig;
+    private final MusicPackConfig musicPackConfig;
 
-    public GameConfig(UserConfig userConfig) {
+    public GameConfig(UserConfig userConfig, MusicPackConfig musicPackConfig) {
         this.userConfig = userConfig;
+        this.musicPackConfig = musicPackConfig;
     }
 
     @Bean
     public CreateGameController createGameController() {
-        return new CreateGameControllerImpl(gameService(), this.userConfig.userService(), musicPackService, musicPackMapper);
+        return new CreateGameControllerImpl(
+                gameService(),
+                this.userConfig.userService(),
+                this.musicPackConfig.musicPackService(),
+                this.musicPackConfig.musicPackWithCorrectAnswersDtoToMusicPackMapper()
+        );
     }
 
     @Bean

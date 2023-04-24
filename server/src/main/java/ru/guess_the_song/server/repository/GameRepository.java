@@ -1,7 +1,6 @@
 package ru.guess_the_song.server.repository;
 
 import ru.guess_the_song.server.entity.Game;
-import ru.guess_the_song.server.entity.User;
 
 import java.util.Optional;
 import java.util.UUID;

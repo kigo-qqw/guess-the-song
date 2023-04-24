@@ -1,7 +1,6 @@
 package ru.guess_the_song.server.mapper.impl;
 
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Component;
 import ru.guess_the_song.core.dto.MusicPackDto;
 import ru.guess_the_song.core.dto.SongEntryDto;
 import ru.guess_the_song.server.entity.MusicPack;

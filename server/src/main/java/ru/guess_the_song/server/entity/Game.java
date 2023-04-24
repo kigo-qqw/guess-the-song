@@ -13,7 +13,7 @@ import java.util.UUID;
 @Getter
 @Setter
 //@Builder
-@AllArgsConstructor
+//@AllArgsConstructor
 @NoArgsConstructor
 @Entity
 public class Game extends BaseEntity {

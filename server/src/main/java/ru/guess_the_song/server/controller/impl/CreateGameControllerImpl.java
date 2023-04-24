@@ -7,7 +7,6 @@ import ru.guess_the_song.server.controller.CreateGameController;
 import ru.guess_the_song.server.entity.Game;
 import ru.guess_the_song.server.entity.MusicPack;
 import ru.guess_the_song.server.entity.User;
-import ru.guess_the_song.server.mapper.MusicPackToMusicPackDtoMapper;
 import ru.guess_the_song.server.mapper.MusicPackWithCorrectAnswersDtoToMusicPackMapper;
 import ru.guess_the_song.server.service.GameService;
 import ru.guess_the_song.server.service.MusicPackService;

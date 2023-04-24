@@ -12,7 +12,7 @@ import java.util.UUID;
 @Setter
 //@Builder
 @NoArgsConstructor
-@AllArgsConstructor
+//@AllArgsConstructor
 @Entity
 //@Table(name = "SONG_ENTRY")
 public class SongEntry extends BaseEntity {

@@ -2,7 +2,6 @@ package ru.guess_the_song.server.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
-import lombok.experimental.SuperBuilder;
 import ru.guess_the_song.server.entity.base.BaseEntity;
 
 import java.util.UUID;
@@ -10,7 +9,7 @@ import java.util.UUID;
 @Getter
 @Setter
 @NoArgsConstructor
-@AllArgsConstructor
+//@AllArgsConstructor
 @Entity
 @Table(name = "Users")
 public class User extends BaseEntity {

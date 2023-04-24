@@ -11,7 +11,7 @@ import java.util.UUID;
 @Setter
 //@Builder
 @NoArgsConstructor
-@AllArgsConstructor
+//@AllArgsConstructor
 @Entity
 public class MusicPack extends BaseEntity {
 //    private List<SongEntry> songs;

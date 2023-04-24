@@ -13,7 +13,7 @@ import java.util.UUID;
 @Setter
 //@Builder
 @NoArgsConstructor
-@AllArgsConstructor
+//@AllArgsConstructor
 @Entity
 @Table(name = "Players")
 public class Player extends BaseEntity {
