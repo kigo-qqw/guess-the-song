@@ -8,4 +8,5 @@ import java.util.Optional;
 
 public interface MusicPackService {
     Optional<MusicPack> create(List<SongEntry> songs);
+    Optional<MusicPack> create(MusicPack musicPack);
 }

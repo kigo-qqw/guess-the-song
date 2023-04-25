@@ -1,11 +1,10 @@
 package ru.guess_the_song.server.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Lob;
+import jakarta.persistence.*;
 import lombok.*;
 import ru.guess_the_song.server.entity.base.BaseEntity;
 
+import java.util.List;
 import java.util.UUID;
 
 @Getter
@@ -13,18 +12,17 @@ import java.util.UUID;
 //@Builder
 @NoArgsConstructor
 //@AllArgsConstructor
+@ToString
 @Entity
 //@Table(name = "SONG_ENTRY")
 public class SongEntry extends BaseEntity {
-//    @OneToOne(cascade = CascadeType.ALL)
-//    @JoinColumn(name = "song_id", referencedColumnName = "uuid")
-//    private Song song;
-//    @ElementCollection(targetClass = String.class)
-//    private List<String> answers;
-
     @Lob
-    @Column(name = "data", columnDefinition = "BLOB")
+    @ToString.Exclude
+    @Transient
     private byte[] data;
+
+    @ElementCollection // 1
+    private List<String> answers;
 
     private int correctAnswerIdx;
 

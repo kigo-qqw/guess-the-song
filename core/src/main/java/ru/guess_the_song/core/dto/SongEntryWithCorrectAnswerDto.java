@@ -10,6 +10,7 @@ import java.util.List;
 @Builder
 @ToString
 public class SongEntryWithCorrectAnswerDto extends EntityDto {
+    @ToString.Exclude
     private byte[] data;
     private List<String> answers;
     private int correctAnswerIdx;

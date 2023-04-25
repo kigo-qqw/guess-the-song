@@ -23,6 +23,7 @@ public class MusicPackRepositoryImpl implements MusicPackRepository {
     public <S extends MusicPack> S save(S entity) {
         EntityManager entityManager = this.entityManagerFactory.createEntityManager();
         entityManager.getTransaction().begin();
+        entity.getSongs().forEach(entityManager::persist);
         entityManager.persist(entity);
         entityManager.getTransaction().commit();
         entityManager.close();

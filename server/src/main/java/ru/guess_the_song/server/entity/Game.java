@@ -6,7 +6,9 @@ import jakarta.persistence.OneToOne;
 import lombok.*;
 import ru.guess_the_song.server.entity.base.BaseEntity;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
 
 
@@ -16,6 +18,7 @@ import java.util.UUID;
 //@AllArgsConstructor
 @NoArgsConstructor
 @Entity
+@ToString
 public class Game extends BaseEntity {
     @OneToOne
     private Player leader;
@@ -28,7 +31,7 @@ public class Game extends BaseEntity {
     private Game(UUID id, Player leader, List<Player> players, MusicPack musicPack) {
         super(id);
         this.leader = leader;
-        this.players = players;
+        this.players = Objects.requireNonNullElseGet(players, ArrayList::new);
         this.musicPack = musicPack;
     }
 }

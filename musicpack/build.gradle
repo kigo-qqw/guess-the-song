@@ -1,0 +1,49 @@
+plugins {
+    id 'java'
+    id 'application'
+    id 'com.github.johnrengelman.shadow' version '8.1.1'
+}
+
+repositories {
+    mavenCentral()
+}
+
+application {
+    mainModule = 'ru.guess_the_song.musicpack'
+    mainClass = 'ru.guess_the_song.musicpack.Main'
+}
+
+dependencies {
+    implementation project(':core')
+
+//    compileOnly 'org.projectlombok:lombok:1.18.26'
+//    annotationProcessor 'org.projectlombok:lombok:1.18.26'
+//
+//    implementation 'org.apache.logging.log4j:log4j-api:2.20.0'
+//    implementation 'org.apache.logging.log4j:log4j-core:2.20.0'
+//    implementation 'org.apache.logging.log4j:log4j-slf4j2-impl:2.20.0'
+//
+//    implementation 'org.slf4j:slf4j-api:2.0.7'
+//
+//    implementation 'org.hibernate.orm:hibernate-core:6.2.0.Final'
+//    implementation 'org.hibernate.orm:hibernate-jpamodelgen:6.2.0.Final'
+//    implementation 'org.postgresql:postgresql:42.5.4'
+//
+//    implementation 'org.springframework:spring-context:6.0.7'
+
+//    compileOnly 'org.hibernate.orm:hibernate-jpamodelgen:6.2.0.Final'
+//    annotationProcessor 'org.hibernate.orm:hibernate-jpamodelgen:6.2.0.Final'
+
+//    testCompileOnly 'org.projectlombok:lombok:1.18.26'
+//    testAnnotationProcessor 'org.projectlombok:lombok:1.18.26'
+}
+
+jar {
+    manifest {
+        attributes 'Main-Class': application.mainClass
+    }
+}
+
+shadowJar {
+    archiveFileName = "server-all.jar"
+}

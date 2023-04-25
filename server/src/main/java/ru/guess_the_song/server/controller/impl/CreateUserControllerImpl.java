@@ -9,6 +9,7 @@ import ru.guess_the_song.core.dto.Result;
 import ru.guess_the_song.core.dto.UserDto;
 import ru.guess_the_song.server.controller.CreateUserController;
 import ru.guess_the_song.server.entity.User;
+import ru.guess_the_song.server.net.Session;
 import ru.guess_the_song.server.service.UserService;
 
 import java.util.Optional;
@@ -24,7 +25,7 @@ public class CreateUserControllerImpl implements CreateUserController {
     }
 
     @Override
-    public Result<CreateUserResponseDto> request(CreateUserDto request) {
+    public Result<CreateUserResponseDto> request(Session session, CreateUserDto request) {
         Optional<User> optionalUser = this.userService.create(request.getUsername());
         if (optionalUser.isPresent()) {
             User user = optionalUser.get();

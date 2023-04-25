@@ -15,7 +15,9 @@ public class Main {
         AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(AppConfig.class);
         try {
             ServerFactory serverFactory = context.getBean(ServerFactory.class);
-            Server server = serverFactory.createServer(Integer.parseInt(System.getenv("PORT")));
+//            int port = Integer.parseInt(System.getenv("PORT"));
+            int port = 8000;
+            Server server = serverFactory.createServer(port);
             server.serveForever();
         } catch (IOException ignored) {
         }
