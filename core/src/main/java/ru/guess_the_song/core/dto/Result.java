@@ -10,16 +10,16 @@ public class Result<T extends Serializable> implements Serializable {
     private final T value;
 
     public static <T extends Serializable> Result<T> empty() {
-        return new Result<T>(null);
+        return new Result<>(null);
     }
 
     public static <T extends Serializable> Result<T> of(T value) throws NullPointerException {
         if (value == null) throw new NullPointerException();
-        return new Result<T>(value);
+        return new Result<>(value);
     }
 
     public static <T extends Serializable> Result<T> ofNullable(T value) {
-        return new Result<T>(value);
+        return new Result<>(value);
     }
 
     public boolean isPresent() {

@@ -21,6 +21,11 @@ public class MusicPackServiceImpl implements MusicPackService {
 
     @Override
     public Optional<MusicPack> create(List<SongEntry> songs) {
-        return Optional.of(this.musicPackRepository.save(MusicPack.builder().build()));
+        return Optional.of(this.musicPackRepository.save(MusicPack.builder().songs(songs).build()));
+    }
+
+    @Override
+    public Optional<MusicPack> create(MusicPack musicPack) {
+        return Optional.of(this.musicPackRepository.save(musicPack));
     }
 }

@@ -11,7 +11,8 @@ import java.util.UUID;
 @NoArgsConstructor
 //@AllArgsConstructor
 @Entity
-@Table(name = "Users")
+@ToString
+//@Table(name = "Users")
 public class User extends BaseEntity {
     private String username;
 

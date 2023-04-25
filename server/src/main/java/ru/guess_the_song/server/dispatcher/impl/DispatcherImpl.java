@@ -26,7 +26,7 @@ public class DispatcherImpl implements Dispatcher {
 
     @Override
     public void dispatch(Session session, Object object) {
-        var response = this.routes.get(object.getClass()).request((RequestDto) object);
+        var response = this.routes.get(object.getClass()).request(session, (RequestDto) object);
         session.send(response);
         if (response.isPresent())
             log.debug("response: {}", response.get());
