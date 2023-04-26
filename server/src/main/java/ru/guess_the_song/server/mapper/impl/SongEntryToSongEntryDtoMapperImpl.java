@@ -6,7 +6,6 @@ import ru.guess_the_song.core.dto.SongEntryDto;
 import ru.guess_the_song.server.entity.SongEntry;
 import ru.guess_the_song.server.mapper.SongEntryToSongEntryDtoMapper;
 
-import java.util.List;
 
 @Slf4j
 @Component
@@ -16,7 +15,7 @@ public class SongEntryToSongEntryDtoMapperImpl implements SongEntryToSongEntryDt
     public SongEntryDto map(SongEntry data) {
         return SongEntryDto.builder()
                 .data(data.getData())
-                .answers(List.of())  // FIXME: 25.04.2023
+                .answers(data.getAnswers().toArray(String[]::new))
                 .build();
     }
 }

@@ -1,6 +1,7 @@
 package ru.guess_the_song.server.dispatcher.impl;
 
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Component;
 import ru.guess_the_song.core.dto.RequestDto;
 import ru.guess_the_song.core.dto.ResponseDto;
 import ru.guess_the_song.server.controller.Controller;
@@ -11,6 +12,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Slf4j
+@Component
 public class DispatcherImpl implements Dispatcher {
     private final Map<Class<RequestDto>, Controller<RequestDto, ResponseDto>> routes;
 

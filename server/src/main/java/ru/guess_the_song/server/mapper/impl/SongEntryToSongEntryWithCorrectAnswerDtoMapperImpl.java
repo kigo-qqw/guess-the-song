@@ -15,7 +15,7 @@ public class SongEntryToSongEntryWithCorrectAnswerDtoMapperImpl implements SongE
     public SongEntryWithCorrectAnswerDto map(SongEntry data) {
         return SongEntryWithCorrectAnswerDto.builder()
                 .data(data.getData())
-                .answers(List.of())  // FIXME: 25.04.2023
+                .answers(data.getAnswers().toArray(String[]::new))
                 .correctAnswerIdx(data.getCorrectAnswerIdx())
                 .build();
     }

@@ -35,9 +35,9 @@ public class SessionImpl implements Session {
                 this.dispatcher.dispatch(this, data);
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            log.info("socket {} disconnected", this.socket);
         } catch (ClassNotFoundException e) {
-            e.printStackTrace();
+           log.info("socket {} sent invalid data", this.socket);
         } finally {
             try {
                 this.in.close();

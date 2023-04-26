@@ -2,16 +2,15 @@ package ru.guess_the_song.core.dto;
 
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NonNull;
 import lombok.ToString;
-
-import java.util.List;
 
 @Getter
 @Builder
 @ToString
 public class SongEntryWithCorrectAnswerDto extends EntityDto {
     @ToString.Exclude
-    private byte[] data;
-    private List<String> answers;
+    private byte @NonNull [] data;
+    private @NonNull String @NonNull [] answers;
     private int correctAnswerIdx;
 }

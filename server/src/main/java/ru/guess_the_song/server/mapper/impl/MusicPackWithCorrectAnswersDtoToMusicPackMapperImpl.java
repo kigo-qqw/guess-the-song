@@ -7,6 +7,8 @@ import ru.guess_the_song.server.entity.MusicPack;
 import ru.guess_the_song.server.mapper.MusicPackWithCorrectAnswersDtoToMusicPackMapper;
 import ru.guess_the_song.server.mapper.SongEntryWithCorrectAnswerDtoToSongEntryMapper;
 
+import java.util.Arrays;
+
 @Slf4j
 @Component
 public class MusicPackWithCorrectAnswersDtoToMusicPackMapperImpl implements MusicPackWithCorrectAnswersDtoToMusicPackMapper {
@@ -20,7 +22,7 @@ public class MusicPackWithCorrectAnswersDtoToMusicPackMapperImpl implements Musi
     public MusicPack map(MusicPackWithCorrectAnswersDto data) {
         return MusicPack.builder()
                 .id(data.getUuid())
-                .songs(data.getSongs().stream()
+                .songs(Arrays.stream(data.getSongs())
                         .map(this.songEntryWithCorrectAnswerDtoToSongEntryMapper::map)
                         .toList())
                 .build();  // FIXME: 24.04.2023

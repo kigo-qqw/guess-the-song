@@ -13,7 +13,7 @@ COPY server server
 
 RUN gradle --no-daemon :server:shadowJar --stacktrace
 
-FROM openjdk:19-jdk-slim
+FROM openjdk:20-jdk-slim
 WORKDIR /app
 
 ENV ARTIFACT_NAME=server-all.jar

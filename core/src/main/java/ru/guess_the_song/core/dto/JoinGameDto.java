@@ -10,9 +10,9 @@ import java.util.UUID;
 @Getter
 @Builder
 @ToString
-public class UserDto extends EntityDto {
+public class JoinGameDto extends RequestDto {
     @NonNull
-    private UUID uuid;
+    private UUID gameId;
     @NonNull
-    private String username;
+    private UserDto user;
 }

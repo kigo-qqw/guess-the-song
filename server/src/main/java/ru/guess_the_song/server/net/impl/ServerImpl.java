@@ -34,6 +34,7 @@ public class ServerImpl implements Server {
         while (this.isRunning) {
             try {
                 Socket clientSocket = this.socket.accept();
+                log.info("socket {} connected", clientSocket);
                 Session connection = this.sessionFactory.createSession(clientSocket);
                 new Thread(connection).start();
             } catch (IOException e) {

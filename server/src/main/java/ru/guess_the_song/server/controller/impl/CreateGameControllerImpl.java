@@ -7,8 +7,10 @@ import ru.guess_the_song.server.controller.CreateGameController;
 import ru.guess_the_song.server.entity.Game;
 import ru.guess_the_song.server.entity.MusicPack;
 import ru.guess_the_song.server.entity.User;
+import ru.guess_the_song.server.mapper.GameToGameDtoMapper;
 import ru.guess_the_song.server.mapper.MusicPackToMusicPackDtoMapper;
 import ru.guess_the_song.server.mapper.MusicPackWithCorrectAnswersDtoToMusicPackMapper;
+import ru.guess_the_song.server.mapper.UserToUserDtoMapper;
 import ru.guess_the_song.server.net.Session;
 import ru.guess_the_song.server.service.GameService;
 import ru.guess_the_song.server.service.MusicPackService;
@@ -22,6 +24,8 @@ public class CreateGameControllerImpl implements CreateGameController {
     private final GameService gameService;
     private final UserService userService;
     private final MusicPackService musicPackService;
+    private final GameToGameDtoMapper gameToGameDtoMapper;
+    private final UserToUserDtoMapper userToUserDtoMapper;
     private final MusicPackWithCorrectAnswersDtoToMusicPackMapper musicPackWithCorrectAnswersDtoToMusicPackMapper;
     private final MusicPackToMusicPackDtoMapper musicPackToMusicPackDtoMapper;
 
@@ -29,19 +33,23 @@ public class CreateGameControllerImpl implements CreateGameController {
             GameService gameService,
             UserService userService,
             MusicPackService musicPackService,
+            GameToGameDtoMapper gameToGameDtoMapper, UserToUserDtoMapper userToUserDtoMapper,
             MusicPackWithCorrectAnswersDtoToMusicPackMapper musicPackWithCorrectAnswersDtoToMusicPackMapper,
             MusicPackToMusicPackDtoMapper musicPackToMusicPackDtoMapper
     ) {
         this.gameService = gameService;
         this.userService = userService;
         this.musicPackService = musicPackService;
+        this.gameToGameDtoMapper = gameToGameDtoMapper;
+        this.userToUserDtoMapper = userToUserDtoMapper;
         this.musicPackWithCorrectAnswersDtoToMusicPackMapper = musicPackWithCorrectAnswersDtoToMusicPackMapper;
         this.musicPackToMusicPackDtoMapper = musicPackToMusicPackDtoMapper;
     }
 
     @Override
     public Result<CreateGameResponseDto> request(Session session, CreateGameDto request) {
-        if (request.getInitiator() == null) return Result.empty();
+//        if (request.getInitiator() == null) return Result.empty();
+//        if (request.getMusicPack() == null) return Result.empty();
 
         Optional<User> optionalUser = this.userService.get(request.getInitiator().getUuid());
         if (optionalUser.isEmpty()) return Result.empty();
@@ -58,10 +66,11 @@ public class CreateGameControllerImpl implements CreateGameController {
         if (optionalGame.isEmpty()) return Result.empty();
         Game game = optionalGame.get();
 
-        GameDto gameDto = GameDto.builder()
-                .leader(request.getInitiator())
-                .musicPack(this.musicPackToMusicPackDtoMapper.map(musicPack))
-                .build();
+        GameDto gameDto = this.gameToGameDtoMapper.map(game);
+//        GameDto gameDto = GameDto.builder()
+//                .leader(this.userToUserDtoMapper.map(user))
+//                .musicPack(this.musicPackToMusicPackDtoMapper.map(musicPack))
+//                .build();
         return Result.of(CreateGameResponseDto.builder().game(gameDto).build());
 
     }

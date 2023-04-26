@@ -23,12 +23,12 @@ public class MusicPackConfig {
 
     @Bean
     public MusicPackToMusicPackDtoMapper musicPackToMusicPackDtoMapper() {
-        return new MusicPackToMusicPackDtoMapperImpl();
+        return new MusicPackToMusicPackDtoMapperImpl(songEntryToSongEntryDtoMapper());
     }
 
     @Bean
     public MusicPackToMusicPackWithCorrectAnswersDtoMapper musicPackToMusicPackWithCorrectAnswersDtoMapper() {
-        return new MusicPackToMusicPackWithCorrectAnswersDtoMapperImpl();
+        return new MusicPackToMusicPackWithCorrectAnswersDtoMapperImpl(songEntryToSongEntryWithCorrectAnswerDtoMapper());
     }
 
     @Bean

@@ -1,5 +1,7 @@
 package ru.guess_the_song.server.service.impl;
 
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Component;
 import ru.guess_the_song.server.entity.Game;
 import ru.guess_the_song.server.entity.MusicPack;
 import ru.guess_the_song.server.entity.Player;
@@ -16,6 +18,8 @@ import java.util.UUID;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+@Slf4j
+@Component
 public class GameServiceImpl implements GameService {
     private final GameRepository gameRepository;
     private final ExecutorService executor = Executors.newCachedThreadPool();
@@ -35,7 +39,7 @@ public class GameServiceImpl implements GameService {
         if (optionalLeader.isPresent()) {
             Player leader = optionalLeader.get();
             Game game = Game.builder().leader(leader).musicPack(musicPack).build();
-            game.getPlayers().add(leader);
+//            game.getPlayers().add(leader);
             this.gameRepository.save(game);
             return Optional.of(game);
         }
@@ -44,10 +48,11 @@ public class GameServiceImpl implements GameService {
 
     @Override
     public void join(UUID gameId, User user, Session session) {
-        Optional<Game> game = this.gameRepository.findById(gameId);
-        if (game.isPresent()) {
-            if (this.activeGames.containsKey(game.get())) {
-                this.activeGames.get(game.get()).put(Player.builder().user(user).build(), session);
+        Optional<Game> optionalGame = this.gameRepository.findById(gameId);
+        if (optionalGame.isPresent()) {
+            Game game = optionalGame.get();
+            if (this.activeGames.containsKey(game)) {
+                this.activeGames.get(game).put(Player.builder().user(user).build(), session);
             }
         }
     }
@@ -60,9 +65,15 @@ public class GameServiceImpl implements GameService {
                 // FIXME: 25.04.2023
 
                 boolean run = true;
-                int musicPackIdx = 0;
+                int songIdx = 0;
                 while (run) {
                     MusicPack musicPack = game.get().getMusicPack();
+                    try {
+                        Thread.sleep(1000);
+                    } catch (InterruptedException e) {
+                        throw new RuntimeException(e);
+                    }
+                    log.debug("Игровой цикл");
                 }
             });
         }

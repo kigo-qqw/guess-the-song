@@ -5,14 +5,10 @@ import lombok.Getter;
 import lombok.NonNull;
 import lombok.ToString;
 
-import java.util.UUID;
-
 @Getter
 @Builder
 @ToString
-public class UserDto extends EntityDto {
+public class JoinGameResponseDto extends ResponseDto {
     @NonNull
-    private UUID uuid;
-    @NonNull
-    private String username;
+    private GameDto game;
 }
