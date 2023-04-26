@@ -18,7 +18,7 @@ import java.util.UUID;
 public class SongEntry extends BaseEntity {
     @Lob
     @ToString.Exclude
-    @Transient
+//    @Transient
     private byte[] data;
 
     @ElementCollection // 1
@@ -27,9 +27,10 @@ public class SongEntry extends BaseEntity {
     private int correctAnswerIdx;
 
     @Builder
-    private SongEntry(UUID id, byte[] data, int correctAnswerIdx) {
+    private SongEntry(UUID id, byte[] data, List<String> answers, int correctAnswerIdx) {
         super(id);
         this.data = data;
+        this.answers = answers;
         this.correctAnswerIdx = correctAnswerIdx;
     }
 }

@@ -51,6 +51,8 @@ public class CreateGameControllerImpl implements CreateGameController {
                 this.musicPackWithCorrectAnswersDtoToMusicPackMapper.map(request.getMusicPack()));
         if (optionalMusicPack.isEmpty()) return Result.empty();
         MusicPack musicPack = optionalMusicPack.get();
+        log.debug("{}", request.getMusicPack());
+        log.debug("{}", musicPack);
 
         Optional<Game> optionalGame = this.gameService.create(user, musicPack);
         if (optionalGame.isEmpty()) return Result.empty();
