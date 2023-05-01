@@ -6,8 +6,6 @@ import ru.guess_the_song.core.dto.SongEntryWithCorrectAnswerDto;
 import ru.guess_the_song.server.entity.SongEntry;
 import ru.guess_the_song.server.mapper.SongEntryToSongEntryWithCorrectAnswerDtoMapper;
 
-import java.util.List;
-
 @Slf4j
 @Component
 public class SongEntryToSongEntryWithCorrectAnswerDtoMapperImpl implements SongEntryToSongEntryWithCorrectAnswerDtoMapper {

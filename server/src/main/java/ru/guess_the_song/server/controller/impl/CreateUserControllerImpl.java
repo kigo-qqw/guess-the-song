@@ -5,7 +5,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import ru.guess_the_song.core.dto.CreateUserDto;
 import ru.guess_the_song.core.dto.CreateUserResponseDto;
-import ru.guess_the_song.core.dto.Result;
 import ru.guess_the_song.core.dto.UserDto;
 import ru.guess_the_song.server.controller.CreateUserController;
 import ru.guess_the_song.server.entity.User;

@@ -3,7 +3,6 @@ package ru.guess_the_song.server.dispatcher.impl;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import ru.guess_the_song.core.dto.RequestDto;
-import ru.guess_the_song.core.dto.ResponseDto;
 import ru.guess_the_song.server.controller.Controller;
 import ru.guess_the_song.server.dispatcher.Dispatcher;
 import ru.guess_the_song.server.net.Session;

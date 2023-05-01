@@ -3,8 +3,6 @@ package ru.guess_the_song.server.controller.impl;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import ru.guess_the_song.core.dto.JoinGameDto;
-import ru.guess_the_song.core.dto.JoinGameResponseDto;
-import ru.guess_the_song.core.dto.Result;
 import ru.guess_the_song.server.controller.JoinGameController;
 import ru.guess_the_song.server.entity.User;
 import ru.guess_the_song.server.mapper.UserDtoToUserMapper;
