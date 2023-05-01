@@ -18,6 +18,64 @@ import ru.guess_the_song.server.service.UserService;
 
 import java.util.Optional;
 
+//@Slf4j
+//@Component
+//public class CreateGameControllerImpl implements CreateGameController {
+//    private final GameService gameService;
+//    private final UserService userService;
+//    private final MusicPackService musicPackService;
+//    private final GameToGameDtoMapper gameToGameDtoMapper;
+//    private final UserToUserDtoMapper userToUserDtoMapper;
+//    private final MusicPackWithCorrectAnswersDtoToMusicPackMapper musicPackWithCorrectAnswersDtoToMusicPackMapper;
+//    private final MusicPackToMusicPackDtoMapper musicPackToMusicPackDtoMapper;
+//
+//    public CreateGameControllerImpl(
+//            GameService gameService,
+//            UserService userService,
+//            MusicPackService musicPackService,
+//            GameToGameDtoMapper gameToGameDtoMapper, UserToUserDtoMapper userToUserDtoMapper,
+//            MusicPackWithCorrectAnswersDtoToMusicPackMapper musicPackWithCorrectAnswersDtoToMusicPackMapper,
+//            MusicPackToMusicPackDtoMapper musicPackToMusicPackDtoMapper
+//    ) {
+//        this.gameService = gameService;
+//        this.userService = userService;
+//        this.musicPackService = musicPackService;
+//        this.gameToGameDtoMapper = gameToGameDtoMapper;
+//        this.userToUserDtoMapper = userToUserDtoMapper;
+//        this.musicPackWithCorrectAnswersDtoToMusicPackMapper = musicPackWithCorrectAnswersDtoToMusicPackMapper;
+//        this.musicPackToMusicPackDtoMapper = musicPackToMusicPackDtoMapper;
+//    }
+//
+//    @Override
+//    public Result<CreateGameResponseDto> request(Session session, CreateGameDto request) {
+////        if (request.getInitiator() == null) return Result.empty();
+////        if (request.getMusicPack() == null) return Result.empty();
+//
+//        Optional<User> optionalUser = this.userService.get(request.getInitiator().getUuid());
+//        if (optionalUser.isEmpty()) return Result.empty();
+//        User user = optionalUser.get();
+//
+//        Optional<MusicPack> optionalMusicPack = this.musicPackService.create(
+//                this.musicPackWithCorrectAnswersDtoToMusicPackMapper.map(request.getMusicPack()));
+//        if (optionalMusicPack.isEmpty()) return Result.empty();
+//        MusicPack musicPack = optionalMusicPack.get();
+//        log.debug("{}", request.getMusicPack());
+//        log.debug("{}", musicPack);
+//
+//        Optional<Game> optionalGame = this.gameService.create(user, musicPack);
+//        if (optionalGame.isEmpty()) return Result.empty();
+//        Game game = optionalGame.get();
+//
+//        GameDto gameDto = this.gameToGameDtoMapper.map(game);
+////        GameDto gameDto = GameDto.builder()
+////                .leader(this.userToUserDtoMapper.map(user))
+////                .musicPack(this.musicPackToMusicPackDtoMapper.map(musicPack))
+////                .build();
+//        return Result.of(CreateGameResponseDto.builder().game(gameDto).build());
+//
+//    }
+//}
+
 @Slf4j
 @Component
 public class CreateGameControllerImpl implements CreateGameController {
@@ -25,53 +83,41 @@ public class CreateGameControllerImpl implements CreateGameController {
     private final UserService userService;
     private final MusicPackService musicPackService;
     private final GameToGameDtoMapper gameToGameDtoMapper;
-    private final UserToUserDtoMapper userToUserDtoMapper;
     private final MusicPackWithCorrectAnswersDtoToMusicPackMapper musicPackWithCorrectAnswersDtoToMusicPackMapper;
-    private final MusicPackToMusicPackDtoMapper musicPackToMusicPackDtoMapper;
 
     public CreateGameControllerImpl(
             GameService gameService,
             UserService userService,
             MusicPackService musicPackService,
-            GameToGameDtoMapper gameToGameDtoMapper, UserToUserDtoMapper userToUserDtoMapper,
-            MusicPackWithCorrectAnswersDtoToMusicPackMapper musicPackWithCorrectAnswersDtoToMusicPackMapper,
-            MusicPackToMusicPackDtoMapper musicPackToMusicPackDtoMapper
+            GameToGameDtoMapper gameToGameDtoMapper,
+            MusicPackWithCorrectAnswersDtoToMusicPackMapper musicPackWithCorrectAnswersDtoToMusicPackMapper
     ) {
         this.gameService = gameService;
         this.userService = userService;
         this.musicPackService = musicPackService;
         this.gameToGameDtoMapper = gameToGameDtoMapper;
-        this.userToUserDtoMapper = userToUserDtoMapper;
         this.musicPackWithCorrectAnswersDtoToMusicPackMapper = musicPackWithCorrectAnswersDtoToMusicPackMapper;
-        this.musicPackToMusicPackDtoMapper = musicPackToMusicPackDtoMapper;
     }
 
     @Override
-    public Result<CreateGameResponseDto> request(Session session, CreateGameDto request) {
-//        if (request.getInitiator() == null) return Result.empty();
-//        if (request.getMusicPack() == null) return Result.empty();
-
+    public void request(Session session, CreateGameDto request) {
         Optional<User> optionalUser = this.userService.get(request.getInitiator().getUuid());
-        if (optionalUser.isEmpty()) return Result.empty();
+        if (optionalUser.isEmpty()) return;
         User user = optionalUser.get();
 
         Optional<MusicPack> optionalMusicPack = this.musicPackService.create(
                 this.musicPackWithCorrectAnswersDtoToMusicPackMapper.map(request.getMusicPack()));
-        if (optionalMusicPack.isEmpty()) return Result.empty();
+        if (optionalMusicPack.isEmpty()) return;
         MusicPack musicPack = optionalMusicPack.get();
         log.debug("{}", request.getMusicPack());
         log.debug("{}", musicPack);
 
         Optional<Game> optionalGame = this.gameService.create(user, musicPack);
-        if (optionalGame.isEmpty()) return Result.empty();
+        if (optionalGame.isEmpty()) return;
         Game game = optionalGame.get();
 
         GameDto gameDto = this.gameToGameDtoMapper.map(game);
-//        GameDto gameDto = GameDto.builder()
-//                .leader(this.userToUserDtoMapper.map(user))
-//                .musicPack(this.musicPackToMusicPackDtoMapper.map(musicPack))
-//                .build();
-        return Result.of(CreateGameResponseDto.builder().game(gameDto).build());
 
+        session.send(CreateGameResponseDto.builder().game(gameDto).build());
     }
 }

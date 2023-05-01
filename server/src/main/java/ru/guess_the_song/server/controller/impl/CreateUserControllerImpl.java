@@ -14,6 +14,31 @@ import ru.guess_the_song.server.service.UserService;
 
 import java.util.Optional;
 
+//@Slf4j
+//@Component
+//public class CreateUserControllerImpl implements CreateUserController {
+//    private final UserService userService;
+//
+//    @Autowired
+//    public CreateUserControllerImpl(UserService userService) {
+//        this.userService = userService;
+//    }
+//
+//    @Override
+//    public Result<CreateUserResponseDto> request(Session session, CreateUserDto request) {
+//        Optional<User> optionalUser = this.userService.create(request.getUsername());
+//        if (optionalUser.isPresent()) {
+//            User user = optionalUser.get();
+//            return Result.of(CreateUserResponseDto.builder()
+//                    .user(UserDto.builder()
+//                            .uuid(user.getId())
+//                            .username(user.getUsername())
+//                            .build())
+//                    .build());
+//        }
+//        return Result.empty();
+//    }
+//}
 @Slf4j
 @Component
 public class CreateUserControllerImpl implements CreateUserController {
@@ -25,17 +50,16 @@ public class CreateUserControllerImpl implements CreateUserController {
     }
 
     @Override
-    public Result<CreateUserResponseDto> request(Session session, CreateUserDto request) {
+    public void request(Session session, CreateUserDto request) {
         Optional<User> optionalUser = this.userService.create(request.getUsername());
         if (optionalUser.isPresent()) {
             User user = optionalUser.get();
-            return Result.of(CreateUserResponseDto.builder()
+            session.send(CreateUserResponseDto.builder()
                     .user(UserDto.builder()
                             .uuid(user.getId())
                             .username(user.getUsername())
                             .build())
                     .build());
         }
-        return Result.empty();
     }
 }

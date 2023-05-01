@@ -9,6 +9,7 @@ ENV DATABASE_PASSWORD=$DATABASE_PASSWORD
 COPY *.gradle .
 COPY core core
 COPY server server
+COPY server/src/main/resources/META-INF/persistence.docker-compose.xml server/src/main/resources/META-INF/persistence.xml
 
 
 RUN gradle --no-daemon :server:shadowJar --stacktrace

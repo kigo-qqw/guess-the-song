@@ -11,6 +11,25 @@ import ru.guess_the_song.server.mapper.UserDtoToUserMapper;
 import ru.guess_the_song.server.net.Session;
 import ru.guess_the_song.server.service.GameService;
 
+//@Slf4j
+//@Component
+//public class JoinGameControllerImpl implements JoinGameController {
+//    private final GameService gameService;
+//    private final UserDtoToUserMapper userDtoToUserMapper;
+//
+//    public JoinGameControllerImpl(GameService gameService, UserDtoToUserMapper userDtoToUserMapper) {
+//        this.gameService = gameService;
+//        this.userDtoToUserMapper = userDtoToUserMapper;
+//    }
+//
+//    @Override
+//    public Result<JoinGameResponseDto> request(Session session, JoinGameDto request) {
+//        User user = this.userDtoToUserMapper.map(request.getUser());  // FIXME: 26.04.2023 validate in userService?
+//        this.gameService.join(request.getGameId(), user, session);
+//        return Result.of(JoinGameResponseDto.builder().build());  // FIXME: 26.04.2023 idk
+//    }
+//}
+
 @Slf4j
 @Component
 public class JoinGameControllerImpl implements JoinGameController {
@@ -23,9 +42,9 @@ public class JoinGameControllerImpl implements JoinGameController {
     }
 
     @Override
-    public Result<JoinGameResponseDto> request(Session session, JoinGameDto request) {
+    public void request(Session session, JoinGameDto request) {
         User user = this.userDtoToUserMapper.map(request.getUser());  // FIXME: 26.04.2023 validate in userService?
         this.gameService.join(request.getGameId(), user, session);
-        return Result.of(JoinGameResponseDto.builder().build());  // FIXME: 26.04.2023 idk
+//        session.send(JoinGameResponseDto.builder().build());  // FIXME: 26.04.2023 idk
     }
 }

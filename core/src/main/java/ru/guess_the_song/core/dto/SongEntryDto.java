@@ -3,13 +3,16 @@ package ru.guess_the_song.core.dto;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NonNull;
-import lombok.ToString;
+
+import java.util.Arrays;
 
 @Getter
 @Builder
-@ToString
 public class SongEntryDto extends EntityDto {
-    @ToString.Exclude
     private byte @NonNull [] data;
     private @NonNull String @NonNull [] answers;
+
+    public String toString() {
+        return "SongEntryDto(answers=" + Arrays.toString(this.getAnswers()) + ")";
+    }
 }

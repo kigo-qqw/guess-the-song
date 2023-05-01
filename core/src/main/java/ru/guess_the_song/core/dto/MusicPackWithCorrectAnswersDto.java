@@ -4,16 +4,18 @@ package ru.guess_the_song.core.dto;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NonNull;
-import lombok.ToString;
 
+import java.util.Arrays;
 import java.util.UUID;
 
 @Getter
 @Builder
-@ToString
 public class MusicPackWithCorrectAnswersDto extends EntityDto {
     private UUID uuid;
 
-        private @NonNull SongEntryWithCorrectAnswerDto @NonNull [] songs;
-//    private SongEntryWithCorrectAnswerDto[] songs;
+    private @NonNull SongEntryWithCorrectAnswerDto @NonNull [] songs;
+
+    public String toString() {
+        return "MusicPackWithCorrectAnswersDto(uuid=" + this.getUuid() + ", songs=" + Arrays.toString(this.getSongs()) + ")";
+    }
 }

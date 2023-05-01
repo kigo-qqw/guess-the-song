@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
+import java.util.Arrays;
 import java.util.Objects;
 
 public class Main {
@@ -39,24 +40,19 @@ public class Main {
             ObjectInputStream ois = new ObjectInputStream(socket.getInputStream());
 
             oos.writeObject(CreateUserDto.builder().username("kigo").build());
-            Result<CreateUserResponseDto> createUserResponse = (Result<CreateUserResponseDto>) ois.readObject();
+            CreateUserResponseDto createUserResponse = (CreateUserResponseDto) ois.readObject();
 
             CreateGameDto createGameDto = CreateGameDto.builder()
-                    .initiator(createUserResponse.get().getUser())
+                    .initiator(createUserResponse.getUser())
                     .musicPack(musicPack)
                     .build();
 
             System.out.println(createGameDto);
 
             oos.writeObject(createGameDto);
-            Result<CreateGameResponseDto> createGameResponse = (Result<CreateGameResponseDto>) ois.readObject();
-            if (createGameResponse != null && createGameResponse.isPresent()) {
-                System.out.println(createGameResponse.get().toString());
-
-                GameDto gameDto = createGameResponse.get().getGame();
-                for (SongEntryDto songEntryDto : gameDto.getMusicPack().getSongs()) {
-                    System.out.println(songEntryDto.toString());
-                }
+            CreateGameResponseDto createGameResponse = (CreateGameResponseDto) ois.readObject();
+            if (createGameResponse != null) {
+                System.out.println(createGameResponse);
             }
         } catch (Exception e) {
             e.printStackTrace();

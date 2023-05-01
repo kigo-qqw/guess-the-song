@@ -10,11 +10,9 @@ import java.util.UUID;
 @Getter
 @Builder
 @ToString
-public class GameDto extends EntityDto {
+public class StartGameDto extends RequestDto {
     @NonNull
-    private UUID uuid;
+    private UUID gameId;
     @NonNull
-    private UserDto leader;
-//    @NonNull
-//    private MusicPackDto musicPack;
+    private UserDto user;
 }

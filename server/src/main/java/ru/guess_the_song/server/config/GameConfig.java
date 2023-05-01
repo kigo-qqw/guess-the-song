@@ -28,6 +28,18 @@ public class GameConfig {
         this.playerConfig = playerConfig;
     }
 
+    //    @Bean
+//    public CreateGameController createGameController() {
+//        return new CreateGameControllerImpl(
+//                gameService(),
+//                this.userConfig.userService(),
+//                this.musicPackConfig.musicPackService(),
+//                gameToGameDtoMapper(),
+//                this.userConfig.userToUserDtoMapper(),
+//                this.musicPackConfig.musicPackWithCorrectAnswersDtoToMusicPackMapper(),
+//                this.musicPackConfig.musicPackToMusicPackDtoMapper()
+//        );
+//    }
     @Bean
     public CreateGameController createGameController() {
         return new CreateGameControllerImpl(
@@ -35,9 +47,7 @@ public class GameConfig {
                 this.userConfig.userService(),
                 this.musicPackConfig.musicPackService(),
                 gameToGameDtoMapper(),
-                this.userConfig.userToUserDtoMapper(),
-                this.musicPackConfig.musicPackWithCorrectAnswersDtoToMusicPackMapper(),
-                this.musicPackConfig.musicPackToMusicPackDtoMapper()
+                this.musicPackConfig.musicPackWithCorrectAnswersDtoToMusicPackMapper()
         );
     }
 
@@ -59,8 +69,7 @@ public class GameConfig {
     @Bean
     public GameToGameDtoMapper gameToGameDtoMapper() {
         return new GameToGameDtoMapperImpl(
-                this.userConfig.userToUserDtoMapper(),
-                this.musicPackConfig.musicPackToMusicPackDtoMapper()
+                this.userConfig.userToUserDtoMapper()
         );
     }
 }
