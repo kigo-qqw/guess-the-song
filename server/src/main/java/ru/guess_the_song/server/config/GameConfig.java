@@ -60,7 +60,7 @@ public class GameConfig {
 
     @Bean
     public GameRunnerFactory gameRunnerFactory() {
-        return new GameRunnerFactoryImpl();
+        return new GameRunnerFactoryImpl(this.musicPackConfig.songEntryToSongEntryDtoMapper());
     }
 
     @Bean

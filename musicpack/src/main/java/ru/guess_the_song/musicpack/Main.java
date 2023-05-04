@@ -42,7 +42,7 @@ public class Main {
             CreateUserResponseDto createUserResponse = (CreateUserResponseDto) ois.readObject();
 
             CreateGameDto createGameDto = CreateGameDto.builder()
-                    .initiator(createUserResponse.getUser())
+                    .initiatorId(createUserResponse.getUser().getId())
                     .musicPack(musicPack)
                     .build();
 
@@ -53,6 +53,22 @@ public class Main {
             if (createGameResponse != null) {
                 System.out.println(createGameResponse);
             }
+
+            StartGameDto startGameDto = StartGameDto.builder()
+                    .gameId(createGameResponse.getGame().getId())
+                    .userId(createUserResponse.getUser().getId())
+                    .build();
+
+            oos.writeObject(createGameDto);
+            while (true) {
+                Object event = ois.readObject();
+                if (event.getClass().equals(StartRoundDto.class)) {
+                    System.out.println(event);
+                } else if (event.getClass().equals(EndRoundDto.class)) {
+                    System.out.println(event);
+                }
+            }
+
         } catch (Exception e) {
             e.printStackTrace();
         }

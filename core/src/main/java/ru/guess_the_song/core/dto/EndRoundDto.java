@@ -10,13 +10,9 @@ import java.util.UUID;
 @Getter
 @Builder
 @ToString
-public class StartRoundDto extends RequestDto {
+public class EndRoundDto extends RequestDto {
     @NonNull
     private UUID gameId;
-    @NonNull
-    private SongEntryDto song;
-    /**
-     * Round length in milliseconds
-     */
-    private long length;
+    private @NonNull String @NonNull [] answers;
+    private int correctAnswerId;
 }

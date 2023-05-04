@@ -79,7 +79,10 @@ public class GameServiceImpl implements GameService {
 //                    log.debug("Игровой цикл");
 //                }
 //            });
-            this.executor.submit(this.gameRunnerFactory.createGameRunner(game.get()));
+            this.executor.submit(this.gameRunnerFactory.createGameRunner(
+                    game.get(),
+                    this.activeGames.get(game.get())
+            ));
         }
     }
 }
