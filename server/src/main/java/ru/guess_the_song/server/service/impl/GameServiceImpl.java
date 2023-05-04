@@ -6,6 +6,7 @@ import ru.guess_the_song.server.entity.Game;
 import ru.guess_the_song.server.entity.MusicPack;
 import ru.guess_the_song.server.entity.Player;
 import ru.guess_the_song.server.entity.User;
+import ru.guess_the_song.server.game.GameRunnerFactory;
 import ru.guess_the_song.server.net.Session;
 import ru.guess_the_song.server.repository.GameRepository;
 import ru.guess_the_song.server.service.GameService;
@@ -23,12 +24,14 @@ import java.util.concurrent.Executors;
 public class GameServiceImpl implements GameService {
     private final GameRepository gameRepository;
     private final ExecutorService executor = Executors.newCachedThreadPool();
+    private final GameRunnerFactory gameRunnerFactory;
     private final Map<Game, Map<Player, Session>> activeGames;
 
     private final PlayerService playerService;
 
-    public GameServiceImpl(GameRepository gameRepository, PlayerService playerService) {
+    public GameServiceImpl(GameRepository gameRepository, GameRunnerFactory gameRunnerFactory, PlayerService playerService) {
         this.gameRepository = gameRepository;
+        this.gameRunnerFactory = gameRunnerFactory;
         this.playerService = playerService;
         this.activeGames = new HashMap<>();
     }
@@ -61,21 +64,22 @@ public class GameServiceImpl implements GameService {
     public void start(UUID gameId, User user) {
         Optional<Game> game = this.gameRepository.findById(gameId);
         if (game.isPresent() && game.get().getLeader().getUser().equals(user)) {
-            this.executor.submit(() -> {
-                // FIXME: 25.04.2023
-
-                boolean run = true;
-                int songIdx = 0;
-                while (run) {
-                    MusicPack musicPack = game.get().getMusicPack();
-                    try {
-                        Thread.sleep(1000);
-                    } catch (InterruptedException e) {
-                        throw new RuntimeException(e);
-                    }
-                    log.debug("Игровой цикл");
-                }
-            });
+//            this.executor.submit(() -> {
+//                // FIXME: 25.04.2023
+//
+//                boolean run = true;
+//                int songIdx = 0;
+//                while (run) {
+//                    MusicPack musicPack = game.get().getMusicPack();
+//                    try {
+//                        Thread.sleep(1000);
+//                    } catch (InterruptedException e) {
+//                        throw new RuntimeException(e);
+//                    }
+//                    log.debug("Игровой цикл");
+//                }
+//            });
+            this.executor.submit(this.gameRunnerFactory.createGameRunner(game.get()));
         }
     }
 }

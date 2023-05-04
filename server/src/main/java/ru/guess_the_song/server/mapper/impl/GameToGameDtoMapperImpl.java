@@ -16,8 +16,8 @@ public class GameToGameDtoMapperImpl implements GameToGameDtoMapper {
     @Override
     public GameDto map(Game data) {
         return GameDto.builder()
-                .uuid(data.getId())
-                .leader(this.userToUserDtoMapper.map(data.getLeader().getUser()))
+                .id(data.getId())
+                .leaderId(data.getLeader().getId())
                 .build();
     }
 }

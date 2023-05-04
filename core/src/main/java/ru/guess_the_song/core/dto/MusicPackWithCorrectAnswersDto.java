@@ -11,11 +11,11 @@ import java.util.UUID;
 @Getter
 @Builder
 public class MusicPackWithCorrectAnswersDto extends EntityDto {
-    private UUID uuid;
+    private UUID id;
 
     private @NonNull SongEntryWithCorrectAnswerDto @NonNull [] songs;
 
     public String toString() {
-        return "MusicPackWithCorrectAnswersDto(uuid=" + this.getUuid() + ", songs=" + Arrays.toString(this.getSongs()) + ")";
+        return "MusicPackWithCorrectAnswersDto(id=" + this.getId() + ", songs=" + Arrays.toString(this.getSongs()) + ")";
     }
 }

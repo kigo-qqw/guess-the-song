@@ -20,7 +20,7 @@ public class MusicPackToMusicPackWithCorrectAnswersDtoMapperImpl implements Musi
     @Override
     public MusicPackWithCorrectAnswersDto map(MusicPack data) {
         return MusicPackWithCorrectAnswersDto.builder()
-                .uuid(data.getId())
+                .id(data.getId())
                 .songs(data.getSongs().stream().map(songEntryToSongEntryWithCorrectAnswerDtoMapper::map).toArray(SongEntryWithCorrectAnswerDto[]::new))
                 .build();
     }

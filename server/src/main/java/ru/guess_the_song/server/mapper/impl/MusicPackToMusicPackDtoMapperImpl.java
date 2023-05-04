@@ -20,7 +20,7 @@ public class MusicPackToMusicPackDtoMapperImpl implements MusicPackToMusicPackDt
     @Override
     public MusicPackDto map(MusicPack data) {
         return MusicPackDto.builder()
-                .uuid(data.getId())
+                .id(data.getId())
                 .songs(data.getSongs().stream().map(this.songEntryToSongEntryDtoMapper::map).toArray(SongEntryDto[]::new))
                 .build();
     }

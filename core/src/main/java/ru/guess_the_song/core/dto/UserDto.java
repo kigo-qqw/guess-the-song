@@ -12,7 +12,7 @@ import java.util.UUID;
 @ToString
 public class UserDto extends EntityDto {
     @NonNull
-    private UUID uuid;
+    private UUID id;
     @NonNull
     private String username;
 }

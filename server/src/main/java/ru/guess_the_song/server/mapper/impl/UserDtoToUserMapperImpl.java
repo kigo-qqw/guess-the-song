@@ -12,7 +12,7 @@ public class UserDtoToUserMapperImpl implements UserDtoToUserMapper {
     @Override
     public User map(UserDto data) {
         return User.builder()
-                .id(data.getUuid())
+                .id(data.getId())
                 .username(data.getUsername())
                 .build();
     }

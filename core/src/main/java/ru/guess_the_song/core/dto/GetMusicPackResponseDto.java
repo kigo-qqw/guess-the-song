@@ -11,10 +11,10 @@ import java.util.UUID;
 @Builder
 public class GetMusicPackResponseDto extends ResponseDto {
     @NonNull
-    private UUID uuid;
+    private UUID id;
     private @NonNull SongEntryDto @NonNull [] songs;
 
     public String toString() {
-        return "GetMusicPackResponseDto(uuid=" + this.getUuid() + ", songs=" + Arrays.toString(this.getSongs()) + ")";
+        return "GetMusicPackResponseDto(id=" + this.getId() + ", songs=" + Arrays.toString(this.getSongs()) + ")";
     }
 }

@@ -8,20 +8,6 @@ import ru.guess_the_song.server.net.Session;
 import ru.guess_the_song.server.service.HealthCheckService;
 import ru.guess_the_song.server.service.impl.HealthCheckServiceImpl;
 
-//@Slf4j
-//@Component
-//public class HealthCheckControllerImpl implements HealthCheckController {
-//    private final HealthCheckService healthCheckService;
-//
-//    public HealthCheckControllerImpl() {
-//        this.healthCheckService = new HealthCheckServiceImpl();
-//    }
-//
-//    @Override
-//    public Result<HealthCheckResponseDto> request(Session session, HealthCheckDto request) {
-//        return this.healthCheckService.check(request);
-//    }
-//}
 @Slf4j
 @Component
 public class HealthCheckControllerImpl implements HealthCheckController {

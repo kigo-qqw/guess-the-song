@@ -12,11 +12,11 @@ import java.util.UUID;
 @Builder
 public class MusicPackDto extends EntityDto {
     @NonNull
-    private UUID uuid;
+    private UUID id;
 
     private @NonNull SongEntryDto @NonNull [] songs;
 
     public String toString() {
-        return "MusicPackDto(super=" + super.toString() + ", uuid=" + this.getUuid() + ", songs=" + Arrays.toString(this.getSongs()) + ")";
+        return "MusicPackDto(super=" + super.toString() + ", id=" + this.getId() + ", songs=" + Arrays.toString(this.getSongs()) + ")";
     }
 }

@@ -6,8 +6,12 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 import ru.guess_the_song.server.controller.CreateGameController;
 import ru.guess_the_song.server.controller.JoinGameController;
+import ru.guess_the_song.server.controller.StartGameController;
 import ru.guess_the_song.server.controller.impl.CreateGameControllerImpl;
 import ru.guess_the_song.server.controller.impl.JoinGameControllerImpl;
+import ru.guess_the_song.server.controller.impl.StartGameControllerImpl;
+import ru.guess_the_song.server.game.GameRunnerFactory;
+import ru.guess_the_song.server.game.impl.GameRunnerFactoryImpl;
 import ru.guess_the_song.server.mapper.GameToGameDtoMapper;
 import ru.guess_the_song.server.mapper.impl.GameToGameDtoMapperImpl;
 import ru.guess_the_song.server.repository.GameRepository;
@@ -28,18 +32,6 @@ public class GameConfig {
         this.playerConfig = playerConfig;
     }
 
-    //    @Bean
-//    public CreateGameController createGameController() {
-//        return new CreateGameControllerImpl(
-//                gameService(),
-//                this.userConfig.userService(),
-//                this.musicPackConfig.musicPackService(),
-//                gameToGameDtoMapper(),
-//                this.userConfig.userToUserDtoMapper(),
-//                this.musicPackConfig.musicPackWithCorrectAnswersDtoToMusicPackMapper(),
-//                this.musicPackConfig.musicPackToMusicPackDtoMapper()
-//        );
-//    }
     @Bean
     public CreateGameController createGameController() {
         return new CreateGameControllerImpl(
@@ -53,12 +45,22 @@ public class GameConfig {
 
     @Bean
     public JoinGameController joinGameController() {
-        return new JoinGameControllerImpl(gameService(), this.userConfig.userDtoToUserMapper());
+        return new JoinGameControllerImpl(gameService(), this.userConfig.userService());
+    }
+
+    @Bean
+    public StartGameController startGameController() {
+        return new StartGameControllerImpl(gameService(), this.userConfig.userService());
     }
 
     @Bean
     public GameService gameService() {
-        return new GameServiceImpl(gameRepository(), this.playerConfig.playerService());
+        return new GameServiceImpl(gameRepository(), gameRunnerFactory(), this.playerConfig.playerService());
+    }
+
+    @Bean
+    public GameRunnerFactory gameRunnerFactory() {
+        return new GameRunnerFactoryImpl();
     }
 
     @Bean

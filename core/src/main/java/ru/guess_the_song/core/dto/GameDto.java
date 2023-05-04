@@ -12,9 +12,10 @@ import java.util.UUID;
 @ToString
 public class GameDto extends EntityDto {
     @NonNull
-    private UUID uuid;
-    @NonNull
-    private UserDto leader;
+    private UUID id;
+//    @NonNull
+//    private UserDto leader;
+    @NonNull private UUID leaderId;
 //    @NonNull
 //    private MusicPackDto musicPack;
 }

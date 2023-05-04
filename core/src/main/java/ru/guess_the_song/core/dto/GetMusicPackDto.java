@@ -13,5 +13,5 @@ import java.util.UUID;
 @ToString
 public class GetMusicPackDto extends RequestDto {
     @NonNull
-    private UUID uuid;
+    private UUID musicPackId;
 }

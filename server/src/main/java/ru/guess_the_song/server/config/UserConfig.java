@@ -17,7 +17,7 @@ import ru.guess_the_song.server.service.impl.UserServiceImpl;
 public class UserConfig {
     @Bean
     public CreateUserController createUserController() {
-        return new CreateUserControllerImpl(userService());
+        return new CreateUserControllerImpl(userService(), userToUserDtoMapper());
     }
 
     @Bean
