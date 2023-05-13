@@ -54,7 +54,7 @@ public class CreateGameControllerImpl implements CreateGameController {
         log.debug("{}", request.getMusicPack());
         log.debug("{}", musicPack);
 
-        Optional<Game> optionalGame = this.gameService.create(user, musicPack);
+        Optional<Game> optionalGame = this.gameService.create(user, musicPack, session);
         if (optionalGame.isEmpty()) return;
         Game game = optionalGame.get();
 

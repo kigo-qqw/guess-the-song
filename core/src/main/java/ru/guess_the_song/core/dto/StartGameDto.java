@@ -13,8 +13,6 @@ import java.util.UUID;
 public class StartGameDto extends RequestDto {
     @NonNull
     private UUID gameId;
-    //    @NonNull
-//    private UserDto user;
     @NonNull
     private UUID userId;
 }

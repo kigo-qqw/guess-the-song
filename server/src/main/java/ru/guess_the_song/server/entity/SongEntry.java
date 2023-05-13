@@ -15,13 +15,14 @@ import java.util.UUID;
 @ToString
 @Entity
 //@Table(name = "SONG_ENTRY")
+@EqualsAndHashCode(callSuper = true)
 public class SongEntry extends BaseEntity {
     @Lob
     @ToString.Exclude
 //    @Transient
     private byte[] data;
 
-    @ElementCollection // 1
+    @ElementCollection(fetch = FetchType.EAGER) // 1
     private List<String> answers;
 
     private int correctAnswerIdx;

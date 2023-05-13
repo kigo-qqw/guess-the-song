@@ -13,6 +13,7 @@ import java.util.UUID;
 @NoArgsConstructor
 @ToString
 @MappedSuperclass
+@EqualsAndHashCode
 public abstract class BaseEntity implements Serializable {
     @Id
     @GeneratedValue

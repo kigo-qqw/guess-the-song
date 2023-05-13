@@ -30,7 +30,7 @@ public class CreateUserControllerImpl implements CreateUserController {
         Optional<User> optionalUser = this.userService.create(request.getUsername());
         if (optionalUser.isPresent()) {
             User user = optionalUser.get();
-            session.send(CreateUserResponseDto.builder().user(this.userToUserDtoMapper.map(user)));
+            session.send(CreateUserResponseDto.builder().user(this.userToUserDtoMapper.map(user)).build());
         }
     }
 }

@@ -59,7 +59,7 @@ public class Main {
                     .userId(createUserResponse.getUser().getId())
                     .build();
 
-            oos.writeObject(createGameDto);
+            oos.writeObject(startGameDto);
             while (true) {
                 Object event = ois.readObject();
                 if (event.getClass().equals(StartRoundDto.class)) {

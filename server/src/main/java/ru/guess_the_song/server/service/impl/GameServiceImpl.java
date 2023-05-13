@@ -25,7 +25,7 @@ public class GameServiceImpl implements GameService {
     private final GameRepository gameRepository;
     private final ExecutorService executor = Executors.newCachedThreadPool();
     private final GameRunnerFactory gameRunnerFactory;
-    private final Map<Game, Map<Player, Session>> activeGames;
+    private final Map<UUID, Map<Player, Session>> activeGames;
 
     private final PlayerService playerService;
 
@@ -37,13 +37,21 @@ public class GameServiceImpl implements GameService {
     }
 
     @Override
-    public Optional<Game> create(User initiator, MusicPack musicPack) {
+    public Optional<Game> create(User initiator, MusicPack musicPack, Session session) {
         Optional<Player> optionalLeader = this.playerService.create(initiator);
         if (optionalLeader.isPresent()) {
             Player leader = optionalLeader.get();
             Game game = Game.builder().leader(leader).musicPack(musicPack).build();
+
 //            game.getPlayers().add(leader);
+
+
             this.gameRepository.save(game);
+            this.activeGames.put(game.getId(), new HashMap<>());
+
+            join(game.getId(), initiator, session);
+
+            log.debug(game.toString());
             return Optional.of(game);
         }
         return Optional.empty();
@@ -53,36 +61,39 @@ public class GameServiceImpl implements GameService {
     public void join(UUID gameId, User user, Session session) {
         Optional<Game> optionalGame = this.gameRepository.findById(gameId);
         if (optionalGame.isPresent()) {
+            log.debug("present");
             Game game = optionalGame.get();
-            if (this.activeGames.containsKey(game)) {
-                this.activeGames.get(game).put(Player.builder().user(user).build(), session);
-            }
+            if (this.activeGames.containsKey(game.getId())) {
+                Optional<Player> optionalPlayer = this.playerService.create(user);
+                if (optionalPlayer.isPresent()) {
+                    Player player = optionalPlayer.get();
+                    game.getPlayers().add(player);
+                    this.activeGames.get(game.getId()).put(player, session);
+                    log.debug("added: " + player);
+                }
+            }else throw new RuntimeException("xdd");
         }
     }
 
     @Override
     public void start(UUID gameId, User user) {
-        Optional<Game> game = this.gameRepository.findById(gameId);
-        if (game.isPresent() && game.get().getLeader().getUser().equals(user)) {
-//            this.executor.submit(() -> {
-//                // FIXME: 25.04.2023
-//
-//                boolean run = true;
-//                int songIdx = 0;
-//                while (run) {
-//                    MusicPack musicPack = game.get().getMusicPack();
-//                    try {
-//                        Thread.sleep(1000);
-//                    } catch (InterruptedException e) {
-//                        throw new RuntimeException(e);
-//                    }
-//                    log.debug("Игровой цикл");
-//                }
-//            });
-            this.executor.submit(this.gameRunnerFactory.createGameRunner(
-                    game.get(),
-                    this.activeGames.get(game.get())
-            ));
+        log.debug("gameId=" + gameId);
+        Optional<Game> optionalGame = this.gameRepository.findById(gameId);
+        if (optionalGame.isPresent()) {
+            Game game = optionalGame.get();
+            log.debug(game.getLeader().getUser().toString());
+            log.debug(user.toString());
+            if (game.getLeader().getUser().equals(user)) {
+                log.debug("xddddd1");
+//                this.executor.submit(this.gameRunnerFactory.createGameRunner(
+//                        game,
+//                        this.activeGames.get(game)
+//                ));
+                new Thread(this.gameRunnerFactory.createGameRunner(
+                        game,
+                        this.activeGames.get(game.getId())
+                )).start();
+            }
         }
     }
 }

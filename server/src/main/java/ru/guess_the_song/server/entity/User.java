@@ -13,6 +13,7 @@ import java.util.UUID;
 @Entity
 @ToString
 @Table(name = "Users")
+@EqualsAndHashCode(callSuper = true)
 public class User extends BaseEntity {
     private String username;
 

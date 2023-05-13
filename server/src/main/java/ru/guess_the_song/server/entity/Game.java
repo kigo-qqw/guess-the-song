@@ -1,8 +1,6 @@
 package ru.guess_the_song.server.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.OneToOne;
+import jakarta.persistence.*;
 import lombok.*;
 import ru.guess_the_song.server.entity.base.BaseEntity;
 
@@ -19,10 +17,11 @@ import java.util.UUID;
 @NoArgsConstructor
 @Entity
 @ToString
+@EqualsAndHashCode(callSuper = true)
 public class Game extends BaseEntity {
     @OneToOne
     private Player leader;
-    @OneToMany
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private List<Player> players;
     @OneToOne
     private MusicPack musicPack;

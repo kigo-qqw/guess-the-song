@@ -11,9 +11,8 @@ import java.util.UUID;
 @Builder
 @ToString
 public class CreateGameDto extends RequestDto {
-//    @NonNull
-//    private UserDto initiator;
-    @NonNull private UUID initiatorId;
+    @NonNull
+    private UUID initiatorId;
     @NonNull
     private MusicPackWithCorrectAnswersDto musicPack;
 }

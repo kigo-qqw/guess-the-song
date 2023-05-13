@@ -13,9 +13,6 @@ import java.util.UUID;
 public class GameDto extends EntityDto {
     @NonNull
     private UUID id;
-//    @NonNull
-//    private UserDto leader;
-    @NonNull private UUID leaderId;
-//    @NonNull
-//    private MusicPackDto musicPack;
+    @NonNull
+    private UUID leaderId;
 }

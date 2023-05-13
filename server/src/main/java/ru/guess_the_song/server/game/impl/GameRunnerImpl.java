@@ -33,6 +33,8 @@ public class GameRunnerImpl implements GameRunner {
         boolean run = true;
         int songIdx = 0;
         while (run) {
+            log.debug("game=" + this.game);
+
             MusicPack musicPack = this.game.getMusicPack();
             SongEntry songEntry = musicPack.getSongs().get(songIdx);
             SongEntryDto songEntryDto = this.songEntryToSongEntryDtoMapper.map(songEntry);
