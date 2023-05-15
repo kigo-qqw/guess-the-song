@@ -7,4 +7,5 @@ import java.util.Optional;
 
 public interface PlayerService {
     Optional<Player> create(User user);
+    Optional<Player> get(User user);
 }

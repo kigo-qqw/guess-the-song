@@ -22,9 +22,11 @@ public class Player extends BaseEntity {
     @ManyToOne(fetch = FetchType.EAGER)
     private User user;
     private int points;
+
     @Builder
-    private Player(UUID id, User user) {
+    private Player(UUID id, User user, int points) {
         super(id);
         this.user = user;
+        this.points = points;
     }
 }

@@ -7,6 +7,7 @@ import ru.guess_the_song.server.game.GameRunnerFactory;
 import ru.guess_the_song.server.mapper.SongEntryToSongEntryDtoMapper;
 import ru.guess_the_song.server.net.Session;
 
+import java.util.HashMap;
 import java.util.Map;
 
 public class GameRunnerFactoryImpl implements GameRunnerFactory {
@@ -17,7 +18,7 @@ public class GameRunnerFactoryImpl implements GameRunnerFactory {
     }
 
     @Override
-    public GameRunner createGameRunner(Game game, Map<Player, Session> players) {
-        return new GameRunnerImpl(game, players, this.songEntryToSongEntryDtoMapper);
+    public GameRunner createGameRunner(Game game) {
+        return new GameRunnerImpl(game, new HashMap<>(), this.songEntryToSongEntryDtoMapper);
     }
 }

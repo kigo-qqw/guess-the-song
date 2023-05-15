@@ -22,4 +22,8 @@ public class PlayerServiceImpl implements PlayerService {
         return Optional.of(this.playerRepository.save(Player.builder().user(user).build()));
     }
 
+    @Override
+    public Optional<Player> get(User user) {
+        return this.playerRepository.findByUser(user);
+    }
 }

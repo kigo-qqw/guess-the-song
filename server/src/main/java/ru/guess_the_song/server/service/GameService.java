@@ -14,4 +14,6 @@ public interface GameService {
     void join(UUID gameId, User user, Session session);
 
     void start(UUID gameId, User user);
+
+    void giveAnswer(UUID gameId, User user, int answerId);
 }

@@ -13,6 +13,7 @@ import ru.guess_the_song.server.game.GameRunner;
 import ru.guess_the_song.server.mapper.SongEntryToSongEntryDtoMapper;
 import ru.guess_the_song.server.net.Session;
 
+import java.util.List;
 import java.util.Map;
 
 @Slf4j
@@ -20,6 +21,7 @@ import java.util.Map;
 public class GameRunnerImpl implements GameRunner {
     private final Game game;
     private final Map<Player, Session> players;
+    private final Map<Player, Integer> answers;
     private final SongEntryToSongEntryDtoMapper songEntryToSongEntryDtoMapper;
 
     public GameRunnerImpl(Game game, Map<Player, Session> players, SongEntryToSongEntryDtoMapper songEntryToSongEntryDtoMapper) {
@@ -47,12 +49,14 @@ public class GameRunnerImpl implements GameRunner {
             players.forEach((player, session) -> {
                 session.send(startRoundDto);
             });
-            songIdx++;
             try {
                 Thread.sleep(5000);  // FIXME: 04.05.2023 
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);
             }
+
+            this.answers.forEach((player, answerId) -> {});
+
             EndRoundDto endRoundDto = EndRoundDto.builder()
                     .gameId(game.getId())
                     .answers(songEntryDto.getAnswers())
@@ -61,6 +65,17 @@ public class GameRunnerImpl implements GameRunner {
             players.forEach((player, session) -> {
                 session.send(endRoundDto);
             });
+            songIdx++;
         }
+    }
+
+    @Override
+    public void addPlayer(Player player, Session session) {
+        this.players.put(player, session);
+    }
+
+    @Override
+    public void giveAnswer(Player player, int answerId) {
+        this.answers.put(player, answerId);
     }
 }

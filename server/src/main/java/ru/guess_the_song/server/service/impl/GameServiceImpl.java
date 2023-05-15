@@ -6,6 +6,7 @@ import ru.guess_the_song.server.entity.Game;
 import ru.guess_the_song.server.entity.MusicPack;
 import ru.guess_the_song.server.entity.Player;
 import ru.guess_the_song.server.entity.User;
+import ru.guess_the_song.server.game.GameRunner;
 import ru.guess_the_song.server.game.GameRunnerFactory;
 import ru.guess_the_song.server.net.Session;
 import ru.guess_the_song.server.repository.GameRepository;
@@ -25,8 +26,8 @@ public class GameServiceImpl implements GameService {
     private final GameRepository gameRepository;
     private final ExecutorService executor = Executors.newCachedThreadPool();
     private final GameRunnerFactory gameRunnerFactory;
-    private final Map<UUID, Map<Player, Session>> activeGames;
-
+    //    private final Map<UUID, Map<Player, Session>> activeGames;
+    private final Map<UUID, GameRunner> activeGames;
     private final PlayerService playerService;
 
     public GameServiceImpl(GameRepository gameRepository, GameRunnerFactory gameRunnerFactory, PlayerService playerService) {
@@ -47,7 +48,8 @@ public class GameServiceImpl implements GameService {
 
 
             this.gameRepository.save(game);
-            this.activeGames.put(game.getId(), new HashMap<>());
+//            this.activeGames.put(game.getId(), new HashMap<>());
+            this.activeGames.put(game.getId(), this.gameRunnerFactory.createGameRunner(game));
 
             join(game.getId(), initiator, session);
 
@@ -68,10 +70,13 @@ public class GameServiceImpl implements GameService {
                 if (optionalPlayer.isPresent()) {
                     Player player = optionalPlayer.get();
                     game.getPlayers().add(player);
-                    this.activeGames.get(game.getId()).put(player, session);
+//                    this.activeGames.get(game.getId()).put(player, session);
+                    this.activeGames.get(game.getId()).addPlayer(player, session);
+
+
                     log.debug("added: " + player);
                 }
-            }else throw new RuntimeException("xdd");
+            } else throw new RuntimeException("xdd");
         }
     }
 
@@ -89,11 +94,18 @@ public class GameServiceImpl implements GameService {
 //                        game,
 //                        this.activeGames.get(game)
 //                ));
-                new Thread(this.gameRunnerFactory.createGameRunner(
-                        game,
-                        this.activeGames.get(game.getId())
-                )).start();
+//                new Thread(this.gameRunnerFactory.createGameRunner(
+//                        game
+//                )).start();
+                new Thread(this.activeGames.get(game.getId())).start();
             }
         }
+    }
+
+    @Override
+    public void giveAnswer(UUID gameId, User user, int answerId) {
+        Optional<Player> optionalPlayer = this.playerService.get(user);
+        if(optionalPlayer.isEmpty()) return;
+        this.activeGames.get(gameId).giveAnswer(optionalPlayer.get(), answerId);
     }
 }

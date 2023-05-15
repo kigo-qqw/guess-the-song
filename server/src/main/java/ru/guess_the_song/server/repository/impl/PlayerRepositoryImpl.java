@@ -7,7 +7,11 @@ import jakarta.persistence.PersistenceUnit;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import ru.guess_the_song.server.entity.Player;
+import ru.guess_the_song.server.entity.User;
 import ru.guess_the_song.server.repository.PlayerRepository;
+
+import java.util.Optional;
+import java.util.UUID;
 
 @Slf4j
 @Component
@@ -30,4 +34,19 @@ public class PlayerRepositoryImpl implements PlayerRepository {
 
         return entity;
     }
+
+    @Override
+    public Optional<Player> findByUser(User user) {
+        EntityManager entityManager = this.entityManagerFactory.createEntityManager();
+        entityManager.getTransaction().begin();
+        Player result = (Player) entityManager
+                .createQuery("FROM Player p WHERE p.user = :user")
+                .setParameter("user", user)
+                .getSingleResult();
+        entityManager.getTransaction().commit();
+        entityManager.close();
+
+        return Optional.of(result);
+    }
+}
 }
