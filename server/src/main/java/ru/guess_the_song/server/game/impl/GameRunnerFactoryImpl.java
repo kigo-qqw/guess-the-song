@@ -19,6 +19,6 @@ public class GameRunnerFactoryImpl implements GameRunnerFactory {
 
     @Override
     public GameRunner createGameRunner(Game game) {
-        return new GameRunnerImpl(game, new HashMap<>(), this.songEntryToSongEntryDtoMapper);
+        return new GameRunnerImpl(game, this.songEntryToSongEntryDtoMapper);
     }
 }

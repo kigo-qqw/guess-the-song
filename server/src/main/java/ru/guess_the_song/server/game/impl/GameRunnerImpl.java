@@ -13,20 +13,20 @@ import ru.guess_the_song.server.game.GameRunner;
 import ru.guess_the_song.server.mapper.SongEntryToSongEntryDtoMapper;
 import ru.guess_the_song.server.net.Session;
 
-import java.util.List;
+import java.util.Comparator;
 import java.util.Map;
+import java.util.TreeMap;
 
 @Slf4j
 @Component
 public class GameRunnerImpl implements GameRunner {
     private final Game game;
-    private final Map<Player, Session> players;
-    private final Map<Player, Integer> answers;
+    private final Map<Player, Session> players = new TreeMap<>(Comparator.comparing(player -> player.getUser().getId()));
+    private final Map<Player, Integer> answers = new TreeMap<>(Comparator.comparing(player -> player.getUser().getId()));
     private final SongEntryToSongEntryDtoMapper songEntryToSongEntryDtoMapper;
 
-    public GameRunnerImpl(Game game, Map<Player, Session> players, SongEntryToSongEntryDtoMapper songEntryToSongEntryDtoMapper) {
+    public GameRunnerImpl(Game game, SongEntryToSongEntryDtoMapper songEntryToSongEntryDtoMapper) {
         this.game = game;
-        this.players = players;
         this.songEntryToSongEntryDtoMapper = songEntryToSongEntryDtoMapper;
     }
 
@@ -55,7 +55,8 @@ public class GameRunnerImpl implements GameRunner {
                 throw new RuntimeException(e);
             }
 
-            this.answers.forEach((player, answerId) -> {});
+            this.answers.forEach((player, answerId) -> {
+            });
 
             EndRoundDto endRoundDto = EndRoundDto.builder()
                     .gameId(game.getId())
