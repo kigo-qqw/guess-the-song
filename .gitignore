@@ -6,4 +6,9 @@ build
 bin
 logs
 
+.classpath
+.project
+.settings
+
 .idea
+.vscode

@@ -49,4 +49,3 @@ public class PlayerRepositoryImpl implements PlayerRepository {
         return Optional.of(result);
     }
 }
-}

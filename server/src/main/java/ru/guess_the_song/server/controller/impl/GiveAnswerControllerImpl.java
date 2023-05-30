@@ -23,6 +23,6 @@ public class GiveAnswerControllerImpl implements GiveAnswerController {
     public void request(Session session, GiveAnswerDto request) {
         Optional<User> optionalUser = this.userService.get(request.getUserId());
         if(optionalUser.isEmpty()) return;
-        this.gameService.
+        // this.gameService.
     }
 }

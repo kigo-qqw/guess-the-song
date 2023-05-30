@@ -6,7 +6,7 @@
 //    }
 //}
 
-rootProject.name = 'guess-the-song'
+rootProject.name = 'guess_the_song'
 
 include 'core'
 include 'server'

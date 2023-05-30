@@ -1,6 +1,14 @@
 plugins {
-    id 'ru.guess_the_song.java-application-conventions'
-    id 'org.openjfx.javafxplugin' version '0.0.13'
+    // id 'ru.guess_the_song.java-application-conventions'
+    id 'java'
+    id 'application'
+    id 'eclipse'
+    id 'org.openjfx.javafxplugin' version '0.0.14'
+}
+
+
+repositories {
+    mavenCentral()
 }
 
 application {
@@ -9,10 +17,30 @@ application {
 }
 
 dependencies {
-    implementation project(path: ':core')
+    implementation project(':core')
+
+    compileOnly 'org.projectlombok:lombok:1.18.26'
+    annotationProcessor 'org.projectlombok:lombok:1.18.26'
+
+    // implementation 'org.apache.logging.log4j:log4j-api:2.20.0'
+    // implementation 'org.apache.logging.log4j:log4j-core:2.20.0'
+    // implementation 'org.apache.logging.log4j:log4j-slf4j2-impl:2.20.0'
+
+    implementation 'org.slf4j:slf4j-api:2.0.7'
+
+    // implementation 'org.springframework.boot:spring-boot-starter:3.1.0'
+    // implementation 'org.springframework:spring-context:6.0.7'
+	// testImplementation 'org.springframework.boot:spring-boot-starter-test:3.1.0'
+
 }
 
 javafx {
     version = '20'
     modules = ['javafx.controls', 'javafx.fxml']
+}
+
+jar {
+    manifest {
+        attributes 'Main-Class': application.mainClass
+    }
 }
