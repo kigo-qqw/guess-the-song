@@ -1,4 +1,0 @@
-plugins {
-    id 'ru.guess_the_song.java-common-conventions'
-    id 'java-library'
-}

@@ -1,9 +1,12 @@
 plugins {
-    // id 'ru.guess_the_song.java-application-conventions'
     id 'java'
     id 'application'
     id 'eclipse'
     id 'org.openjfx.javafxplugin' version '0.0.14'
+    id "org.beryx.jlink" version "2.26.0"
+
+    id 'org.springframework.boot' version '3.1.0'
+    id 'io.spring.dependency-management' version '1.1.0'
 }
 
 
@@ -13,7 +16,8 @@ repositories {
 
 application {
     mainModule = 'ru.guess_the_song.client'
-    mainClass = 'ru.guess_the_song.client.App'
+    mainClass = 'ru.guess_the_song.client.main.Main'
+//    mainClass = 'ru.guess_the_song.client.main.GuessTheSongApplication'
 }
 
 dependencies {
@@ -24,13 +28,16 @@ dependencies {
 
     // implementation 'org.apache.logging.log4j:log4j-api:2.20.0'
     // implementation 'org.apache.logging.log4j:log4j-core:2.20.0'
-    // implementation 'org.apache.logging.log4j:log4j-slf4j2-impl:2.20.0'
+     implementation 'org.apache.logging.log4j:log4j-slf4j2-impl:2.20.0'
 
-    implementation 'org.slf4j:slf4j-api:2.0.7'
+     implementation 'org.slf4j:slf4j-api:2.0.7'
 
-    // implementation 'org.springframework.boot:spring-boot-starter:3.1.0'
-    // implementation 'org.springframework:spring-context:6.0.7'
-	// testImplementation 'org.springframework.boot:spring-boot-starter-test:3.1.0'
+//    implementation 'net.rgielen:javafx-weaver-spring-boot-starter:1.3.0'
+
+    implementation 'org.springframework.boot:spring-boot:3.1.0'
+    implementation 'org.springframework.boot:spring-boot-autoconfigure:3.1.0'
+//    implementation 'org.springframework:spring-context:6.0.7'
+//    testImplementation 'org.springframework.boot:spring-boot-test:3.1.0'
 
 }
 
