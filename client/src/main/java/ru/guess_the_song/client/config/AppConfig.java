@@ -10,9 +10,7 @@ import ru.guess_the_song.client.repository.UserRepository;
 import ru.guess_the_song.client.service.ConnectionService;
 import ru.guess_the_song.client.service.GameService;
 import ru.guess_the_song.client.service.UserService;
-import ru.guess_the_song.client.ui.controller.GameListController;
-import ru.guess_the_song.client.ui.controller.LoginController;
-import ru.guess_the_song.client.ui.controller.SplashScreenController;
+import ru.guess_the_song.client.ui.controller.*;
 
 @Slf4j
 @Configuration
@@ -34,7 +32,22 @@ public class AppConfig {
 
     @Bean
     public GameListController gameListController() {
-        return new GameListController(userService(), gameService());
+        return new GameListController();
+    }
+
+    @Bean
+    public CreateGameController createGameController() {
+        return new CreateGameController(gameService(), userService());
+    }
+
+    @Bean
+    public MusicPackMenuController musicPackMenuController() {
+        return new MusicPackMenuController();
+    }
+
+    @Bean
+    public MusicPackBuilderController musicPackBuilderController() {
+        return new MusicPackBuilderController();
     }
 
     @Bean

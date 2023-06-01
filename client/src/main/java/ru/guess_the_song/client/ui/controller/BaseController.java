@@ -21,4 +21,16 @@ public abstract class BaseController implements Initializable {
     public <T extends BaseController> T changeWindow(Class<T> controllerClass) {
         return this.screenManager.changeWindow(controllerClass);
     }
+
+    public <T extends BaseDialogController> T openDialogWindow(Class<T> dialogControllerClass) {
+        return this.screenManager.openDialogWindow(dialogControllerClass);
+    }
+
+    public Stage getStage() {
+        return this.stage;
+    }
+
+    public void close() {
+        this.stage.close();
+    }
 }

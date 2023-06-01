@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TableColumn?>
+<VBox xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="ru.guess_the_song.client.ui.controller.MusicPackBuilderController"
+      prefHeight="400.0" prefWidth="600.0">
+
+    <TableView fx:id="songsTableView">
+        <columns>
+            <TableColumn fx:id="songIndexTableColumn"/>
+            <TableColumn fx:id="songNameTableColumn"/>
+            <TableColumn fx:id="songFilenameTableColumn"/>
+            <TableColumn fx:id="deleteSongButtonTableColumn"/>
+        </columns>
+
+    </TableView>
+</VBox>

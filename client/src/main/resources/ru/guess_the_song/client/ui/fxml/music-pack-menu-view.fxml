@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.control.Button?>
+<VBox xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="ru.guess_the_song.client.ui.controller.MusicPackMenuController"
+      prefHeight="400.0" prefWidth="600.0">
+
+    <HBox>
+        <Button fx:id="loadMusicPackButton" text="load"/>
+        <Button fx:id="createMusicPackButton" text="create"/>
+    </HBox>
+</VBox>
