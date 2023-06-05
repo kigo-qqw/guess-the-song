@@ -22,9 +22,9 @@ public class GameRepository {
 
         try {
             this.connectionService.send(CreateGameDto.builder().initiatorId(initiator.getId()).musicPack(musicPackWithCorrectAnswersDto).build());
-            createGameResponseDto = (CreateGameResponseDto) this.connectionService.waitObject();
+            createGameResponseDto = this.connectionService.waitObject(CreateGameResponseDto.class);
             log.debug(String.valueOf(createGameResponseDto));
-        } catch (IOException | ClassNotFoundException e) {
+        } catch (IOException e) {
             return Optional.empty();
         }
         if (createGameResponseDto == null) return Optional.empty();

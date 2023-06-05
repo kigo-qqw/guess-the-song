@@ -5,7 +5,6 @@ import org.springframework.stereotype.Component;
 import ru.guess_the_song.core.dto.JoinGameDto;
 import ru.guess_the_song.server.controller.JoinGameController;
 import ru.guess_the_song.server.entity.User;
-import ru.guess_the_song.server.mapper.UserDtoToUserMapper;
 import ru.guess_the_song.server.net.Session;
 import ru.guess_the_song.server.service.GameService;
 import ru.guess_the_song.server.service.UserService;

@@ -60,7 +60,7 @@ public class GameConfig {
 
     @Bean
     public GameRunnerFactory gameRunnerFactory() {
-        return new GameRunnerFactoryImpl(this.musicPackConfig.songEntryToSongEntryDtoMapper());
+        return new GameRunnerFactoryImpl(this.musicPackConfig.songEntryToSongEntryDtoMapper(), gameRepository());
     }
 
     @Bean
@@ -70,8 +70,6 @@ public class GameConfig {
 
     @Bean
     public GameToGameDtoMapper gameToGameDtoMapper() {
-        return new GameToGameDtoMapperImpl(
-                this.userConfig.userToUserDtoMapper()
-        );
+        return new GameToGameDtoMapperImpl(this.playerConfig.playerToPlayerDtoMapper());
     }
 }

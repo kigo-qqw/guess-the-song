@@ -9,14 +9,18 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.context.ApplicationContextInitializer;
 import org.springframework.context.ConfigurableApplicationContext;
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.support.GenericApplicationContext;
+import org.springframework.stereotype.Component;
 import ru.guess_the_song.client.config.AppConfig;
+import ru.guess_the_song.client.service.ConnectionService;
 import ru.guess_the_song.client.ui.ScreenManager;
 import ru.guess_the_song.client.ui.controller.LoginController;
 import ru.guess_the_song.client.ui.controller.SplashScreenController;
 
+import java.io.IOException;
+
 @Slf4j
+@Component
 public class GuessTheSongApplication extends Preloader {
     private ConfigurableApplicationContext applicationContext;
     private ScreenManager screenManager;
@@ -24,7 +28,7 @@ public class GuessTheSongApplication extends Preloader {
     @Value("${server.address:localhost}")
     private String address;
     @Value("${server.port:1234}")
-    private String port;
+    private int port;
 
     @Override
     public void init() {
@@ -40,7 +44,7 @@ public class GuessTheSongApplication extends Preloader {
                 .initializers(initializer)
                 .run(getParameters().getRaw().toArray(new String[0]));
 
-//        this.applicationContext.getAutowireCapableBeanFactory().autowireBean(this);
+        //        this.applicationContext.getAutowireCapableBeanFactory().autowireBean(this);
     }
 
 

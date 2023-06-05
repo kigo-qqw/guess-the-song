@@ -39,6 +39,7 @@ public class GameServiceImpl implements GameService {
 
     @Override
     public Optional<Game> create(User initiator, MusicPack musicPack, Session session) {
+        log.debug("create call");
         Optional<Player> optionalLeader = this.playerService.create(initiator);
         if (optionalLeader.isPresent()) {
             Player leader = optionalLeader.get();
@@ -53,7 +54,8 @@ public class GameServiceImpl implements GameService {
 
             join(game.getId(), initiator, session);
 
-            log.debug(game.toString());
+//            log.debug(game.toString());
+//            log.debug("ttt" + this.gameRepository.findById(game.getId()));
             return Optional.of(game);
         }
         return Optional.empty();
@@ -61,6 +63,7 @@ public class GameServiceImpl implements GameService {
 
     @Override
     public void join(UUID gameId, User user, Session session) {
+        log.debug("join call");
         Optional<Game> optionalGame = this.gameRepository.findById(gameId);
         if (optionalGame.isPresent()) {
             log.debug("present");
@@ -75,6 +78,9 @@ public class GameServiceImpl implements GameService {
 
 
                     log.debug("added: " + player);
+                    log.debug(String.valueOf(game));
+
+//                    this.gameRepository.save(game);
                 }
             } else throw new RuntimeException("xdd");
         }
@@ -82,6 +88,7 @@ public class GameServiceImpl implements GameService {
 
     @Override
     public void start(UUID gameId, User user) {
+        log.debug("start call");
         log.debug("gameId=" + gameId);
         Optional<Game> optionalGame = this.gameRepository.findById(gameId);
         if (optionalGame.isPresent()) {
@@ -105,7 +112,7 @@ public class GameServiceImpl implements GameService {
     @Override
     public void giveAnswer(UUID gameId, User user, int answerId) {
         Optional<Player> optionalPlayer = this.playerService.get(user);
-        if(optionalPlayer.isEmpty()) return;
+        if (optionalPlayer.isEmpty()) return;
         this.activeGames.get(gameId).giveAnswer(optionalPlayer.get(), answerId);
     }
 }

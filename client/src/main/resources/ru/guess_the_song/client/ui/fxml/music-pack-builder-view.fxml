@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.control.*?>
 <?import javafx.scene.layout.VBox?>
-<?import javafx.scene.control.TableView?>
-<?import javafx.scene.control.TableColumn?>
 <VBox xmlns="http://javafx.com/javafx"
       xmlns:fx="http://javafx.com/fxml"
       fx:controller="ru.guess_the_song.client.ui.controller.MusicPackBuilderController"
@@ -10,11 +9,13 @@
 
     <TableView fx:id="songsTableView">
         <columns>
-            <TableColumn fx:id="songIndexTableColumn"/>
-            <TableColumn fx:id="songNameTableColumn"/>
-            <TableColumn fx:id="songFilenameTableColumn"/>
-            <TableColumn fx:id="deleteSongButtonTableColumn"/>
+            <TableColumn fx:id="songIndexTableColumn" text="index"/>
+            <TableColumn fx:id="songFilenameTableColumn" text="filename"/>
+            <TableColumn fx:id="songAnswersTableColumn" text="answers"/>
+            <TableColumn fx:id="correctAnswerTableColumn" text="index"/>
+            <TableColumn fx:id="deleteSongButtonTableColumn" text="delete"/>
         </columns>
-
     </TableView>
+    <Button fx:id="addSongButton" text="add"/>
+    <Button fx:id="saveMusicPackButton" text="save"/>
 </VBox>

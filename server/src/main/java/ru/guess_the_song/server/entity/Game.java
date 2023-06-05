@@ -17,11 +17,13 @@ import java.util.UUID;
 @NoArgsConstructor
 @Entity
 @ToString
+@Table(name = "GameTable")
 @EqualsAndHashCode(callSuper = true)
 public class Game extends BaseEntity {
     @OneToOne
     private Player leader;
-    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    //    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
     private List<Player> players;
     @OneToOne
     private MusicPack musicPack;

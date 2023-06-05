@@ -12,6 +12,7 @@ import ru.guess_the_song.server.entity.SongEntry;
 import ru.guess_the_song.server.game.GameRunner;
 import ru.guess_the_song.server.mapper.SongEntryToSongEntryDtoMapper;
 import ru.guess_the_song.server.net.Session;
+import ru.guess_the_song.server.repository.GameRepository;
 
 import java.util.Comparator;
 import java.util.Map;
@@ -24,10 +25,12 @@ public class GameRunnerImpl implements GameRunner {
     private final Map<Player, Session> players = new TreeMap<>(Comparator.comparing(player -> player.getUser().getId()));
     private final Map<Player, Integer> answers = new TreeMap<>(Comparator.comparing(player -> player.getUser().getId()));
     private final SongEntryToSongEntryDtoMapper songEntryToSongEntryDtoMapper;
+    private final GameRepository gameRepository;
 
-    public GameRunnerImpl(Game game, SongEntryToSongEntryDtoMapper songEntryToSongEntryDtoMapper) {
+    public GameRunnerImpl(Game game, SongEntryToSongEntryDtoMapper songEntryToSongEntryDtoMapper, GameRepository gameRepository) {
         this.game = game;
         this.songEntryToSongEntryDtoMapper = songEntryToSongEntryDtoMapper;
+        this.gameRepository = gameRepository;
     }
 
     @Override
@@ -73,6 +76,9 @@ public class GameRunnerImpl implements GameRunner {
     @Override
     public void addPlayer(Player player, Session session) {
         this.players.put(player, session);
+        this.game.getPlayers().add(player);
+        log.debug("resave");
+        this.gameRepository.save(this.game);
     }
 
     @Override

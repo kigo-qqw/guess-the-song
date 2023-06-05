@@ -11,7 +11,6 @@ import ru.guess_the_song.server.entity.User;
 import ru.guess_the_song.server.repository.PlayerRepository;
 
 import java.util.Optional;
-import java.util.UUID;
 
 @Slf4j
 @Component

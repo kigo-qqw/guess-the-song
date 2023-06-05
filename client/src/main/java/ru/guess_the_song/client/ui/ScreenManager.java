@@ -6,13 +6,11 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.ConfigurableApplicationContext;
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.stereotype.Component;
 import ru.guess_the_song.client.ui.controller.BaseController;
 import ru.guess_the_song.client.ui.controller.BaseDialogController;
 
 import java.io.IOException;
-import java.lang.reflect.InvocationTargetException;
 
 @Slf4j
 @Component

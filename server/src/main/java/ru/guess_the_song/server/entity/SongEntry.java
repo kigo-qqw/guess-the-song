@@ -14,7 +14,7 @@ import java.util.UUID;
 //@AllArgsConstructor
 @ToString
 @Entity
-//@Table(name = "SONG_ENTRY")
+@Table(name = "SongEntryTable")
 @EqualsAndHashCode(callSuper = true)
 public class SongEntry extends BaseEntity {
     @Lob

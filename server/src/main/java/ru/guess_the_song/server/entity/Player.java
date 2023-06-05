@@ -1,8 +1,6 @@
 package ru.guess_the_song.server.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.*;
 import lombok.*;
 import ru.guess_the_song.server.entity.base.BaseEntity;
 
@@ -16,10 +14,11 @@ import java.util.UUID;
 //@AllArgsConstructor
 @Entity
 @ToString
-//@Table(name = "Players")
+@Table(name = "PlayerTable")
 @EqualsAndHashCode(callSuper = true)
 public class Player extends BaseEntity {
-    @ManyToOne(fetch = FetchType.EAGER)
+    //    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
     private User user;
     private int points;
 

@@ -2,7 +2,6 @@ package ru.guess_the_song.server.controller.impl;
 
 import ru.guess_the_song.core.dto.GiveAnswerDto;
 import ru.guess_the_song.server.controller.GiveAnswerController;
-import ru.guess_the_song.server.entity.Game;
 import ru.guess_the_song.server.entity.User;
 import ru.guess_the_song.server.net.Session;
 import ru.guess_the_song.server.service.GameService;
