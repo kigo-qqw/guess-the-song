@@ -6,6 +6,7 @@ import ru.guess_the_song.client.repository.UserRepository;
 import ru.guess_the_song.core.dto.UserDto;
 
 import java.util.Optional;
+import java.util.UUID;
 
 @Slf4j
 @Component
@@ -26,5 +27,9 @@ public class UserService {
 
     public Optional<UserDto> get() {
         return Optional.of(this.user);
+    }
+
+    public Optional<UserDto> getById(UUID userId) {
+        return this.userRepository.findById(userId);
     }
 }

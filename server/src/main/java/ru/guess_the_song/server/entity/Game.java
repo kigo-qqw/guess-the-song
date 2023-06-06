@@ -23,7 +23,7 @@ public class Game extends BaseEntity {
     @OneToOne
     private Player leader;
     //    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
-    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private List<Player> players;
     @OneToOne
     private MusicPack musicPack;

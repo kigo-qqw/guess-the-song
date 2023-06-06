@@ -5,6 +5,7 @@ import ru.guess_the_song.server.entity.MusicPack;
 import ru.guess_the_song.server.entity.User;
 import ru.guess_the_song.server.net.Session;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -16,4 +17,7 @@ public interface GameService {
     void start(UUID gameId, User user);
 
     void giveAnswer(UUID gameId, User user, int answerId);
+
+//    void notifyPlayersNewPlayerJoined(UUID gameId, User user);
+    List<Game> getAll();
 }

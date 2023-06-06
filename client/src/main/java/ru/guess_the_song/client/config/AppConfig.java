@@ -20,6 +20,9 @@ public class AppConfig {
     private ConnectionService connectionService;
     private UserService userService;
     private GameService gameService;
+    private GameRepository gameRepository;
+    private UserRepository userRepository;
+    private PlayerRepository playerRepository;
 
     @Bean
     public SplashScreenController splashScreenController() {
@@ -33,7 +36,7 @@ public class AppConfig {
 
     @Bean
     public GameListController gameListController() {
-        return new GameListController();
+        return new GameListController(gameService(), userService);
     }
 
     @Bean
@@ -53,19 +56,21 @@ public class AppConfig {
 
     @Bean
     public GameBeforeStartController gameBeforeStartController() {
-        return new GameBeforeStartController(playerRepository());
+        return new GameBeforeStartController(playerRepository(), gameService(), userService());
     }
 
     @Bean
     public GameService gameService() {
         if (this.gameService == null)
-            this.gameService = new GameService(gameRepository());
+            this.gameService = new GameService(connectionService(), gameRepository());
         return this.gameService;
     }
 
     @Bean
     public GameRepository gameRepository() {
-        return new GameRepository(connectionService());
+        if (this.gameRepository == null)
+            this.gameRepository = new GameRepository(connectionService(), playerRepository());
+        return this.gameRepository;
     }
 
     @Bean
@@ -77,19 +82,22 @@ public class AppConfig {
 
     @Bean
     public UserRepository userRepository() {
-        return new UserRepository(connectionService());
+        if (this.userRepository == null)
+            this.userRepository = new UserRepository(connectionService());
+        return this.userRepository;
     }
 
     @Bean
     public PlayerRepository playerRepository() {
-        return new PlayerRepository();
+        if (this.playerRepository == null)
+            this.playerRepository = new PlayerRepository();
+        return this.playerRepository;
     }
 
     @Bean
     public ConnectionService connectionService() {
-        log.debug("Connection Service Get");
         if (this.connectionService == null)
-            this.connectionService = new ConnectionService();
+            this.connectionService = new ConnectionService(playerRepository());
         return this.connectionService;
     }
 }

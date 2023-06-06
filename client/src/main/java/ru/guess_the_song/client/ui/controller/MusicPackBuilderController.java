@@ -115,9 +115,7 @@ public class MusicPackBuilderController extends BaseDialogController {
                 deleteButton
         );
 
-        this.songsTableView.getItems().
-
-                add(songItem);
+        this.songsTableView.getItems().add(songItem);
     }
 
     private void handleSaveMusicPack(ActionEvent event) {
@@ -167,16 +165,16 @@ public class MusicPackBuilderController extends BaseDialogController {
         }
     }
 
-    @ToString
     @Getter
     @Setter
+    @ToString
     private class SongItem {
-        private IntegerProperty indexProperty;
-        private StringProperty filenameProperty;
-        private String absoluteFilePath;
-        private ListProperty<String> answersProperty;
-        private IntegerProperty correctAnswerIndexProperty;
-        private ObjectProperty<Button> deleteButtonProperty;
+        private final IntegerProperty indexProperty;
+        private final StringProperty filenameProperty;
+        private final String absoluteFilePath;
+        private final ListProperty<String> answersProperty;
+        private final IntegerProperty correctAnswerIndexProperty;
+        private final ObjectProperty<Button> deleteButtonProperty;
 
         public SongItem(
                 int index,

@@ -2,10 +2,17 @@
 
 <?import javafx.scene.layout.HBox?>
 <?import ru.guess_the_song.client.ui.components.PlayerList?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.control.Button?>
 <HBox xmlns="http://javafx.com/javafx"
       xmlns:fx="http://javafx.com/fxml"
       fx:controller="ru.guess_the_song.client.ui.controller.GameBeforeStartController"
       prefHeight="400.0" prefWidth="600.0">
 
-    <PlayerList fx:id="playerList"/>
+
+
+    <VBox>
+        <PlayerList fx:id="playerList"/>
+        <Button fx:id="startGameButton" text="start game"/>
+    </VBox>
 </HBox>

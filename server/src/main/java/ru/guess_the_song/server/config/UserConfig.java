@@ -3,7 +3,9 @@ package ru.guess_the_song.server.config;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import ru.guess_the_song.server.controller.CreateUserController;
+import ru.guess_the_song.server.controller.GetUserController;
 import ru.guess_the_song.server.controller.impl.CreateUserControllerImpl;
+import ru.guess_the_song.server.controller.impl.GetUserControllerImpl;
 import ru.guess_the_song.server.mapper.UserDtoToUserMapper;
 import ru.guess_the_song.server.mapper.UserToUserDtoMapper;
 import ru.guess_the_song.server.mapper.impl.UserDtoToUserMapperImpl;
@@ -38,5 +40,9 @@ public class UserConfig {
     @Bean
     public UserDtoToUserMapper userDtoToUserMapper() {
         return new UserDtoToUserMapperImpl();
+    }
+
+    @Bean public GetUserController getUserController() {
+        return new GetUserControllerImpl(userService(), userToUserDtoMapper());
     }
 }

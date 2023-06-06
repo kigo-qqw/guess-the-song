@@ -17,5 +17,6 @@ public class PlayerRepository {
 
     public void add(PlayerDto player) {
         this.players.add(player);
+        log.debug("players=" + this.players);
     }
 }

@@ -6,6 +6,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import ru.guess_the_song.client.service.GameService;
 import ru.guess_the_song.client.service.UserService;
+import ru.guess_the_song.core.dto.GameDto;
 import ru.guess_the_song.core.dto.MusicPackWithCorrectAnswersDto;
 import ru.guess_the_song.core.dto.UserDto;
 
@@ -20,7 +21,7 @@ public class CreateGameController extends BaseDialogController {
     public static final String TITLE = "CREATE GAME CONTROLLER";
     private final GameService gameService;
     private final UserService userService;
-
+    private GameDto game = null;
     private MusicPackWithCorrectAnswersDto musicPackWithCorrectAnswersDto = null;
     @FXML
     private Button musicPackMenuButton;
@@ -45,11 +46,16 @@ public class CreateGameController extends BaseDialogController {
             } else {
                 if (this.musicPackWithCorrectAnswersDto == null) return;  // FIXME: 01.06.2023 ERROR DIALOG
 
-                this.gameService.create(
+                Optional<GameDto> optionalGameDto = this.gameService.create(
                         optionalUserDto.get(),
                         this.musicPackWithCorrectAnswersDto
                 );
+                optionalGameDto.ifPresent(gameDto -> this.game = gameDto);
             }
+            close();
         });
+    }
+    public Optional<GameDto> result() {
+        return Optional.ofNullable(this.game);
     }
 }

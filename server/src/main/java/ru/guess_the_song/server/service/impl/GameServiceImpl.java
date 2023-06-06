@@ -13,10 +13,7 @@ import ru.guess_the_song.server.repository.GameRepository;
 import ru.guess_the_song.server.service.GameService;
 import ru.guess_the_song.server.service.PlayerService;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -115,4 +112,17 @@ public class GameServiceImpl implements GameService {
         if (optionalPlayer.isEmpty()) return;
         this.activeGames.get(gameId).giveAnswer(optionalPlayer.get(), answerId);
     }
+
+    @Override
+    public List<Game> getAll() {
+        return this.gameRepository.findAll();
+    }
+
+//    @Override
+//    public void notifyPlayersNewPlayerJoined(UUID gameId, User user) {
+//        Optional<Player> optionalPlayer = this.playerService.get(user);
+//        if (optionalPlayer.isEmpty()) return;
+//        this.activeGames.get(gameId)
+//        this.activeGames.get(gameId).giveAnswer(optionalPlayer.get(), answerId);
+//    }
 }

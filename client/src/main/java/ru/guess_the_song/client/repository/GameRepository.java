@@ -6,15 +6,18 @@ import ru.guess_the_song.client.service.ConnectionService;
 import ru.guess_the_song.core.dto.*;
 
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.Optional;
 
 @Slf4j
 @Component
 public class GameRepository {
     private final ConnectionService connectionService;
+    private final PlayerRepository playerRepository;
 
-    public GameRepository(ConnectionService connectionService) {
+    public GameRepository(ConnectionService connectionService, PlayerRepository playerRepository) {
         this.connectionService = connectionService;
+        this.playerRepository = playerRepository;
     }
 
     public Optional<GameDto> create(UserDto initiator, MusicPackWithCorrectAnswersDto musicPackWithCorrectAnswersDto) {
@@ -28,6 +31,10 @@ public class GameRepository {
             return Optional.empty();
         }
         if (createGameResponseDto == null) return Optional.empty();
-        return Optional.of(createGameResponseDto.getGame());
+        GameDto game = createGameResponseDto.getGame();
+
+        Arrays.stream(game.getPlayers()).forEach(this.playerRepository::add);
+
+        return Optional.of(game);
     }
 }

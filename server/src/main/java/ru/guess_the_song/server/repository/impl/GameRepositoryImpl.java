@@ -9,6 +9,7 @@ import org.springframework.stereotype.Component;
 import ru.guess_the_song.server.entity.Game;
 import ru.guess_the_song.server.repository.GameRepository;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -30,7 +31,8 @@ public class GameRepositoryImpl implements GameRepository {
         Game result = (Game) entityManager
                 .createQuery("FROM Game g WHERE g.id = :gameID")
                 .setParameter("gameID", id)
-                .getSingleResult();
+                .getResultList().get(0);
+//                .getSingleResult();
         entityManager.getTransaction().commit();
         entityManager.close();
 
@@ -38,11 +40,22 @@ public class GameRepositoryImpl implements GameRepository {
     }
 
     @Override
+    public List<Game> findAll() {
+        EntityManager entityManager = this.entityManagerFactory.createEntityManager();
+        entityManager.getTransaction().begin();
+        List<Game> result = entityManager.createQuery("FROM Game g").getResultList();
+        entityManager.getTransaction().commit();
+        entityManager.close();
+
+        return result;
+    }
+
+    @Override
     public <S extends Game> S save(S entity) {
         EntityManager entityManager = this.entityManagerFactory.createEntityManager();
         entityManager.getTransaction().begin();
 
-        log.debug("GAME ID="+entity.getId());
+        log.debug("GAME ID=" + entity.getId());
         if (entity.getId() != null)
             entityManager.merge(entity);
         else

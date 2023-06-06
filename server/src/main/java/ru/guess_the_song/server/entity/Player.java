@@ -18,7 +18,7 @@ import java.util.UUID;
 @EqualsAndHashCode(callSuper = true)
 public class Player extends BaseEntity {
     //    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
-    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private User user;
     private int points;
 

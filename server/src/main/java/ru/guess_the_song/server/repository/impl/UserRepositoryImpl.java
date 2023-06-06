@@ -15,7 +15,7 @@ import java.util.UUID;
 @Slf4j
 @Component
 public class UserRepositoryImpl implements UserRepository {
-    @PersistenceUnit(name="ru.guess_the_song.server")
+    @PersistenceUnit(name = "ru.guess_the_song.server")
     private final EntityManagerFactory entityManagerFactory;
 
     public UserRepositoryImpl() {
@@ -25,12 +25,14 @@ public class UserRepositoryImpl implements UserRepository {
 
     @Override
     public Optional<User> findById(UUID id) {
+        log.debug("find user : " + id);
         EntityManager entityManager = this.entityManagerFactory.createEntityManager();
         entityManager.getTransaction().begin();
         User result = (User) entityManager
                 .createQuery("FROM User u WHERE u.id = :userID")
                 .setParameter("userID", id)
-                .getSingleResult();
+                .getResultList().get(0);
+//                .getSingleResult();
         entityManager.getTransaction().commit();
         entityManager.close();
 
@@ -45,6 +47,7 @@ public class UserRepositoryImpl implements UserRepository {
         entityManager.getTransaction().commit();
         entityManager.close();
 
+        log.debug("save user : " + entity);
         return entity;
     }
 }

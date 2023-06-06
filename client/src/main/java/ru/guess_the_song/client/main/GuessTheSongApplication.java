@@ -2,6 +2,7 @@ package ru.guess_the_song.client.main;
 
 import javafx.application.Application;
 import javafx.application.HostServices;
+import javafx.application.Platform;
 import javafx.application.Preloader;
 import javafx.stage.Stage;
 import lombok.extern.slf4j.Slf4j;
@@ -65,5 +66,11 @@ public class GuessTheSongApplication extends Preloader {
     @Override
     public void handleStateChangeNotification(StateChangeNotification info) {
         this.screenManager.changeWindow(LoginController.class);
+    }
+
+    @Override
+    public void stop(){
+        Platform.exit();
+        System.exit(0);
     }
 }

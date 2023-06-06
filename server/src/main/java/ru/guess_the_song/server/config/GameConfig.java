@@ -5,9 +5,11 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 import ru.guess_the_song.server.controller.CreateGameController;
+import ru.guess_the_song.server.controller.GetActiveGamesController;
 import ru.guess_the_song.server.controller.JoinGameController;
 import ru.guess_the_song.server.controller.StartGameController;
 import ru.guess_the_song.server.controller.impl.CreateGameControllerImpl;
+import ru.guess_the_song.server.controller.impl.GetActiveGamesControllerImpl;
 import ru.guess_the_song.server.controller.impl.JoinGameControllerImpl;
 import ru.guess_the_song.server.controller.impl.StartGameControllerImpl;
 import ru.guess_the_song.server.game.GameRunnerFactory;
@@ -60,7 +62,7 @@ public class GameConfig {
 
     @Bean
     public GameRunnerFactory gameRunnerFactory() {
-        return new GameRunnerFactoryImpl(this.musicPackConfig.songEntryToSongEntryDtoMapper(), gameRepository());
+        return new GameRunnerFactoryImpl(this.musicPackConfig.songEntryToSongEntryDtoMapper(), this.playerConfig.playerToPlayerDtoMapper(), gameRepository());
     }
 
     @Bean
@@ -71,5 +73,10 @@ public class GameConfig {
     @Bean
     public GameToGameDtoMapper gameToGameDtoMapper() {
         return new GameToGameDtoMapperImpl(this.playerConfig.playerToPlayerDtoMapper());
+    }
+
+    @Bean
+    public GetActiveGamesController getActiveGamesController() {
+        return new GetActiveGamesControllerImpl(this.gameService(), this.gameToGameDtoMapper());
     }
 }
