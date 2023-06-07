@@ -12,7 +12,7 @@ import java.util.UUID;
 public interface GameService {
     Optional<Game> create(User initiator, MusicPack musicPack, Session session);
 
-    void join(UUID gameId, User user, Session session);
+    Optional<Game> join(UUID gameId, User user, Session session);
 
     void start(UUID gameId, User user);
 

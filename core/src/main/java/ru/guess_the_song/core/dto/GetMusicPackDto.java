@@ -4,13 +4,14 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.ToString;
+import lombok.experimental.SuperBuilder;
 
 import java.util.UUID;
 
 
 @Getter
-@Builder
-@ToString
+@SuperBuilder
+@ToString(callSuper = true)
 public class GetMusicPackDto extends RequestDto {
     @NonNull
     private UUID musicPackId;

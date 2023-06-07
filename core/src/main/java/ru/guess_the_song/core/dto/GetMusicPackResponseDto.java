@@ -1,20 +1,19 @@
 package ru.guess_the_song.core.dto;
 
-import lombok.Builder;
 import lombok.Getter;
 import lombok.NonNull;
+import lombok.experimental.SuperBuilder;
 
 import java.util.Arrays;
 import java.util.UUID;
 
 @Getter
-@Builder
+@SuperBuilder
 public class GetMusicPackResponseDto extends ResponseDto {
-    @NonNull
     private UUID id;
-    private @NonNull SongEntryDto @NonNull [] songs;
+    private @NonNull SongEntryDto[] songs;
 
     public String toString() {
-        return "GetMusicPackResponseDto(id=" + this.getId() + ", songs=" + Arrays.toString(this.getSongs()) + ")";
+        return "GetMusicPackResponseDto(super=" + super.toString() + ", id=" + this.getId() + ", songs=" + Arrays.toString(this.getSongs()) + ")";
     }
 }

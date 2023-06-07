@@ -30,6 +30,6 @@ public class PlayerServiceImpl implements PlayerService {
 
     @Override
     public Optional<Player> get(UUID id) {
-        return Optional.empty();
+        return this.playerRepository.findById(id);
     }
 }

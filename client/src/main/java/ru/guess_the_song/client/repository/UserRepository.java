@@ -35,7 +35,8 @@ public class UserRepository {
         } catch (IOException e) {
             return Optional.empty();
         }
-        if (createUserResponseDto == null) return Optional.empty();
+//        if (createUserResponseDto == null) return Optional.empty();
+        if (createUserResponseDto.getStatus() == Status.ERROR) return Optional.empty();
         return Optional.of(createUserResponseDto.getUser());
     }
 
@@ -49,7 +50,8 @@ public class UserRepository {
         } catch (IOException e) {
             return Optional.empty();
         }
-        if (getUserResponseDto == null) return Optional.empty();
+//        if (getUserResponseDto == null) return Optional.empty();
+        if (getUserResponseDto.getStatus() == Status.ERROR) return Optional.empty();
         return Optional.of(getUserResponseDto.getUser());
     }
 }

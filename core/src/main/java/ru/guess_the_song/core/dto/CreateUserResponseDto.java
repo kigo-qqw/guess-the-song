@@ -4,11 +4,11 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.ToString;
+import lombok.experimental.SuperBuilder;
 
 @Getter
-@Builder
-@ToString
+@SuperBuilder
+@ToString(callSuper = true)
 public class CreateUserResponseDto extends ResponseDto {
-    @NonNull
     private UserDto user;
 }

@@ -5,6 +5,7 @@ import org.springframework.stereotype.Component;
 import ru.guess_the_song.core.dto.CreateGameDto;
 import ru.guess_the_song.core.dto.CreateGameResponseDto;
 import ru.guess_the_song.core.dto.GameDto;
+import ru.guess_the_song.core.dto.Status;
 import ru.guess_the_song.server.controller.CreateGameController;
 import ru.guess_the_song.server.entity.Game;
 import ru.guess_the_song.server.entity.MusicPack;
@@ -44,22 +45,28 @@ public class CreateGameControllerImpl implements CreateGameController {
     @Override
     public void request(Session session, CreateGameDto request) {
         Optional<User> optionalUser = this.userService.get(request.getInitiatorId());
-        if (optionalUser.isEmpty()) return;
-        User user = optionalUser.get();
+        if (optionalUser.isPresent()) {
+            User user = optionalUser.get();
 
-        Optional<MusicPack> optionalMusicPack = this.musicPackService.create(
-                this.musicPackWithCorrectAnswersDtoToMusicPackMapper.map(request.getMusicPack()));
-        if (optionalMusicPack.isEmpty()) return;
-        MusicPack musicPack = optionalMusicPack.get();
-        log.debug("{}", request.getMusicPack());
-        log.debug("{}", musicPack);
+            Optional<MusicPack> optionalMusicPack = this.musicPackService.create(
+                    this.musicPackWithCorrectAnswersDtoToMusicPackMapper.map(request.getMusicPack()));
+            if (optionalMusicPack.isPresent()) {
+                MusicPack musicPack = optionalMusicPack.get();
 
-        Optional<Game> optionalGame = this.gameService.create(user, musicPack, session);
-        if (optionalGame.isEmpty()) return;
-        Game game = optionalGame.get();
+                Optional<Game> optionalGame = this.gameService.create(user, musicPack, session);
+                if (optionalGame.isPresent()) {
+                    Game game = optionalGame.get();
 
-        GameDto gameDto = this.gameToGameDtoMapper.map(game);
+                    GameDto gameDto = this.gameToGameDtoMapper.map(game);
 
-        session.send(CreateGameResponseDto.builder().game(gameDto).build());
+                    session.send(CreateGameResponseDto.builder()
+                            .status(Status.OK)
+                            .game(gameDto)
+                            .build());
+                    return;
+                }
+            }
+        }
+        session.send(CreateGameResponseDto.builder().status(Status.ERROR).build());
     }
 }

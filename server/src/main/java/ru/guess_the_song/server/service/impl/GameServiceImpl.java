@@ -44,12 +44,12 @@ public class GameServiceImpl implements GameService {
 
 //            game.getPlayers().add(leader);
 
-
+//            game.getPlayers().add(leader);
             this.gameRepository.save(game);
 //            this.activeGames.put(game.getId(), new HashMap<>());
             this.activeGames.put(game.getId(), this.gameRunnerFactory.createGameRunner(game));
-
-            join(game.getId(), initiator, session);
+            this.activeGames.get(game.getId()).addPlayer(leader, session);
+//            join(game.getId(), initiator, session);
 
 //            log.debug(game.toString());
 //            log.debug("ttt" + this.gameRepository.findById(game.getId()));
@@ -59,7 +59,7 @@ public class GameServiceImpl implements GameService {
     }
 
     @Override
-    public void join(UUID gameId, User user, Session session) {
+    public Optional<Game> join(UUID gameId, User user, Session session) {
         log.debug("join call");
         Optional<Game> optionalGame = this.gameRepository.findById(gameId);
         if (optionalGame.isPresent()) {
@@ -78,9 +78,12 @@ public class GameServiceImpl implements GameService {
                     log.debug(String.valueOf(game));
 
 //                    this.gameRepository.save(game);
+
+                    return Optional.of(game);
                 }
             } else throw new RuntimeException("xdd");
         }
+        return Optional.empty();
     }
 
     @Override

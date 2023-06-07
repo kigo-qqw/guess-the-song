@@ -6,9 +6,11 @@ import jakarta.persistence.Persistence;
 import jakarta.persistence.PersistenceUnit;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
+import ru.guess_the_song.server.entity.Player;
 import ru.guess_the_song.server.entity.User;
 import ru.guess_the_song.server.repository.UserRepository;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -28,15 +30,22 @@ public class UserRepositoryImpl implements UserRepository {
         log.debug("find user : " + id);
         EntityManager entityManager = this.entityManagerFactory.createEntityManager();
         entityManager.getTransaction().begin();
-        User result = (User) entityManager
+//        User result = (User) entityManager
+//                .createQuery("FROM User u WHERE u.id = :userID")
+//                .setParameter("userID", id)
+//                .getResultList().get(0);
+////                .getSingleResult();
+        List<User> result = entityManager
                 .createQuery("FROM User u WHERE u.id = :userID")
                 .setParameter("userID", id)
-                .getResultList().get(0);
-//                .getSingleResult();
+                .getResultList();
+
         entityManager.getTransaction().commit();
         entityManager.close();
 
-        return Optional.of(result);
+        if (result.isEmpty())
+            return Optional.empty();
+        return Optional.of(result.get(0));
     }
 
     @Override
@@ -45,10 +54,20 @@ public class UserRepositoryImpl implements UserRepository {
         entityManager.getTransaction().begin();
 //        entityManager.persist(entity);
 
-        if (entity.getId() != null)
-            entityManager.merge(entity);
-        else
+//        if (entity.getId() != null)
+//            entityManager.merge(entity);
+//        else
+//            entityManager.persist(entity);
+
+        if (entity.getId() != null) {
+            Optional<User> optionalUser = findById(entity.getId());
+            if (optionalUser.isPresent())
+                entityManager.merge(entity);
+            else
+                entityManager.persist(entity);
+        } else
             entityManager.persist(entity);
+
 
         entityManager.getTransaction().commit();
         entityManager.close();

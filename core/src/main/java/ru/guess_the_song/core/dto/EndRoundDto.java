@@ -4,13 +4,14 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.ToString;
+import lombok.experimental.SuperBuilder;
 
 import java.util.UUID;
 
 @Getter
-@Builder
-@ToString
-public class EndRoundDto extends RequestDto {
+@SuperBuilder
+@ToString(callSuper = true)
+public class EndRoundDto extends ServerMessageDto {
     @NonNull
     private UUID gameId;
     private @NonNull String @NonNull [] answers;

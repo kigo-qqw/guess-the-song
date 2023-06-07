@@ -1,12 +1,12 @@
 package ru.guess_the_song.core.dto;
 
-import lombok.Builder;
 import lombok.Getter;
 import lombok.ToString;
+import lombok.experimental.SuperBuilder;
 
 
 @Getter
-@Builder
-@ToString
+@SuperBuilder
+@ToString(callSuper = true)
 public class HealthCheckResponseDto extends ResponseDto {
 }

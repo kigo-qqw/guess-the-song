@@ -36,7 +36,7 @@ public class AppConfig {
 
     @Bean
     public GameListController gameListController() {
-        return new GameListController(gameService(), userService);
+        return new GameListController(gameService(), userService, playerRepository);
     }
 
     @Bean
@@ -89,15 +89,23 @@ public class AppConfig {
 
     @Bean
     public PlayerRepository playerRepository() {
-        if (this.playerRepository == null)
-            this.playerRepository = new PlayerRepository(connectionService);
+//        if (this.playerRepository == null) {
+//            this.playerRepository = new PlayerRepository(connectionService());
+//            this.playerRepository.setConnectionService(connectionService());
+//        }
+        if (this.playerRepository == null) {
+            this.playerRepository = new PlayerRepository(null);
+//            this.playerRepository.setConnectionService(connectionService());
+        }
         return this.playerRepository;
     }
 
     @Bean
     public ConnectionService connectionService() {
-        if (this.connectionService == null)
+        if (this.connectionService == null) {
             this.connectionService = new ConnectionService(playerRepository());
+            this.playerRepository.setConnectionService(this.connectionService);
+        }
         return this.connectionService;
     }
 }

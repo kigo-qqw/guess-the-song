@@ -5,12 +5,13 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.ToString;
+import lombok.experimental.SuperBuilder;
 
 import java.util.UUID;
 
-@Builder
+@SuperBuilder
 @Getter
-@ToString
+@ToString(callSuper = true)
 public class GetPlayerDto extends RequestDto {
     @NonNull
     private UUID id;

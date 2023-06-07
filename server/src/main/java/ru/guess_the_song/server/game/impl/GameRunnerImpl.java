@@ -81,6 +81,7 @@ public class GameRunnerImpl implements GameRunner {
     public void addPlayer(Player player, Session session) {
         this.players.put(player, session);
         this.game.getPlayers().add(player);
+
         log.debug("resave");
         this.gameRepository.save(this.game);
 

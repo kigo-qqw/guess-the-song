@@ -5,5 +5,5 @@ import ru.guess_the_song.core.dto.HealthCheckResponseDto;
 import ru.guess_the_song.core.dto.Result;
 
 public interface HealthCheckService {
-    Result<HealthCheckResponseDto> check(HealthCheckDto request);
+//    Result<HealthCheckResponseDto> check(HealthCheckDto request);
 }

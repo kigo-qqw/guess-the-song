@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import ru.guess_the_song.core.dto.CreateUserDto;
 import ru.guess_the_song.core.dto.CreateUserResponseDto;
+import ru.guess_the_song.core.dto.Status;
 import ru.guess_the_song.server.controller.CreateUserController;
 import ru.guess_the_song.server.entity.User;
 import ru.guess_the_song.server.mapper.UserToUserDtoMapper;
@@ -30,7 +31,12 @@ public class CreateUserControllerImpl implements CreateUserController {
         Optional<User> optionalUser = this.userService.create(request.getUsername());
         if (optionalUser.isPresent()) {
             User user = optionalUser.get();
-            session.send(CreateUserResponseDto.builder().user(this.userToUserDtoMapper.map(user)).build());
+            session.send(CreateUserResponseDto.builder()
+                    .status(Status.OK)
+                    .user(this.userToUserDtoMapper.map(user))
+                    .build());
+            return;
         }
+        session.send(CreateUserResponseDto.builder().status(Status.ERROR).build());
     }
 }

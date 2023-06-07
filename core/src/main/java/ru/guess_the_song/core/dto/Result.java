@@ -5,7 +5,7 @@ import lombok.ToString;
 import java.io.Serializable;
 import java.util.NoSuchElementException;
 
-@ToString
+@ToString(callSuper = true)
 public class Result<T extends Serializable> implements Serializable {
     private final T value;
 

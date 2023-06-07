@@ -1,8 +1,11 @@
 package ru.guess_the_song.server.controller.impl;
 
+import ru.guess_the_song.core.dto.GetPlayerResponseDto;
 import ru.guess_the_song.core.dto.GetUserDto;
 import ru.guess_the_song.core.dto.GetUserResponseDto;
+import ru.guess_the_song.core.dto.Status;
 import ru.guess_the_song.server.controller.GetUserController;
+import ru.guess_the_song.server.entity.Player;
 import ru.guess_the_song.server.entity.User;
 import ru.guess_the_song.server.mapper.UserToUserDtoMapper;
 import ru.guess_the_song.server.net.Session;
@@ -22,10 +25,15 @@ public class GetUserControllerImpl implements GetUserController {
     @Override
     public void request(Session session, GetUserDto request) {
         Optional<User> optionalUser = this.userService.get(request.getUserId());
-        optionalUser.ifPresent(user -> session.send(
-                GetUserResponseDto.builder()
-                        .user(this.userToUserDtoMapper.map(user))
-                        .build()
-        ));
+        if (optionalUser.isPresent())
+            session.send(GetUserResponseDto.builder()
+                    .status(Status.OK)
+                    .user(this.userToUserDtoMapper.map(optionalUser.get()))
+                    .build());
+        else
+            session.send(GetUserResponseDto.builder()
+                    .status(Status.ERROR)
+                    .build());
+
     }
 }

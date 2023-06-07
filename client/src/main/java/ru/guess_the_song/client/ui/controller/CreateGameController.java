@@ -42,7 +42,7 @@ public class CreateGameController extends BaseDialogController {
         this.createNewGameButton.setOnAction(event -> {
             Optional<UserDto> optionalUserDto = this.userService.get();
             if (optionalUserDto.isEmpty()) {
-                this.changeWindow(LoginController.class);
+                changeWindow(LoginController.class);
             } else {
                 if (this.musicPackWithCorrectAnswersDto == null) return;  // FIXME: 01.06.2023 ERROR DIALOG
 

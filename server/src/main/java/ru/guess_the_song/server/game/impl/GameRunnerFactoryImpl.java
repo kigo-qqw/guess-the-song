@@ -6,6 +6,7 @@ import ru.guess_the_song.server.game.GameRunnerFactory;
 import ru.guess_the_song.server.mapper.PlayerToPlayerDtoMapper;
 import ru.guess_the_song.server.mapper.SongEntryToSongEntryDtoMapper;
 import ru.guess_the_song.server.repository.GameRepository;
+import ru.guess_the_song.server.repository.PlayerRepository;
 
 public class GameRunnerFactoryImpl implements GameRunnerFactory {
     private final SongEntryToSongEntryDtoMapper songEntryToSongEntryDtoMapper;

@@ -5,15 +5,16 @@ import javafx.collections.ObservableList;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import ru.guess_the_song.client.service.ConnectionService;
-import ru.guess_the_song.core.dto.PlayerDto;
+import ru.guess_the_song.core.dto.*;
 
+import java.io.IOException;
 import java.util.Optional;
 import java.util.UUID;
 
 @Slf4j
 @Component
 public class PlayerRepository {
-    private final ConnectionService connectionService;
+    private ConnectionService connectionService;
     private final ObservableList<PlayerDto> players = FXCollections.observableArrayList();
 
     public PlayerRepository(ConnectionService connectionService) {
@@ -30,6 +31,21 @@ public class PlayerRepository {
     }
 
     public Optional<PlayerDto> get(UUID id) {
-        return Optional.empty();  // TODO
+        GetPlayerResponseDto getPlayerResponseDto;
+        try {
+            this.connectionService.send(GetPlayerDto.builder().id(id).build());
+            getPlayerResponseDto = this.connectionService.waitObject(GetPlayerResponseDto.class);
+
+            log.debug(String.valueOf(getPlayerResponseDto));
+        } catch (IOException e) {
+            return Optional.empty();
+        }
+//        if (createUserResponseDto == null) return Optional.empty();
+        if (getPlayerResponseDto.getStatus() == Status.ERROR) return Optional.empty();
+        return Optional.of(getPlayerResponseDto.getPlayer());
+    }
+
+    public void setConnectionService(ConnectionService connectionService) {
+        this.connectionService = connectionService;
     }
 }

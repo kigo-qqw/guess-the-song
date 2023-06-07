@@ -25,7 +25,9 @@ public class ConnectionService {
 
     private EntityDto lastEntity = null;
 
-    public ConnectionService(PlayerRepository playerRepository) {
+    public ConnectionService(
+            PlayerRepository playerRepository
+    ) {
         this.playerRepository = playerRepository;
     }
 //    private long lastEntityTime = -1;

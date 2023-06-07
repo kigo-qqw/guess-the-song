@@ -37,7 +37,7 @@ public class SessionImpl implements Session {
         } catch (IOException e) {
             log.info("socket {} disconnected", this.socket);
         } catch (ClassNotFoundException e) {
-           log.info("socket {} sent invalid data", this.socket);
+            log.info("socket {} sent invalid data", this.socket);
         } finally {
             try {
                 this.in.close();

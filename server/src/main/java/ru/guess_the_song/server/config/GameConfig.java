@@ -47,7 +47,7 @@ public class GameConfig {
 
     @Bean
     public JoinGameController joinGameController() {
-        return new JoinGameControllerImpl(gameService(), this.userConfig.userService());
+        return new JoinGameControllerImpl(gameService(), this.userConfig.userService(), gameToGameDtoMapper());
     }
 
     @Bean

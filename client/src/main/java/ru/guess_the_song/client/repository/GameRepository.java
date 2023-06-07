@@ -30,7 +30,8 @@ public class GameRepository {
         } catch (IOException e) {
             return Optional.empty();
         }
-        if (createGameResponseDto == null) return Optional.empty();
+//        if (createGameResponseDto == null) return Optional.empty();
+        if (createGameResponseDto.getStatus() == Status.ERROR) return Optional.empty();
         GameDto game = createGameResponseDto.getGame();
 
         Arrays.stream(game.getPlayers()).forEach(this.playerRepository::add);

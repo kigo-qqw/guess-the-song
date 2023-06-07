@@ -33,9 +33,18 @@ public class GameService {
         this.connectionService.send(StartGameDto.builder().gameId(game.getId()).userId(initiator.getId()).build());
     }
 
+    public Optional<GameDto> join(GameDto game, UserDto user) throws IOException {
+        this.connectionService.send(JoinGameDto.builder().gameId(game.getId()).userId(user.getId()).build());
+        JoinGameResponseDto joinGameResponseDto = this.connectionService.waitObject(JoinGameResponseDto.class);
+        if(joinGameResponseDto.getStatus() == Status.ERROR) return Optional.empty();
+        this.game = joinGameResponseDto.getGame();
+        return Optional.of(joinGameResponseDto.getGame());
+    }
+
     public List<GameDto> getAll() throws IOException {
         this.connectionService.send(GetActiveGamesDto.builder().build());
         GetActiveGamesResponseDto getActiveGamesResponseDto = this.connectionService.waitObject(GetActiveGamesResponseDto.class);
+        if (getActiveGamesResponseDto.getStatus() == Status.ERROR) return List.of();
         return Arrays.stream(getActiveGamesResponseDto.getGames()).toList();
     }
 }

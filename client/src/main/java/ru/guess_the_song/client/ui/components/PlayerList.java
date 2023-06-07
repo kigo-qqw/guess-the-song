@@ -7,6 +7,6 @@ import ru.guess_the_song.core.dto.PlayerDto;
 @Slf4j
 public class PlayerList extends ListView<PlayerDto> {
     public PlayerList() {
-        setPrefHeight(getItems().size() * 24 + 2);
+//        setPrefHeight(getItems().size() * 24 + 2);
     }
 }

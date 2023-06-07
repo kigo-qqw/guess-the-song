@@ -1,7 +1,9 @@
 package ru.guess_the_song.core.dto;
 
 import lombok.ToString;
+import lombok.experimental.SuperBuilder;
 
-@ToString
+@ToString(callSuper = true)
+@SuperBuilder
 public abstract class RequestDto extends EntityDto {
 }

@@ -1,13 +1,13 @@
 package ru.guess_the_song.core.dto;
 
-import lombok.Builder;
 import lombok.Getter;
 import lombok.NonNull;
+import lombok.experimental.SuperBuilder;
 
 import java.util.UUID;
 
 @Getter
-@Builder
+@SuperBuilder
 public class GameDto extends EntityDto {
     @NonNull
     private UUID id;
@@ -16,6 +16,6 @@ public class GameDto extends EntityDto {
     private @NonNull PlayerDto @NonNull [] players;
 
     public String toString() {
-        return "GameDto(id=" + this.getId() + ", leaderId=" + this.getLeaderId() + ", players=" + java.util.Arrays.toString(this.getPlayers()) + ")";
+        return "GameDto(super=" + super.toString() + ", id=" + this.getId() + ", leaderId=" + this.getLeaderId() + ", players=" + java.util.Arrays.toString(this.getPlayers()) + ")";
     }
 }

@@ -4,11 +4,12 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.ToString;
+import lombok.experimental.SuperBuilder;
 
 @Getter
-@Builder
-@ToString
+@SuperBuilder
+@ToString(callSuper = true)
 public class GetActiveGamesResponseDto extends ResponseDto {
     @NonNull
-    private GameDto @NonNull [] games;
+    private GameDto [] games;
 }

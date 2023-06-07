@@ -2,6 +2,8 @@ package ru.guess_the_song.server.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import ru.guess_the_song.server.controller.GetPlayerController;
+import ru.guess_the_song.server.controller.impl.GetPlayerControllerImpl;
 import ru.guess_the_song.server.mapper.PlayerToPlayerDtoMapper;
 import ru.guess_the_song.server.mapper.impl.PlayerToPlayerDtoMapperImpl;
 import ru.guess_the_song.server.repository.PlayerRepository;
@@ -22,7 +24,13 @@ public class PlayerConfig {
         return new PlayerRepositoryImpl();
     }
 
+    @Bean
     public PlayerToPlayerDtoMapper playerToPlayerDtoMapper() {
         return new PlayerToPlayerDtoMapperImpl();
+    }
+
+    @Bean
+    public GetPlayerController getPlayerController() {
+        return new GetPlayerControllerImpl(playerService(), playerToPlayerDtoMapper());
     }
 }
