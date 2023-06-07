@@ -51,6 +51,22 @@ public class GameRepositoryImpl implements GameRepository {
     }
 
     @Override
+    public List<Game> findAllActive() {
+        EntityManager entityManager = this.entityManagerFactory.createEntityManager();
+        entityManager.getTransaction().begin();
+        List<Game> result = entityManager.createQuery(
+                "FROM Game g WHERE " +
+                        "g.isCanceled=false and " +
+                        "g.isStarted=false and " +
+                        "g.isFinished=false"
+        ).getResultList();
+        entityManager.getTransaction().commit();
+        entityManager.close();
+
+        return result;
+    }
+
+    @Override
     public <S extends Game> S save(S entity) {
         EntityManager entityManager = this.entityManagerFactory.createEntityManager();
         entityManager.getTransaction().begin();

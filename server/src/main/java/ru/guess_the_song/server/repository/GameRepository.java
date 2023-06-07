@@ -11,5 +11,7 @@ public interface GameRepository extends Repository<Game, UUID> {
 
     List<Game> findAll();
 
+    List<Game> findAllActive();
+
     <S extends Game> S save(S entity);
 }

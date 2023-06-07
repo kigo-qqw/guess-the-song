@@ -19,7 +19,7 @@ import java.util.UUID;
 @EqualsAndHashCode(callSuper = true)
 public class MusicPack extends BaseEntity {
     //    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
     private List<SongEntry> songs;
 
     @Builder

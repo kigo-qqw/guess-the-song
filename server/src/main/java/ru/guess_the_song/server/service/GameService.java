@@ -20,4 +20,5 @@ public interface GameService {
 
 //    void notifyPlayersNewPlayerJoined(UUID gameId, User user);
     List<Game> getAll();
+    List<Game> getAllActive();
 }

@@ -43,7 +43,13 @@ public class UserRepositoryImpl implements UserRepository {
     public <S extends User> S save(S entity) {
         EntityManager entityManager = this.entityManagerFactory.createEntityManager();
         entityManager.getTransaction().begin();
-        entityManager.persist(entity);
+//        entityManager.persist(entity);
+
+        if (entity.getId() != null)
+            entityManager.merge(entity);
+        else
+            entityManager.persist(entity);
+
         entityManager.getTransaction().commit();
         entityManager.close();
 

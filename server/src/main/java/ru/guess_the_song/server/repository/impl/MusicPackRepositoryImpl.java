@@ -24,7 +24,13 @@ public class MusicPackRepositoryImpl implements MusicPackRepository {
         EntityManager entityManager = this.entityManagerFactory.createEntityManager();
         entityManager.getTransaction().begin();
         entity.getSongs().forEach(entityManager::persist);
-        entityManager.persist(entity);
+//        entityManager.persist(entity);
+
+        if (entity.getId() != null)
+            entityManager.merge(entity);
+        else
+            entityManager.persist(entity);
+
         entityManager.getTransaction().commit();
         entityManager.close();
 

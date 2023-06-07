@@ -90,7 +90,7 @@ public class AppConfig {
     @Bean
     public PlayerRepository playerRepository() {
         if (this.playerRepository == null)
-            this.playerRepository = new PlayerRepository();
+            this.playerRepository = new PlayerRepository(connectionService);
         return this.playerRepository;
     }
 

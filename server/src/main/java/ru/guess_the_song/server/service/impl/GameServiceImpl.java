@@ -118,6 +118,11 @@ public class GameServiceImpl implements GameService {
         return this.gameRepository.findAll();
     }
 
+    @Override
+    public List<Game> getAllActive() {
+        return this.gameRepository.findAllActive();
+    }
+
 //    @Override
 //    public void notifyPlayersNewPlayerJoined(UUID gameId, User user) {
 //        Optional<Player> optionalPlayer = this.playerService.get(user);

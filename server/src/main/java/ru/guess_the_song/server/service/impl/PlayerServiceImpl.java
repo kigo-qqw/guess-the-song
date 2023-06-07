@@ -8,6 +8,7 @@ import ru.guess_the_song.server.repository.PlayerRepository;
 import ru.guess_the_song.server.service.PlayerService;
 
 import java.util.Optional;
+import java.util.UUID;
 
 @Slf4j
 @Component
@@ -25,5 +26,10 @@ public class PlayerServiceImpl implements PlayerService {
     @Override
     public Optional<Player> get(User user) {
         return this.playerRepository.findByUser(user);
+    }
+
+    @Override
+    public Optional<Player> get(UUID id) {
+        return Optional.empty();
     }
 }

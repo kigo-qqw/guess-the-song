@@ -23,16 +23,22 @@ public class Game extends BaseEntity {
     @OneToOne
     private Player leader;
     //    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
-    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
     private List<Player> players;
     @OneToOne
     private MusicPack musicPack;
+    private boolean isStarted = false;
+    private boolean isFinished = false;
+    private boolean isCanceled = false;
 
     @Builder
-    private Game(UUID id, Player leader, List<Player> players, MusicPack musicPack) {
+    private Game(UUID id, Player leader, List<Player> players, MusicPack musicPack, boolean isStarted, boolean isFinished, boolean isCanceled) {
         super(id);
         this.leader = leader;
         this.players = Objects.requireNonNullElseGet(players, ArrayList::new);
         this.musicPack = musicPack;
+        this.isStarted = isStarted;
+        this.isFinished = isFinished;
+        this.isCanceled = isCanceled;
     }
 }

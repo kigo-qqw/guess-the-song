@@ -27,7 +27,7 @@ public class GetActiveGamesControllerImpl implements GetActiveGamesController {
         session.send(
                 GetActiveGamesResponseDto.builder()
                         .games(
-                                this.gameService.getAll().stream().map(this.gameToGameDtoMapper::map).toArray(GameDto[]::new)
+                                this.gameService.getAllActive().stream().map(this.gameToGameDtoMapper::map).toArray(GameDto[]::new)
                         ).build()
         );
     }
