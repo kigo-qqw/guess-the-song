@@ -6,9 +6,11 @@ import org.springframework.stereotype.Component;
 import ru.guess_the_song.client.repository.PlayerRepository;
 import ru.guess_the_song.core.dto.EntityDto;
 import ru.guess_the_song.core.dto.PlayerJoinGameNotificationDto;
+import ru.guess_the_song.core.dto.PlayerLeaveDto;
 
 import java.io.*;
 import java.net.Socket;
+import java.util.Arrays;
 
 @Slf4j
 @Component
@@ -47,7 +49,7 @@ public class ConnectionService {
         else throw new RuntimeException();
     }
 
-    public <T extends EntityDto> T waitObject(Class<T> entityClass)  {
+    public <T extends EntityDto> T waitObject(Class<T> entityClass) {
         while (true) {
             log.debug("class=" + entityClass);
             if (entityClass.isInstance(lastEntity)) {
@@ -108,6 +110,9 @@ public class ConnectionService {
 
                     if (object instanceof PlayerJoinGameNotificationDto playerJoinGameNotificationDto) {
                         playerRepository.add(playerJoinGameNotificationDto.getPlayer());
+                    }
+                    if (object instanceof PlayerLeaveDto playerLeaveDto) {
+                        playerRepository.update(Arrays.asList(playerLeaveDto.getGame().getPlayers()));
                     }
 
                 } catch (IOException | ClassNotFoundException e) {

@@ -17,8 +17,10 @@ import ru.guess_the_song.server.net.impl.SessionFactoryImpl;
 public class SessionConfig {
     private final Dispatcher dispatcher;
     private final SessionFactory sessionFactory;
+    private final GameConfig gameConfig;
 
     public SessionConfig(
+            GameConfig gameConfig,
             CreateUserController createUserController,
             CreateGameController createGameController,
             JoinGameController joinGameController,
@@ -27,6 +29,7 @@ public class SessionConfig {
             GetUserController getUserController,
             GetPlayerController getPlayerController
     ) {
+        this.gameConfig = gameConfig;
         this.dispatcher = new DispatcherImpl();
         this.dispatcher.use(CreateUserDto.class, createUserController);
         this.dispatcher.use(CreateGameDto.class, createGameController);
@@ -36,7 +39,7 @@ public class SessionConfig {
         this.dispatcher.use(GetUserDto.class, getUserController);
         this.dispatcher.use(GetPlayerDto.class, getPlayerController);
 
-        this.sessionFactory = new SessionFactoryImpl(this.dispatcher);
+        this.sessionFactory = new SessionFactoryImpl(this.dispatcher, this.gameConfig.gameService());
     }
 
     @Bean

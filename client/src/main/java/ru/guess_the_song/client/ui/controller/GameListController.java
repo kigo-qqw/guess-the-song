@@ -1,5 +1,6 @@
 package ru.guess_the_song.client.ui.controller;
 
+import javafx.application.Platform;
 import javafx.beans.property.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
@@ -118,6 +119,7 @@ public class GameListController extends BaseController {
         this.activeGamesConnectTableColumn.setCellValueFactory(gameCellDataFeatures ->
                 gameCellDataFeatures.getValue().connectButtonProperty);
 
+
         try {
             ObservableList<GameDto> gameDtoObservableList = FXCollections.observableList(this.gameService.getAll());
             ObservableList<GameItem> gameItems = FXCollections.observableArrayList(
@@ -125,13 +127,12 @@ public class GameListController extends BaseController {
             );
 
             gameDtoObservableList.addListener((ListChangeListener<GameDto>) change -> {
-                while (change.next()) {
+                Platform.runLater(() -> {
                     if (change.wasAdded())
                         gameItems.addAll(change.getAddedSubList().stream().map(this::mapGameDtoToGameItem).toList());
                     if (change.wasRemoved())
                         gameItems.removeAll(change.getRemoved().stream().map(this::mapGameDtoToGameItem).toList());
-
-                }
+                });
             });
 
             this.activeGamesTableView.setItems(gameItems);

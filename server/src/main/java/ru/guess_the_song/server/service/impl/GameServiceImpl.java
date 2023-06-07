@@ -13,6 +13,7 @@ import ru.guess_the_song.server.repository.GameRepository;
 import ru.guess_the_song.server.service.GameService;
 import ru.guess_the_song.server.service.PlayerService;
 
+import java.net.Socket;
 import java.util.*;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -77,7 +78,7 @@ public class GameServiceImpl implements GameService {
                     log.debug("added: " + player);
                     log.debug(String.valueOf(game));
 
-//                    this.gameRepository.save(game);
+                    this.gameRepository.save(game);
 
                     return Optional.of(game);
                 }
@@ -114,6 +115,13 @@ public class GameServiceImpl implements GameService {
         Optional<Player> optionalPlayer = this.playerService.get(user);
         if (optionalPlayer.isEmpty()) return;
         this.activeGames.get(gameId).giveAnswer(optionalPlayer.get(), answerId);
+    }
+
+    @Override
+    public void notifySocketClose(Socket socket) {
+        this.activeGames.forEach((key, value) -> {
+            value.notifySocketClose(socket);
+        });
     }
 
     @Override

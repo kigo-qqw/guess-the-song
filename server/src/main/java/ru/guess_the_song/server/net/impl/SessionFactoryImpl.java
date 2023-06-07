@@ -5,6 +5,7 @@ import org.springframework.stereotype.Component;
 import ru.guess_the_song.server.dispatcher.Dispatcher;
 import ru.guess_the_song.server.net.Session;
 import ru.guess_the_song.server.net.SessionFactory;
+import ru.guess_the_song.server.service.GameService;
 
 import java.io.IOException;
 import java.net.Socket;
@@ -13,12 +14,14 @@ import java.net.Socket;
 @Component
 public class SessionFactoryImpl implements SessionFactory {
     private final Dispatcher dispatcher;
-    public SessionFactoryImpl(Dispatcher dispatcher) {
+    private final GameService gameService;
+    public SessionFactoryImpl(Dispatcher dispatcher, GameService gameService) {
         this.dispatcher = dispatcher;
+        this.gameService = gameService;
     }
 
     @Override
     public Session createSession(Socket socket) throws IOException {
-        return new SessionImpl(socket, this.dispatcher);
+        return new SessionImpl(socket, this.dispatcher, this.gameService);
     }
 }

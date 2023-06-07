@@ -2,22 +2,22 @@ package ru.guess_the_song.server.game.impl;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
-import ru.guess_the_song.core.dto.EndRoundDto;
-import ru.guess_the_song.core.dto.PlayerJoinGameNotificationDto;
-import ru.guess_the_song.core.dto.SongEntryDto;
-import ru.guess_the_song.core.dto.StartRoundDto;
+import ru.guess_the_song.core.dto.*;
 import ru.guess_the_song.server.entity.Game;
 import ru.guess_the_song.server.entity.MusicPack;
 import ru.guess_the_song.server.entity.Player;
 import ru.guess_the_song.server.entity.SongEntry;
 import ru.guess_the_song.server.game.GameRunner;
+import ru.guess_the_song.server.mapper.GameToGameDtoMapper;
 import ru.guess_the_song.server.mapper.PlayerToPlayerDtoMapper;
 import ru.guess_the_song.server.mapper.SongEntryToSongEntryDtoMapper;
 import ru.guess_the_song.server.net.Session;
 import ru.guess_the_song.server.repository.GameRepository;
 
+import java.net.Socket;
 import java.util.Comparator;
 import java.util.Map;
+import java.util.Optional;
 import java.util.TreeMap;
 
 @Slf4j
@@ -28,12 +28,14 @@ public class GameRunnerImpl implements GameRunner {
     private final Map<Player, Integer> answers = new TreeMap<>(Comparator.comparing(player -> player.getUser().getId()));
     private final SongEntryToSongEntryDtoMapper songEntryToSongEntryDtoMapper;
     private final PlayerToPlayerDtoMapper playerToPlayerDtoMapper;
+    private final GameToGameDtoMapper gameToGameDtoMapper;
     private final GameRepository gameRepository;
 
-    public GameRunnerImpl(Game game, SongEntryToSongEntryDtoMapper songEntryToSongEntryDtoMapper, PlayerToPlayerDtoMapper playerToPlayerDtoMapper, GameRepository gameRepository) {
+    public GameRunnerImpl(Game game, SongEntryToSongEntryDtoMapper songEntryToSongEntryDtoMapper, PlayerToPlayerDtoMapper playerToPlayerDtoMapper, GameToGameDtoMapper gameToGameDtoMapper, GameRepository gameRepository) {
         this.game = game;
         this.songEntryToSongEntryDtoMapper = songEntryToSongEntryDtoMapper;
         this.playerToPlayerDtoMapper = playerToPlayerDtoMapper;
+        this.gameToGameDtoMapper = gameToGameDtoMapper;
         this.gameRepository = gameRepository;
     }
 
@@ -94,5 +96,23 @@ public class GameRunnerImpl implements GameRunner {
     @Override
     public void giveAnswer(Player player, int answerId) {
         this.answers.put(player, answerId);
+    }
+
+    @Override
+    public void notifySocketClose(Socket socket) {
+        this.players.entrySet().stream().filter(
+                playerSessionEntry -> playerSessionEntry.getValue().getSocket().equals(socket)
+        ).findFirst().ifPresent(
+                playerSessionEntry -> this.players.remove(playerSessionEntry.getKey())
+        );
+        this.players.forEach((p, s) -> {
+//            log.info("session socket=" + s.getSocket());
+//            log.info("socket=" + socket);
+            if (s.getSocket().equals(socket))
+                return;
+            s.send(PlayerLeaveDto.builder()
+                    .game(this.gameToGameDtoMapper.map(this.game))
+                    .build());
+        });
     }
 }

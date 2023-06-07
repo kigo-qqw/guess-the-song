@@ -62,7 +62,7 @@ public class AppConfig {
     @Bean
     public GameService gameService() {
         if (this.gameService == null)
-            this.gameService = new GameService(connectionService(), gameRepository());
+            this.gameService = new GameService(connectionService(), gameRepository(), playerRepository);
         return this.gameService;
     }
 

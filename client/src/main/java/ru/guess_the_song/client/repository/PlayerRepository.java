@@ -1,13 +1,18 @@
 package ru.guess_the_song.client.repository;
 
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import ru.guess_the_song.client.service.ConnectionService;
-import ru.guess_the_song.core.dto.*;
+import ru.guess_the_song.core.dto.GetPlayerDto;
+import ru.guess_the_song.core.dto.GetPlayerResponseDto;
+import ru.guess_the_song.core.dto.PlayerDto;
+import ru.guess_the_song.core.dto.Status;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -26,7 +31,8 @@ public class PlayerRepository {
     }
 
     public void add(PlayerDto player) {
-        this.players.add(player);
+        Platform.runLater(() -> this.players.add(player));
+//        this.players.add(player);
         log.debug("players=" + this.players);
     }
 
@@ -47,5 +53,9 @@ public class PlayerRepository {
 
     public void setConnectionService(ConnectionService connectionService) {
         this.connectionService = connectionService;
+    }
+
+    public void update(List<PlayerDto> players) {
+        Platform.runLater(() -> this.players.setAll(players));
     }
 }

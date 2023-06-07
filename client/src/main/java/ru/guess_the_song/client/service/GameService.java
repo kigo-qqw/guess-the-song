@@ -3,6 +3,7 @@ package ru.guess_the_song.client.service;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import ru.guess_the_song.client.repository.GameRepository;
+import ru.guess_the_song.client.repository.PlayerRepository;
 import ru.guess_the_song.core.dto.*;
 
 import java.io.IOException;
@@ -15,11 +16,13 @@ import java.util.Optional;
 public class GameService {
     private final ConnectionService connectionService;
     private final GameRepository gameRepository;
+    private final PlayerRepository playerRepository;
     private GameDto game = null;
 
-    public GameService(ConnectionService connectionService, GameRepository gameRepository) {
+    public GameService(ConnectionService connectionService, GameRepository gameRepository, PlayerRepository playerRepository) {
         this.connectionService = connectionService;
         this.gameRepository = gameRepository;
+        this.playerRepository = playerRepository;
     }
 
     public Optional<GameDto> create(UserDto initiator, MusicPackWithCorrectAnswersDto musicPackWithCorrectAnswersDto) {
@@ -38,6 +41,7 @@ public class GameService {
         JoinGameResponseDto joinGameResponseDto = this.connectionService.waitObject(JoinGameResponseDto.class);
         if(joinGameResponseDto.getStatus() == Status.ERROR) return Optional.empty();
         this.game = joinGameResponseDto.getGame();
+        Arrays.stream(this.game.getPlayers()).forEach(this.playerRepository::add);
         return Optional.of(joinGameResponseDto.getGame());
     }
 
