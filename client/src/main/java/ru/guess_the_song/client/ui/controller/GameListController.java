@@ -154,10 +154,11 @@ public class GameListController extends BaseController {
 
         Optional<PlayerDto> optionalPlayerDto = this.playerRepository.get(gameDto.getLeaderId());
         if (optionalPlayerDto.isPresent()) {
-            Optional<UserDto> optionalUserDto = this.userService.getById(optionalPlayerDto.get().getUserId());
-            if (optionalUserDto.isPresent()) {
-                leaderName = optionalUserDto.get().getUsername();
-            }
+//            Optional<UserDto> optionalUserDto = this.userService.getById(optionalPlayerDto.get().getUser().getId());
+//            if (optionalUserDto.isPresent()) {
+//                leaderName = optionalUserDto.get().getUsername();
+//            }
+            leaderName = optionalPlayerDto.get().getUser().getUsername();
         }
 
         int playersAmount = gameDto.getPlayers().length;

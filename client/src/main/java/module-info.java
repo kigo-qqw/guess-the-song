@@ -16,7 +16,7 @@ module ru.guess_the_song.client {
 
     opens ru.guess_the_song.client.main to spring.core;
     opens ru.guess_the_song.client.config to spring.core;
-    opens ru.guess_the_song.client.ui.controller to javafx.fxml;
+    opens ru.guess_the_song.client.ui.controller to javafx.fxml, spring.core;
     opens ru.guess_the_song.client.ui.components to javafx.fxml;
 
     exports ru.guess_the_song.client.main;

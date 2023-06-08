@@ -5,12 +5,14 @@ import lombok.NonNull;
 import lombok.ToString;
 import lombok.experimental.SuperBuilder;
 
+import java.util.UUID;
 
+@ToString(callSuper = true)
 @Getter
 @SuperBuilder
-@ToString(callSuper = true)
-public class PlayerDto extends EntityDto {
+public class GameFinishedDto extends ServerMessageDto {
     @NonNull
-    private UserDto user;
-    private int points;
+    private GameDto game;
+    @NonNull
+    private PlayerDto winner;
 }

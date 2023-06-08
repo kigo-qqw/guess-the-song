@@ -16,12 +16,14 @@ import java.util.Optional;
 public class GameService {
     private final ConnectionService connectionService;
     private final GameRepository gameRepository;
+    private final UserService userService;
     private final PlayerRepository playerRepository;
     private GameDto game = null;
 
-    public GameService(ConnectionService connectionService, GameRepository gameRepository, PlayerRepository playerRepository) {
+    public GameService(ConnectionService connectionService, GameRepository gameRepository, UserService userService, PlayerRepository playerRepository) {
         this.connectionService = connectionService;
         this.gameRepository = gameRepository;
+        this.userService = userService;
         this.playerRepository = playerRepository;
     }
 
@@ -39,10 +41,22 @@ public class GameService {
     public Optional<GameDto> join(GameDto game, UserDto user) throws IOException {
         this.connectionService.send(JoinGameDto.builder().gameId(game.getId()).userId(user.getId()).build());
         JoinGameResponseDto joinGameResponseDto = this.connectionService.waitObject(JoinGameResponseDto.class);
-        if(joinGameResponseDto.getStatus() == Status.ERROR) return Optional.empty();
+        if (joinGameResponseDto.getStatus() == Status.ERROR) return Optional.empty();
         this.game = joinGameResponseDto.getGame();
         Arrays.stream(this.game.getPlayers()).forEach(this.playerRepository::add);
         return Optional.of(joinGameResponseDto.getGame());
+    }
+
+    public void giveAnswer(int answerIndex) throws IOException {
+        Optional<UserDto> optionalUserDto = this.userService.get();
+        if (optionalUserDto.isPresent()) {
+            this.connectionService.send(GiveAnswerDto.builder()
+                    .gameId(this.game.getId())
+                    .userId(optionalUserDto.get().getId())
+                    .answerId(answerIndex)
+                    .build()
+            );
+        }
     }
 
     public List<GameDto> getAll() throws IOException {

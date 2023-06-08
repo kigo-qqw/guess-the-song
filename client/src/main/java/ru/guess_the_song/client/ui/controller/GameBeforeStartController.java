@@ -37,7 +37,9 @@ public class GameBeforeStartController extends BaseController {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        this.playerList.init(userService, false);
         this.playerList.setItems(this.playerRepository.getAll());
+
 
         this.startGameButton.setOnAction(event -> {
             Optional<UserDto> optionalUserDto = this.userService.get();

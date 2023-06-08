@@ -6,6 +6,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 import ru.guess_the_song.core.dto.*;
 import ru.guess_the_song.server.controller.*;
+import ru.guess_the_song.server.controller.impl.GiveAnswerControllerImpl;
 import ru.guess_the_song.server.dispatcher.Dispatcher;
 import ru.guess_the_song.server.dispatcher.impl.DispatcherImpl;
 import ru.guess_the_song.server.net.SessionFactory;
@@ -27,7 +28,8 @@ public class SessionConfig {
             StartGameController startGameController,
             GetActiveGamesController getActiveGamesController,
             GetUserController getUserController,
-            GetPlayerController getPlayerController
+            GetPlayerController getPlayerController,
+            GiveAnswerController giveAnswerController
     ) {
         this.gameConfig = gameConfig;
         this.dispatcher = new DispatcherImpl();
@@ -38,6 +40,7 @@ public class SessionConfig {
         this.dispatcher.use(GetActiveGamesDto.class, getActiveGamesController);
         this.dispatcher.use(GetUserDto.class, getUserController);
         this.dispatcher.use(GetPlayerDto.class, getPlayerController);
+        this.dispatcher.use(GiveAnswerDto.class, giveAnswerController);
 
         this.sessionFactory = new SessionFactoryImpl(this.dispatcher, this.gameConfig.gameService());
     }

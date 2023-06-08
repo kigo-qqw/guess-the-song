@@ -4,6 +4,7 @@ import javafx.application.Preloader;
 import javafx.fxml.FXML;
 import javafx.scene.control.ProgressBar;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import ru.guess_the_song.client.service.ConnectionService;
 import ru.guess_the_song.client.ui.ScreenManager;
@@ -23,6 +24,11 @@ public class SplashScreenController extends BaseController {
     @FXML
     private ProgressBar progressBar;
 
+    @Value("${server.address}")
+    private String serverAddress;
+    @Value("${server.port}")
+    private int serverPort;
+
     public SplashScreenController(ConnectionService connectionService) {
         this.connectionService = connectionService;
     }
@@ -30,7 +36,7 @@ public class SplashScreenController extends BaseController {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         try {
-            this.connectionService.connect("localhost", 8000);
+            this.connectionService.connect(serverAddress, serverPort);
 //            this.connectionService.setScreenManager(getScreenManager());
             log.debug("set connectionService=" + this.connectionService);
         } catch (IOException e) {
@@ -43,7 +49,6 @@ public class SplashScreenController extends BaseController {
         super.setScreenManager(screenManager);
         this.connectionService.setScreenManager(getScreenManager());
     }
-
 
 
     public void setProgressNotification(Preloader.ProgressNotification progressNotification) {

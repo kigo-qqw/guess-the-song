@@ -1,14 +1,26 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
-<VBox xmlns="http://javafx.com/javafx"
+<?import ru.guess_the_song.client.ui.components.PlayerList?>
+<?import javafx.scene.control.Label?>
+<HBox xmlns="http://javafx.com/javafx"
       xmlns:fx="http://javafx.com/fxml"
       fx:controller="ru.guess_the_song.client.ui.controller.GameController"
       prefHeight="400.0" prefWidth="600.0">
 
-    <HBox>
-        <Button fx:id="giveAnswerButton"/>
-    </HBox>
-</VBox>
+    <PlayerList fx:id="playerList"/>
+
+    <VBox>
+        <VBox fx:id="roundBox" visible="false">
+            <VBox fx:id="answersBox"/>
+            <Button fx:id="giveAnswerButton" text="answer"/>
+        </VBox>
+        <VBox fx:id="finishBox" visible="false">
+            <Label text="GAME IS OVER"/>
+            <Label fx:id="winnerLabel"/>
+        </VBox>
+    </VBox>
+</HBox>

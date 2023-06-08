@@ -23,6 +23,7 @@ public class ServerImpl implements Server {
         this.sessionFactory = sessionFactory;
         try {
             this.socket = new ServerSocket(port);
+            log.info("Server start on : {}", port);
         } catch (IOException e) {
             log.error("Could not start server on port {}", port);
             throw e;

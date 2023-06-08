@@ -9,6 +9,7 @@ module ru.guess_the_song.server {
     requires spring.context;
     requires spring.beans;
     requires static lombok;
+    requires spring.core;
 
     opens ru.guess_the_song.server.entity to jakarta.persistence;
 

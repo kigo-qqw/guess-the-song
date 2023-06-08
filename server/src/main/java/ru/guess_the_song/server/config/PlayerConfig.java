@@ -14,6 +14,12 @@ import ru.guess_the_song.server.service.impl.PlayerServiceImpl;
 
 @Configuration
 public class PlayerConfig {
+    private final UserConfig userConfig;
+
+    public PlayerConfig(UserConfig userConfig) {
+        this.userConfig = userConfig;
+    }
+
     @Bean
     public PlayerService playerService() {
         return new PlayerServiceImpl(playerRepository());
@@ -26,7 +32,7 @@ public class PlayerConfig {
 
     @Bean
     public PlayerToPlayerDtoMapper playerToPlayerDtoMapper() {
-        return new PlayerToPlayerDtoMapperImpl();
+        return new PlayerToPlayerDtoMapperImpl(this.userConfig.userToUserDtoMapper());
     }
 
     @Bean

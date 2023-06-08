@@ -15,6 +15,6 @@ public class GiveAnswerDto extends RequestDto {
     @NonNull
     private UUID gameId;
     @NonNull
-    private UUID playerId;
+    private UUID userId;
     private int answerId;
 }

@@ -11,7 +11,6 @@ import ru.guess_the_song.client.repository.UserRepository;
 import ru.guess_the_song.client.service.ConnectionService;
 import ru.guess_the_song.client.service.GameService;
 import ru.guess_the_song.client.service.UserService;
-import ru.guess_the_song.client.ui.ScreenManager;
 import ru.guess_the_song.client.ui.controller.*;
 
 @Slf4j
@@ -37,7 +36,7 @@ public class AppConfig {
 
     @Bean
     public GameListController gameListController() {
-        return new GameListController(gameService(), userService, playerRepository);
+        return new GameListController(gameService(), userService(), playerRepository());
     }
 
     @Bean
@@ -62,13 +61,13 @@ public class AppConfig {
 
     @Bean
     public GameController gameController(){
-        return new GameController();
+        return new GameController(userService(), gameService(), playerRepository());
     }
 
     @Bean
     public GameService gameService() {
         if (this.gameService == null)
-            this.gameService = new GameService(connectionService(), gameRepository(), playerRepository);
+            this.gameService = new GameService(connectionService(), gameRepository(), userService(), playerRepository());
         return this.gameService;
     }
 
@@ -95,13 +94,8 @@ public class AppConfig {
 
     @Bean
     public PlayerRepository playerRepository() {
-//        if (this.playerRepository == null) {
-//            this.playerRepository = new PlayerRepository(connectionService());
-//            this.playerRepository.setConnectionService(connectionService());
-//        }
         if (this.playerRepository == null) {
             this.playerRepository = new PlayerRepository(null);
-//            this.playerRepository.setConnectionService(connectionService());
         }
         return this.playerRepository;
     }

@@ -30,13 +30,13 @@ public class PlayerRepository {
         return this.players;
     }
 
-    public void add(PlayerDto player) {
+    public synchronized void add(PlayerDto player) {
         Platform.runLater(() -> this.players.add(player));
 //        this.players.add(player);
         log.debug("players=" + this.players);
     }
 
-    public Optional<PlayerDto> get(UUID id) {
+    public  Optional<PlayerDto> get(UUID id) {
         GetPlayerResponseDto getPlayerResponseDto;
         try {
             this.connectionService.send(GetPlayerDto.builder().id(id).build());
@@ -55,7 +55,7 @@ public class PlayerRepository {
         this.connectionService = connectionService;
     }
 
-    public void update(List<PlayerDto> players) {
+    public synchronized void update(List<PlayerDto> players) {
         Platform.runLater(() -> this.players.setAll(players));
     }
 }

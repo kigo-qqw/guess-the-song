@@ -20,12 +20,18 @@ public class Player extends BaseEntity {
     //    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
     private User user;
+
+    @ToString.Exclude
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "game_id", nullable = false)
+    private Game game;
     private int points;
 
     @Builder
-    private Player(UUID id, User user, int points) {
+    private Player(UUID id, User user, Game game, int points) {
         super(id);
         this.user = user;
+        this.game = game;
         this.points = points;
     }
 }

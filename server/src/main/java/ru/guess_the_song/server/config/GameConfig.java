@@ -4,14 +4,9 @@ package ru.guess_the_song.server.config;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
-import ru.guess_the_song.server.controller.CreateGameController;
-import ru.guess_the_song.server.controller.GetActiveGamesController;
-import ru.guess_the_song.server.controller.JoinGameController;
-import ru.guess_the_song.server.controller.StartGameController;
-import ru.guess_the_song.server.controller.impl.CreateGameControllerImpl;
-import ru.guess_the_song.server.controller.impl.GetActiveGamesControllerImpl;
-import ru.guess_the_song.server.controller.impl.JoinGameControllerImpl;
-import ru.guess_the_song.server.controller.impl.StartGameControllerImpl;
+import org.springframework.context.annotation.PropertySource;
+import ru.guess_the_song.server.controller.*;
+import ru.guess_the_song.server.controller.impl.*;
 import ru.guess_the_song.server.game.GameRunnerFactory;
 import ru.guess_the_song.server.game.impl.GameRunnerFactoryImpl;
 import ru.guess_the_song.server.mapper.GameToGameDtoMapper;
@@ -22,6 +17,7 @@ import ru.guess_the_song.server.service.GameService;
 import ru.guess_the_song.server.service.impl.GameServiceImpl;
 
 @Configuration
+@PropertySource("classpath:application.properties")
 @Import({UserConfig.class, MusicPackConfig.class, PlayerConfig.class})
 public class GameConfig {
     private final UserConfig userConfig;
@@ -62,7 +58,12 @@ public class GameConfig {
 
     @Bean
     public GameRunnerFactory gameRunnerFactory() {
-        return new GameRunnerFactoryImpl(this.musicPackConfig.songEntryToSongEntryDtoMapper(), this.playerConfig.playerToPlayerDtoMapper(), gameToGameDtoMapper(), gameRepository());
+        return new GameRunnerFactoryImpl(
+                this.musicPackConfig.songEntryToSongEntryDtoMapper(),
+                this.playerConfig.playerToPlayerDtoMapper(),
+                gameToGameDtoMapper(),
+                gameRepository(),
+                this.playerConfig.playerService());
     }
 
     @Bean
@@ -78,5 +79,10 @@ public class GameConfig {
     @Bean
     public GetActiveGamesController getActiveGamesController() {
         return new GetActiveGamesControllerImpl(this.gameService(), this.gameToGameDtoMapper());
+    }
+
+    @Bean
+    public GiveAnswerController giveAnswerController() {
+        return new GiveAnswerControllerImpl(this.gameService(), this.userConfig.userService(), this.playerConfig.playerService());
     }
 }

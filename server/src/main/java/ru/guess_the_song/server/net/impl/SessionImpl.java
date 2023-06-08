@@ -32,32 +32,43 @@ public class SessionImpl implements Session {
 
     @Override
     public void run() {
-        try {
-            while (true) {
+        while (true) {
+            try {
                 Object data = this.in.readObject();
                 this.dispatcher.dispatch(this, data);
-            }
-        } catch (IOException e) {
-            log.info("socket {} disconnected", this.socket);
-            this.gameService.notifySocketClose(this.socket);
-        } catch (ClassNotFoundException e) {
-            log.info("socket {} sent invalid data", this.socket);
-        } finally {
-            try {
-                this.in.close();
             } catch (IOException e) {
-                e.printStackTrace();
+                log.info("socket {} disconnected", this.socket);
+                this.gameService.notifySocketClose(this.socket);
+                closeOis();
+                return;
+            } catch (ClassNotFoundException e) {
+                log.info("socket {} sent invalid data", this.socket);
+                closeOis();
+                return;
             }
+        }
+
+    }
+
+    private void closeOis() {
+        try {
+            this.in.close();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 
     @Override
-    public void send(Object object) {
-        try {
-            this.out.writeObject(object);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+    public synchronized void send(Object object) {
+//        synchronized (this.socket) {
+            log.info("send object : {}", object);
+            try {
+                this.out.writeObject(object);
+                this.out.flush();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+//        }
     }
 
     @Override

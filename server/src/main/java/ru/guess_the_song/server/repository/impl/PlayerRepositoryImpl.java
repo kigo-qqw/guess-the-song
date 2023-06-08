@@ -6,6 +6,7 @@ import jakarta.persistence.Persistence;
 import jakarta.persistence.PersistenceUnit;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
+import ru.guess_the_song.server.entity.Game;
 import ru.guess_the_song.server.entity.Player;
 import ru.guess_the_song.server.entity.User;
 import ru.guess_the_song.server.repository.PlayerRepository;
@@ -47,23 +48,13 @@ public class PlayerRepositoryImpl implements PlayerRepository {
     }
 
     @Override
-    public Optional<Player> findByUser(User user) {
-//        EntityManager entityManager = this.entityManagerFactory.createEntityManager();
-//        entityManager.getTransaction().begin();
-//        Player result = (Player) entityManager
-//                .createQuery("FROM Player p WHERE p.user = :user")
-//                .setParameter("user", user)
-//                .getSingleResult();
-//        entityManager.getTransaction().commit();
-//        entityManager.close();
-//
-//        return Optional.of(result);
-
+    public Optional<Player> findByGameAndUser(Game game, User user) {
         EntityManager entityManager = this.entityManagerFactory.createEntityManager();
         entityManager.getTransaction().begin();
         List<Player> result = entityManager
-                .createQuery("FROM Player p WHERE p.user = :user")
+                .createQuery("FROM Player p WHERE p.user = :user AND p.game = :game")
                 .setParameter("user", user)
+                .setParameter("game", game)
                 .getResultList();
 
         entityManager.getTransaction().commit();
@@ -72,7 +63,6 @@ public class PlayerRepositoryImpl implements PlayerRepository {
         if (result.isEmpty())
             return Optional.empty();
         return Optional.of(result.get(0));
-
     }
 
     @Override
@@ -93,8 +83,8 @@ public class PlayerRepositoryImpl implements PlayerRepository {
         EntityManager entityManager = this.entityManagerFactory.createEntityManager();
         entityManager.getTransaction().begin();
         List<Player> result = entityManager
-                .createQuery("FROM User u WHERE u.id = :userID")
-                .setParameter("userID", id)
+                .createQuery("FROM Player p WHERE p.id = :playerID")
+                .setParameter("playerID", id)
                 .getResultList();
 
         entityManager.getTransaction().commit();

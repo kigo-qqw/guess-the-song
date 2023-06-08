@@ -23,11 +23,12 @@ import java.util.UUID;
 @EqualsAndHashCode(callSuper = true)
 public class Game extends BaseEntity {
     @OneToOne
+    @JoinColumn(name = "leader_id")
     private Player leader;
     //    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
 //    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
-    @OneToMany(fetch = FetchType.EAGER)
-    @JoinColumn(name = "Players", referencedColumnName = "id", updatable = true)
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "game")
+//    @JoinColumn(name = "Players", referencedColumnName = "id", updatable = true)
     private List<Player> players;
     @OneToOne
     private MusicPack musicPack;

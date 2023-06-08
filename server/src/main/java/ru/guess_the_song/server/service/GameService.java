@@ -26,4 +26,5 @@ public interface GameService {
     List<Game> getAll();
 
     List<Game> getAllActive();
+    Optional<Game> get(UUID gameId);
 }

@@ -37,25 +37,33 @@ public class GameServiceImpl implements GameService {
 
     @Override
     public Optional<Game> create(User initiator, MusicPack musicPack, Session session) {
-        log.debug("create call");
-        Optional<Player> optionalLeader = this.playerService.create(initiator);
+//        Optional<Player> optionalLeader = this.playerService.create(initiator);
+//        if (optionalLeader.isPresent()) {
+//            Player leader = optionalLeader.get();
+//            Game game = Game.builder().musicPack(musicPack).build();
+//
+//            this.gameRepository.save(game);
+//            this.activeGames.put(game.getId(), this.gameRunnerFactory.createGameRunner(game));
+//            this.activeGames.get(game.getId()).addPlayer(leader, session);
+//            return Optional.of(game);
+//        }
+//        return Optional.empty();
+
+
+        Game game = Game.builder().musicPack(musicPack).build();
+        this.gameRepository.save(game);
+
+        Optional<Player> optionalLeader = this.playerService.create(game, initiator);
+
         if (optionalLeader.isPresent()) {
-            Player leader = optionalLeader.get();
-            Game game = Game.builder().leader(leader).musicPack(musicPack).build();
-
-//            game.getPlayers().add(leader);
-
-//            game.getPlayers().add(leader);
+            game.setLeader(optionalLeader.get());
             this.gameRepository.save(game);
-//            this.activeGames.put(game.getId(), new HashMap<>());
-            this.activeGames.put(game.getId(), this.gameRunnerFactory.createGameRunner(game));
-            this.activeGames.get(game.getId()).addPlayer(leader, session);
-//            join(game.getId(), initiator, session);
 
-//            log.debug(game.toString());
-//            log.debug("ttt" + this.gameRepository.findById(game.getId()));
+            this.activeGames.put(game.getId(), this.gameRunnerFactory.createGameRunner(game));
+            this.activeGames.get(game.getId()).addPlayer(optionalLeader.get(), session);
             return Optional.of(game);
         }
+
         return Optional.empty();
     }
 
@@ -67,7 +75,7 @@ public class GameServiceImpl implements GameService {
             log.debug("present");
             Game game = optionalGame.get();
             if (this.activeGames.containsKey(game.getId())) {
-                Optional<Player> optionalPlayer = this.playerService.create(user);
+                Optional<Player> optionalPlayer = this.playerService.create(game, user);
                 if (optionalPlayer.isPresent()) {
                     Player player = optionalPlayer.get();
                     game.getPlayers().add(player);
@@ -130,6 +138,11 @@ public class GameServiceImpl implements GameService {
     @Override
     public List<Game> getAllActive() {
         return this.gameRepository.findAllActive();
+    }
+
+    @Override
+    public Optional<Game> get(UUID gameId) {
+        return this.gameRepository.findById(gameId);
     }
 
 //    @Override

@@ -13,6 +13,7 @@ import ru.guess_the_song.core.dto.*;
 import java.io.*;
 import java.net.Socket;
 import java.util.Arrays;
+import java.util.concurrent.*;
 
 @Slf4j
 @Component
@@ -58,16 +59,10 @@ public class ConnectionService {
                 return (T) this.lastEntity;
             }
             try {
-                Thread.sleep(100);
+                Thread.sleep(10);
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);
             }
-//                try {
-//                    connection.wait();
-//                } catch (InterruptedException e) {
-//                    throw new RuntimeException(e);
-//                }
-
         }
     }
 
@@ -86,8 +81,6 @@ public class ConnectionService {
 
         public Connection(Socket socket) throws IOException {
             this.socket = socket;
-//            this.ois = new ObjectInputStream(socket.getInputStream());
-//            this.oos = new ObjectOutputStream(socket.getOutputStream());
         }
 
         public void stop() {
@@ -118,17 +111,35 @@ public class ConnectionService {
                         playerRepository.add(playerJoinGameNotificationDto.getPlayer());
                     }
                     if (object instanceof PlayerLeaveDto playerLeaveDto) {
+
                         playerRepository.update(Arrays.asList(playerLeaveDto.getGame().getPlayers()));
                     }
-                    if (object instanceof StartGameNotificationDto startGameNotificationDto) {
+                    if (object instanceof StartGameNotificationDto) {
                         if (screenManager != null)
                             Platform.runLater(() ->
                                     gameController = screenManager.changeWindow(GameController.class));
                         log.debug("screenManager=" + screenManager);
                     }
                     if (object instanceof StartRoundDto startRoundDto) {
-                        if (gameController != null)
+                        if (gameController != null) Platform.runLater(() -> {
                             gameController.startRound(startRoundDto);
+                        });
+                    }
+                    if (object instanceof EndRoundDto endRoundDto) {
+                        if (gameController != null) {
+                            Platform.runLater(() -> {
+                                playerRepository.update(Arrays.asList(endRoundDto.getPlayers()));
+                                gameController.endRound(endRoundDto);
+                            });
+                        }
+                    }
+                    if (object instanceof GameFinishedDto gameFinishedDto) {
+                        if (gameController != null) {
+                            Platform.runLater(() -> {
+                                playerRepository.update(Arrays.asList(gameFinishedDto.getGame().getPlayers()));
+                                gameController.finishGame(gameFinishedDto);
+                            });
+                        }
                     }
 
 

@@ -3,9 +3,7 @@ package ru.guess_the_song.musicpack;
 
 import ru.guess_the_song.core.dto.*;
 
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
+import java.io.*;
 import java.net.Socket;
 import java.util.Objects;
 
@@ -34,46 +32,13 @@ public class Main {
                 })
                 .build();
 
-        try (Socket socket = new Socket("localhost", 8000)) {
-            ObjectOutputStream oos = new ObjectOutputStream(socket.getOutputStream());
-            ObjectInputStream ois = new ObjectInputStream(socket.getInputStream());
-
-            oos.writeObject(CreateUserDto.builder().username("kigo").build());
-            CreateUserResponseDto createUserResponse = (CreateUserResponseDto) ois.readObject();
-
-            CreateGameDto createGameDto = CreateGameDto.builder()
-                    .initiatorId(createUserResponse.getUser().getId())
-                    .musicPack(musicPack)
-                    .build();
-
-            System.out.println(createGameDto);
-
-            oos.writeObject(createGameDto);
-            CreateGameResponseDto createGameResponse = (CreateGameResponseDto) ois.readObject();
-            if (createGameResponse != null) {
-                System.out.println(createGameResponse);
-            }
-
-            StartGameDto startGameDto = StartGameDto.builder()
-                    .gameId(createGameResponse.getGame().getId())
-                    .userId(createUserResponse.getUser().getId())
-                    .build();
-
-            oos.writeObject(startGameDto);
-            while (true) {
-                Object event = ois.readObject();
-                if (event.getClass().equals(StartRoundDto.class)) {
-                    System.out.println(event);
-                } else if (event.getClass().equals(EndRoundDto.class)) {
-                    System.out.println(event);
-                }
-            }
-
-        } catch (Exception e) {
-            e.printStackTrace();
+        File file = new File("/home/kigo/disturbed.gtsmp");
+        file.createNewFile();
+        try (
+                FileOutputStream fos = new FileOutputStream(file);
+                ObjectOutputStream oos = new ObjectOutputStream(fos);
+        ) {
+            oos.writeObject(musicPack);
         }
-
-
     }
-
 }
