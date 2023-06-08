@@ -11,6 +11,7 @@ import ru.guess_the_song.client.repository.UserRepository;
 import ru.guess_the_song.client.service.ConnectionService;
 import ru.guess_the_song.client.service.GameService;
 import ru.guess_the_song.client.service.UserService;
+import ru.guess_the_song.client.ui.ScreenManager;
 import ru.guess_the_song.client.ui.controller.*;
 
 @Slf4j
@@ -57,6 +58,11 @@ public class AppConfig {
     @Bean
     public GameBeforeStartController gameBeforeStartController() {
         return new GameBeforeStartController(playerRepository(), gameService(), userService());
+    }
+
+    @Bean
+    public GameController gameController(){
+        return new GameController();
     }
 
     @Bean

@@ -3,9 +3,10 @@ module ru.guess_the_song.client {
 
     requires javafx.controls;
     requires javafx.fxml;
+    requires javafx.media;
 
-     requires org.slf4j;
-     requires org.apache.logging.log4j;
+    requires org.slf4j;
+    requires org.apache.logging.log4j;
 
     requires spring.boot;
     requires spring.boot.autoconfigure;

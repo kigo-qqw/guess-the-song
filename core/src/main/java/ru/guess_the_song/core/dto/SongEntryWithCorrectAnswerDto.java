@@ -14,6 +14,6 @@ public class SongEntryWithCorrectAnswerDto extends EntityDto {
     private int correctAnswerIdx;
 
     public String toString() {
-        return "SongEntryWithCorrectAnswerDto(super=" + super.toString() + ", data=" + Arrays.toString(this.getData()) + ", answers=" + Arrays.toString(this.getAnswers()) + ", correctAnswerIdx=" + this.getCorrectAnswerIdx() + ")";
+        return "SongEntryWithCorrectAnswerDto(super=" + super.toString() + ", data=[...], answers=" + Arrays.toString(this.getAnswers()) + ", correctAnswerIdx=" + this.getCorrectAnswerIdx() + ")";
     }
 }

@@ -10,5 +10,6 @@ public interface GameRunner extends Runnable {
     void addPlayer(Player player, Session session);
 
     void giveAnswer(Player player, int answerId);
+
     void notifySocketClose(Socket socket);
 }

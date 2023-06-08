@@ -17,12 +17,12 @@ import ru.guess_the_song.server.repository.GameRepository;
 import java.net.Socket;
 import java.util.Comparator;
 import java.util.Map;
-import java.util.Optional;
 import java.util.TreeMap;
 
 @Slf4j
 @Component
 public class GameRunnerImpl implements GameRunner {
+    private static final int ROUND_LENGTH = 5000;
     private final Game game;
     private final Map<Player, Session> players = new TreeMap<>(Comparator.comparing(player -> player.getUser().getId()));
     private final Map<Player, Integer> answers = new TreeMap<>(Comparator.comparing(player -> player.getUser().getId()));
@@ -41,42 +41,84 @@ public class GameRunnerImpl implements GameRunner {
 
     @Override
     public void run() {
-        boolean run = true;
-        int songIdx = 0;
-        while (run) {
-            log.debug("game=" + this.game);
+        players.forEach((player, session) -> {
+            session.send(StartGameNotificationDto.builder()
+                    .gameDto(this.gameToGameDtoMapper.map(this.game))
+                    .build());
+        });
 
-            MusicPack musicPack = this.game.getMusicPack();
-            SongEntry songEntry = musicPack.getSongs().get(songIdx);
+//        boolean run = true;
+//        int songIdx = 0;
+//        while (run) {
+//            log.debug("game=" + this.game);
+//
+//            MusicPack musicPack = this.game.getMusicPack();
+//            SongEntry songEntry = musicPack.getSongs().get(songIdx);
+//            SongEntryDto songEntryDto = this.songEntryToSongEntryDtoMapper.map(songEntry);
+//            StartRoundDto startRoundDto = StartRoundDto.builder()
+//                    .gameId(game.getId())
+//                    .song(songEntryDto)
+//                    .length(5000) // FIXME: 04.05.2023
+//                    .build();
+//
+//            players.forEach((player, session) -> {
+//                session.send(startRoundDto);
+//            });
+//            try {
+//                Thread.sleep(5000);  // FIXME: 04.05.2023
+//            } catch (InterruptedException e) {
+//                throw new RuntimeException(e);
+//            }
+//
+//            this.answers.forEach((player, answerId) -> {
+//            });
+//
+//            EndRoundDto endRoundDto = EndRoundDto.builder()
+//                    .gameId(game.getId())
+//                    .answers(songEntryDto.getAnswers())
+//                    .correctAnswerId(songEntry.getCorrectAnswerIdx())
+//                    .build();
+//            players.forEach((player, session) -> {
+//                session.send(endRoundDto);
+//            });
+//            songIdx++;
+//        }
+        MusicPack musicPack = this.game.getMusicPack();
+        for (SongEntry songEntry : musicPack.getSongs()) {
             SongEntryDto songEntryDto = this.songEntryToSongEntryDtoMapper.map(songEntry);
             StartRoundDto startRoundDto = StartRoundDto.builder()
                     .gameId(game.getId())
                     .song(songEntryDto)
-                    .length(5000) // FIXME: 04.05.2023
+                    .length(ROUND_LENGTH)
                     .build();
-
             players.forEach((player, session) -> {
                 session.send(startRoundDto);
             });
             try {
-                Thread.sleep(5000);  // FIXME: 04.05.2023 
+                Thread.sleep(ROUND_LENGTH);
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);
             }
 
             this.answers.forEach((player, answerId) -> {
+                if (answerId.equals(songEntry.getCorrectAnswerIdx())) {
+                    player.setPoints(player.getPoints() + 1);
+                }
             });
+            log.info("players=" + this.game.getPlayers());
 
             EndRoundDto endRoundDto = EndRoundDto.builder()
                     .gameId(game.getId())
                     .answers(songEntryDto.getAnswers())
                     .correctAnswerId(songEntry.getCorrectAnswerIdx())
+                    .players(this.game.getPlayers().stream().map(this.playerToPlayerDtoMapper::map).toArray(PlayerDto[]::new))
                     .build();
             players.forEach((player, session) -> {
                 session.send(endRoundDto);
             });
-            songIdx++;
         }
+
+
     }
 
     @Override
@@ -106,8 +148,6 @@ public class GameRunnerImpl implements GameRunner {
                 playerSessionEntry -> this.players.remove(playerSessionEntry.getKey())
         );
         this.players.forEach((p, s) -> {
-//            log.info("session socket=" + s.getSocket());
-//            log.info("socket=" + socket);
             if (s.getSocket().equals(socket))
                 return;
             s.send(PlayerLeaveDto.builder()

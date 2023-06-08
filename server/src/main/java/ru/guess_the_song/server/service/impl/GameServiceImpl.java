@@ -111,10 +111,8 @@ public class GameServiceImpl implements GameService {
     }
 
     @Override
-    public void giveAnswer(UUID gameId, User user, int answerId) {
-        Optional<Player> optionalPlayer = this.playerService.get(user);
-        if (optionalPlayer.isEmpty()) return;
-        this.activeGames.get(gameId).giveAnswer(optionalPlayer.get(), answerId);
+    public void giveAnswer(UUID gameId, Player player, int answerId) {
+        this.activeGames.get(gameId).giveAnswer(player, answerId);
     }
 
     @Override

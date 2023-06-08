@@ -13,6 +13,6 @@ public class SongEntryDto extends EntityDto {
     private @NonNull String @NonNull [] answers;
 
     public String toString() {
-        return "SongEntryDto(super=" + super.toString() + ", data=" + Arrays.toString(this.getData()) + ", answers=" + Arrays.toString(this.getAnswers()) + ")";
+        return "SongEntryDto(super=" + super.toString() + ", data=[...], answers=" + Arrays.toString(this.getAnswers()) + ")";
     }
 }

@@ -16,4 +16,6 @@ public class EndRoundDto extends ServerMessageDto {
     private UUID gameId;
     private @NonNull String @NonNull [] answers;
     private int correctAnswerId;
+    @NonNull
+    private PlayerDto @NonNull [] players;
 }

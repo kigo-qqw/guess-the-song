@@ -27,7 +27,7 @@ public class MusicPackServiceImpl implements MusicPackService {
 
     @Override
     public Optional<MusicPack> create(MusicPack musicPack) {
-        musicPack.getSongs().forEach(songEntry -> songEntry.setData(Arrays.copyOfRange(songEntry.getData(), 0, 10)));
+//        musicPack.getSongs().forEach(songEntry -> songEntry.setData(Arrays.copyOfRange(songEntry.getData(), 0, 10)));
         return Optional.of(this.musicPackRepository.save(musicPack));
     }
 }

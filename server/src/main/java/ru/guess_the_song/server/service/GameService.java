@@ -18,7 +18,7 @@ public interface GameService {
 
     void start(UUID gameId, User user);
 
-    void giveAnswer(UUID gameId, User user, int answerId);
+    void giveAnswer(UUID gameId, Player player, int answerId);
 
     //    void notifyPlayersNewPlayerJoined(UUID gameId, User user);
     void notifySocketClose(Socket socket);

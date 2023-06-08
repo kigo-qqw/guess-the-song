@@ -20,6 +20,10 @@ public abstract class BaseController implements Initializable {
         this.screenManager = screenManager;
     }
 
+    public ScreenManager getScreenManager() {
+        return this.screenManager;
+    }
+
     public <T extends BaseController> T changeWindow(Class<T> controllerClass) {
         log.debug("change window to=" + controllerClass);
         return this.screenManager.changeWindow(controllerClass);

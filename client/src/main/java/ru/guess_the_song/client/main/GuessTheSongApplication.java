@@ -38,6 +38,7 @@ public class GuessTheSongApplication extends Preloader {
             applicationContext.registerBean(Parameters.class, this::getParameters);
             applicationContext.registerBean(HostServices.class, this::getHostServices);
             applicationContext.registerBean(AppConfig.class, AppConfig::new);
+//            applicationContext.registerBean(ScreenManager.class, () -> this.screenManager);
         };
 
         this.applicationContext = new SpringApplicationBuilder()
@@ -69,7 +70,7 @@ public class GuessTheSongApplication extends Preloader {
     }
 
     @Override
-    public void stop(){
+    public void stop() {
         Platform.exit();
         System.exit(0);
     }

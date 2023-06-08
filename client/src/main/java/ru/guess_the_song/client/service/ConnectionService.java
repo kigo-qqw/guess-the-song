@@ -1,12 +1,14 @@
 package ru.guess_the_song.client.service;
 
+import javafx.application.Platform;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import ru.guess_the_song.client.repository.PlayerRepository;
-import ru.guess_the_song.core.dto.EntityDto;
-import ru.guess_the_song.core.dto.PlayerJoinGameNotificationDto;
-import ru.guess_the_song.core.dto.PlayerLeaveDto;
+import ru.guess_the_song.client.ui.ScreenManager;
+import ru.guess_the_song.client.ui.controller.GameController;
+import ru.guess_the_song.core.dto.*;
 
 import java.io.*;
 import java.net.Socket;
@@ -21,6 +23,8 @@ public class ConnectionService {
     private Thread worker;
     private final PlayerRepository playerRepository;
 
+    private ScreenManager screenManager;
+
 
 //    private ObjectInputStream ois;
 //    private ObjectOutputStream oos;
@@ -28,11 +32,9 @@ public class ConnectionService {
     private EntityDto lastEntity = null;
 
     public ConnectionService(
-            PlayerRepository playerRepository
-    ) {
+            PlayerRepository playerRepository) {
         this.playerRepository = playerRepository;
     }
-//    private long lastEntityTime = -1;
 
     public void connect(@Value("${server.address}") String address, @Value("${server.port}") int port) throws IOException {
         this.socket = new Socket(address, port);
@@ -69,14 +71,18 @@ public class ConnectionService {
         }
     }
 
+    public void setScreenManager(ScreenManager screenManager) {
+        log.debug("set screenManager=" + screenManager);
+        this.screenManager = screenManager;
+    }
 
-    //    @Slf4j
     @Component
     private class Connection implements Runnable {
         private boolean isRun = true;
         private final Socket socket;
         private ObjectInputStream ois;
         private ObjectOutputStream oos;
+        private GameController gameController = null;
 
         public Connection(Socket socket) throws IOException {
             this.socket = socket;
@@ -114,6 +120,17 @@ public class ConnectionService {
                     if (object instanceof PlayerLeaveDto playerLeaveDto) {
                         playerRepository.update(Arrays.asList(playerLeaveDto.getGame().getPlayers()));
                     }
+                    if (object instanceof StartGameNotificationDto startGameNotificationDto) {
+                        if (screenManager != null)
+                            Platform.runLater(() ->
+                                    gameController = screenManager.changeWindow(GameController.class));
+                        log.debug("screenManager=" + screenManager);
+                    }
+                    if (object instanceof StartRoundDto startRoundDto) {
+                        if (gameController != null)
+                            gameController.startRound(startRoundDto);
+                    }
+
 
                 } catch (IOException | ClassNotFoundException e) {
                     throw new RuntimeException(e);
