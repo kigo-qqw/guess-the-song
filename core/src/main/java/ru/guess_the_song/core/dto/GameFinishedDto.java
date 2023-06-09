@@ -14,5 +14,5 @@ public class GameFinishedDto extends ServerMessageDto {
     @NonNull
     private GameDto game;
     @NonNull
-    private PlayerDto winner;
+    private PlayerDto @NonNull [] winners;
 }

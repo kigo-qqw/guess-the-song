@@ -16,10 +16,7 @@ import ru.guess_the_song.client.repository.PlayerRepository;
 import ru.guess_the_song.client.service.GameService;
 import ru.guess_the_song.client.service.UserService;
 import ru.guess_the_song.client.ui.components.PlayerList;
-import ru.guess_the_song.core.dto.EndRoundDto;
-import ru.guess_the_song.core.dto.GameFinishedDto;
-import ru.guess_the_song.core.dto.SongEntryDto;
-import ru.guess_the_song.core.dto.StartRoundDto;
+import ru.guess_the_song.core.dto.*;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -120,11 +117,28 @@ public class GameController extends BaseController {
         this.roundBox.setVisible(false);
         this.finishBox.setVisible(true);
 
-        this.winnerLabel.setText(
-                gameFinishedDto.getWinner().getUser().getUsername()
-                        + " won with "
-                        + gameFinishedDto.getWinner().getPoints()
-                        + " points"
-        );
+        if (gameFinishedDto.getWinners().length == 1) {
+            PlayerDto winner = gameFinishedDto.getWinners()[0];
+            this.winnerLabel.setText(
+                    winner.getUser().getUsername()
+                            + " won with "
+                            + winner.getPoints()
+                            + " points"
+            );
+        } else {
+            StringBuilder stringBuilder = new StringBuilder();
+            stringBuilder.append("winners: ");
+            for (int i = 0; i < gameFinishedDto.getWinners().length; i++) {
+                PlayerDto winner = gameFinishedDto.getWinners()[i];
+                stringBuilder.append(winner.getUser().getUsername());
+                if (i < gameFinishedDto.getWinners().length - 1) {
+                    stringBuilder.append(", ");
+                }
+            }
+            stringBuilder.append(" with ")
+                    .append(gameFinishedDto.getWinners()[0].getPoints())
+                    .append(" points");
+            this.winnerLabel.setText(stringBuilder.toString());
+        }
     }
 }

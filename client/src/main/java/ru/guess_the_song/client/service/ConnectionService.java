@@ -121,9 +121,16 @@ public class ConnectionService {
                         log.debug("screenManager=" + screenManager);
                     }
                     if (object instanceof StartRoundDto startRoundDto) {
-                        if (gameController != null) Platform.runLater(() -> {
-                            gameController.startRound(startRoundDto);
-                        });
+                        Platform.runLater(() -> {
+                        if (gameController != null)
+//                            Platform.runLater(() -> {
+//                                try {
+//                                    Thread.sleep(10);
+//                                } catch (InterruptedException e) {
+//                                    throw new RuntimeException(e);
+//                                }
+                                gameController.startRound(startRoundDto);
+                            });
                     }
                     if (object instanceof EndRoundDto endRoundDto) {
                         if (gameController != null) {

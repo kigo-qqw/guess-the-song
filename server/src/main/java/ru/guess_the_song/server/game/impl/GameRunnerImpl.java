@@ -16,10 +16,7 @@ import ru.guess_the_song.server.repository.GameRepository;
 import ru.guess_the_song.server.service.PlayerService;
 
 import java.net.Socket;
-import java.util.Comparator;
-import java.util.Map;
-import java.util.Optional;
-import java.util.TreeMap;
+import java.util.*;
 
 @Slf4j
 @Component
@@ -55,6 +52,10 @@ public class GameRunnerImpl implements GameRunner {
     @Override
     public void run() {
         log.info("this.roundLength={}", this.roundLength);
+
+        this.game.setStarted(true);
+        this.game = this.gameRepository.findById(this.gameRepository.save(this.game).getId()).get();
+
         players.forEach((player, session) -> {
             session.send(StartGameNotificationDto.builder()
                     .gameDto(this.gameToGameDtoMapper.map(this.game))
@@ -105,17 +106,22 @@ public class GameRunnerImpl implements GameRunner {
         Optional<Player> optionalPlayer = this.game.getPlayers().stream()
                 .max(Comparator.comparing(Player::getPoints));
 
-        log.info("{} won", optionalPlayer);
         if (optionalPlayer.isPresent()) {
+            List<Player> winners = this.game.getPlayers().stream().filter(player -> player.getPoints() == optionalPlayer.get().getPoints()).toList();
             GameFinishedDto gameFinishedDto = GameFinishedDto.builder()
                     .game(this.gameToGameDtoMapper.map(this.game))
-                    .winner(this.playerToPlayerDtoMapper.map(optionalPlayer.get()))
+                    .winners(
+                            winners.stream().map(this.playerToPlayerDtoMapper::map).toArray(PlayerDto[]::new)
+                    )
                     .build();
 
             players.forEach((player, session) -> {
                 session.send(gameFinishedDto);
             });
         }
+
+        this.game.setFinished(true);
+        this.game = this.gameRepository.findById(this.gameRepository.save(this.game).getId()).get();
     }
 
     @Override
@@ -140,11 +146,20 @@ public class GameRunnerImpl implements GameRunner {
 
     @Override
     public void notifySocketClose(Socket socket) {
-        this.players.entrySet().stream().filter(
-                playerSessionEntry -> playerSessionEntry.getValue().getSocket().equals(socket)
-        ).findFirst().ifPresent(
-                playerSessionEntry -> this.players.remove(playerSessionEntry.getKey())
-        );
+        Optional<Player> player = this.players.keySet().stream().filter(
+                p -> this.players.get(p).getSocket().equals(socket)
+        ).findFirst();
+
+        player.ifPresent(this.players::remove);
+
+        this.game.setPlayers(this.players.keySet().stream().toList());
+
+        if (this.game.getPlayers().size() < 1) {
+            this.game.setCanceled(true);
+        }
+
+        this.game = this.gameRepository.findById(this.gameRepository.save(this.game).getId()).get();
+
         this.players.forEach((p, s) -> {
             if (s.getSocket().equals(socket))
                 return;
