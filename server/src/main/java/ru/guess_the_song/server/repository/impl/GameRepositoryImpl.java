@@ -7,11 +7,14 @@ import jakarta.persistence.PersistenceUnit;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import ru.guess_the_song.server.entity.Game;
+import ru.guess_the_song.server.entity.Player;
 import ru.guess_the_song.server.repository.GameRepository;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Component
@@ -28,7 +31,7 @@ public class GameRepositoryImpl implements GameRepository {
         EntityManager entityManager = this.entityManagerFactory.createEntityManager();
         entityManager.getTransaction().begin();
         List<Game> result = entityManager
-                .createQuery("FROM Game g WHERE g.id = :gameID")
+                .createQuery("FROM Game g WHERE g.id = :gameID ")
                 .setParameter("gameID", id)
                 .getResultList();
 
@@ -37,7 +40,10 @@ public class GameRepositoryImpl implements GameRepository {
 
         if (result.isEmpty())
             return Optional.empty();
-        return Optional.of(result.get(0));
+        log.info("find by id = {}", result.get(0));
+        Game game = result.get(0);
+        game.setPlayers(game.getPlayers().stream().filter(Player::isInGame).collect(Collectors.toCollection(ArrayList::new)));
+        return Optional.of(game);
 
     }
 

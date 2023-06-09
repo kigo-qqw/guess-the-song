@@ -2,8 +2,10 @@ package ru.guess_the_song.server.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
-import org.hibernate.annotations.LazyCollection;
-import org.hibernate.annotations.LazyCollectionOption;
+import org.hibernate.annotations.Filter;
+import org.hibernate.annotations.FilterDef;
+import org.hibernate.annotations.FilterJoinTable;
+import org.hibernate.annotations.ParamDef;
 import ru.guess_the_song.server.entity.base.BaseEntity;
 
 import java.util.ArrayList;
@@ -11,6 +13,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 
+@FilterDef(name = "playersFilter", defaultCondition = "isingame = true")
 
 @Getter
 @Setter
@@ -29,6 +32,7 @@ public class Game extends BaseEntity {
 //    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "game")
 //    @JoinColumn(name = "Players", referencedColumnName = "id", updatable = true)
+    @Filter(name = "playersFilter")
     private List<Player> players;
     @OneToOne
     private MusicPack musicPack;
