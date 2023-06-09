@@ -65,6 +65,11 @@ public class AppConfig {
     }
 
     @Bean
+    public DisconnectController disconnectController() {
+        return new DisconnectController();
+    }
+
+    @Bean
     public GameService gameService() {
         if (this.gameService == null)
             this.gameService = new GameService(connectionService(), gameRepository(), userService(), playerRepository());

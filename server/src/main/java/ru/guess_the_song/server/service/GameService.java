@@ -23,8 +23,9 @@ public interface GameService {
     //    void notifyPlayersNewPlayerJoined(UUID gameId, User user);
     void notifySocketClose(Socket socket);
 
-    List<Game> getAll();
-
     List<Game> getAllActive();
+
     Optional<Game> get(UUID gameId);
+
+    void leave(UUID gameId, User user);
 }

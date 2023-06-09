@@ -9,7 +9,10 @@ import java.util.UUID;
 
 public interface PlayerService {
     Optional<Player> create(Game game, User user);
+
     Optional<Player> get(Game game, User user);
+
     Optional<Player> get(UUID id);
+
     void increasePoints(Player player, int points);
 }

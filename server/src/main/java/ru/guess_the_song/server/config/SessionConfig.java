@@ -29,7 +29,8 @@ public class SessionConfig {
             GetActiveGamesController getActiveGamesController,
             GetUserController getUserController,
             GetPlayerController getPlayerController,
-            GiveAnswerController giveAnswerController
+            GiveAnswerController giveAnswerController,
+            LeaveGameController leaveGameController
     ) {
         this.gameConfig = gameConfig;
         this.dispatcher = new DispatcherImpl();
@@ -41,6 +42,7 @@ public class SessionConfig {
         this.dispatcher.use(GetUserDto.class, getUserController);
         this.dispatcher.use(GetPlayerDto.class, getPlayerController);
         this.dispatcher.use(GiveAnswerDto.class, giveAnswerController);
+        this.dispatcher.use(LeaveGameDto.class, leaveGameController);
 
         this.sessionFactory = new SessionFactoryImpl(this.dispatcher, this.gameConfig.gameService());
     }

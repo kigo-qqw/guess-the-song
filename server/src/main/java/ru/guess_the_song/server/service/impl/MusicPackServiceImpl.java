@@ -7,7 +7,6 @@ import ru.guess_the_song.server.entity.SongEntry;
 import ru.guess_the_song.server.repository.MusicPackRepository;
 import ru.guess_the_song.server.service.MusicPackService;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -27,7 +26,6 @@ public class MusicPackServiceImpl implements MusicPackService {
 
     @Override
     public Optional<MusicPack> create(MusicPack musicPack) {
-//        musicPack.getSongs().forEach(songEntry -> songEntry.setData(Arrays.copyOfRange(songEntry.getData(), 0, 10)));
         return Optional.of(this.musicPackRepository.save(musicPack));
     }
 }

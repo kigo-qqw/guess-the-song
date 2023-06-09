@@ -22,9 +22,7 @@ import java.util.concurrent.Executors;
 @Component
 public class GameServiceImpl implements GameService {
     private final GameRepository gameRepository;
-    private final ExecutorService executor = Executors.newCachedThreadPool();
     private final GameRunnerFactory gameRunnerFactory;
-    //    private final Map<UUID, Map<Player, Session>> activeGames;
     private final Map<UUID, GameRunner> activeGames;
     private final PlayerService playerService;
 
@@ -37,19 +35,6 @@ public class GameServiceImpl implements GameService {
 
     @Override
     public Optional<Game> create(User initiator, MusicPack musicPack, Session session) {
-//        Optional<Player> optionalLeader = this.playerService.create(initiator);
-//        if (optionalLeader.isPresent()) {
-//            Player leader = optionalLeader.get();
-//            Game game = Game.builder().musicPack(musicPack).build();
-//
-//            this.gameRepository.save(game);
-//            this.activeGames.put(game.getId(), this.gameRunnerFactory.createGameRunner(game));
-//            this.activeGames.get(game.getId()).addPlayer(leader, session);
-//            return Optional.of(game);
-//        }
-//        return Optional.empty();
-
-
         Game game = Game.builder().musicPack(musicPack).build();
         this.gameRepository.save(game);
 
@@ -63,31 +48,22 @@ public class GameServiceImpl implements GameService {
             this.activeGames.get(game.getId()).addPlayer(optionalLeader.get(), session);
             return Optional.of(game);
         }
-
         return Optional.empty();
     }
 
     @Override
     public Optional<Game> join(UUID gameId, User user, Session session) {
-        log.debug("join call");
         Optional<Game> optionalGame = this.gameRepository.findById(gameId);
         if (optionalGame.isPresent()) {
-            log.debug("present");
             Game game = optionalGame.get();
             if (this.activeGames.containsKey(game.getId())) {
                 Optional<Player> optionalPlayer = this.playerService.create(game, user);
                 if (optionalPlayer.isPresent()) {
                     Player player = optionalPlayer.get();
                     game.getPlayers().add(player);
-//                    this.activeGames.get(game.getId()).put(player, session);
                     this.activeGames.get(game.getId()).addPlayer(player, session);
 
-
-                    log.debug("added: " + player);
-                    log.debug(String.valueOf(game));
-
                     this.gameRepository.save(game);
-
                     return Optional.of(game);
                 }
             } else throw new RuntimeException("xdd");
@@ -97,22 +73,11 @@ public class GameServiceImpl implements GameService {
 
     @Override
     public void start(UUID gameId, User user) {
-        log.debug("start call");
-        log.debug("gameId=" + gameId);
         Optional<Game> optionalGame = this.gameRepository.findById(gameId);
         if (optionalGame.isPresent()) {
             Game game = optionalGame.get();
-            log.debug(game.getLeader().getUser().toString());
-            log.debug(user.toString());
+
             if (game.getLeader().getUser().equals(user)) {
-                log.debug("xddddd1");
-//                this.executor.submit(this.gameRunnerFactory.createGameRunner(
-//                        game,
-//                        this.activeGames.get(game)
-//                ));
-//                new Thread(this.gameRunnerFactory.createGameRunner(
-//                        game
-//                )).start();
                 new Thread(this.activeGames.get(game.getId())).start();
             }
         }
@@ -131,11 +96,6 @@ public class GameServiceImpl implements GameService {
     }
 
     @Override
-    public List<Game> getAll() {
-        return this.gameRepository.findAll();
-    }
-
-    @Override
     public List<Game> getAllActive() {
         return this.gameRepository.findAllActive();
     }
@@ -145,11 +105,14 @@ public class GameServiceImpl implements GameService {
         return this.gameRepository.findById(gameId);
     }
 
-//    @Override
-//    public void notifyPlayersNewPlayerJoined(UUID gameId, User user) {
-//        Optional<Player> optionalPlayer = this.playerService.get(user);
-//        if (optionalPlayer.isEmpty()) return;
-//        this.activeGames.get(gameId)
-//        this.activeGames.get(gameId).giveAnswer(optionalPlayer.get(), answerId);
-//    }
+    @Override
+    public void leave(UUID gameId, User user) {
+        Optional<Game> optionalGame = get(gameId);
+        if (optionalGame.isEmpty()) return;
+
+        Optional<Player> optionalPlayer = this.playerService.get(optionalGame.get(), user);
+        if (optionalPlayer.isEmpty()) return;
+
+        this.activeGames.get(gameId).removePlayer(optionalPlayer.get());
+    }
 }

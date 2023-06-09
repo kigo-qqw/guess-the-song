@@ -15,6 +15,7 @@ import org.springframework.stereotype.Component;
 import ru.guess_the_song.client.config.AppConfig;
 import ru.guess_the_song.client.service.ConnectionService;
 import ru.guess_the_song.client.ui.ScreenManager;
+import ru.guess_the_song.client.ui.controller.DisconnectController;
 import ru.guess_the_song.client.ui.controller.LoginController;
 import ru.guess_the_song.client.ui.controller.SplashScreenController;
 
@@ -25,6 +26,7 @@ import java.io.IOException;
 public class GuessTheSongApplication extends Preloader {
     private ConfigurableApplicationContext applicationContext;
     private ScreenManager screenManager;
+    private ConnectionService connectionService;
 
     @Value("${server.address:localhost}")
     private String address;
@@ -46,17 +48,28 @@ public class GuessTheSongApplication extends Preloader {
                 .initializers(initializer)
                 .run(getParameters().getRaw().toArray(new String[0]));
 
+        this.connectionService = this.applicationContext.getBean(ConnectionService.class);
+
         //        this.applicationContext.getAutowireCapableBeanFactory().autowireBean(this);
     }
 
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        log.debug("--address=" + this.address);
-        log.debug("--port=" + this.port);
         primaryStage.show();
 
         this.screenManager = new ScreenManager(primaryStage, this.applicationContext);
+
+        try {
+            this.connectionService.connect(address, port);
+            this.connectionService.setScreenManager(this.screenManager);
+            log.debug("set connectionService=" + this.connectionService);
+        } catch (IOException e) {
+            log.info("Cant connect");
+            this.screenManager.changeWindow(DisconnectController.class);
+            return;
+        }
+
         SplashScreenController splashScreenController = this.screenManager.changeWindow(SplashScreenController.class);
 
         Thread.sleep(2000);

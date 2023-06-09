@@ -10,7 +10,6 @@ import ru.guess_the_song.server.mapper.SongEntryToSongEntryDtoMapper;
 @Slf4j
 @Component
 public class SongEntryToSongEntryDtoMapperImpl implements SongEntryToSongEntryDtoMapper {
-
     @Override
     public SongEntryDto map(SongEntry data) {
         return SongEntryDto.builder()

@@ -85,4 +85,9 @@ public class GameConfig {
     public GiveAnswerController giveAnswerController() {
         return new GiveAnswerControllerImpl(this.gameService(), this.userConfig.userService(), this.playerConfig.playerService());
     }
+
+    @Bean
+    public LeaveGameController leaveGameController() {
+        return new LeaveGameControllerImpl(gameService(), this.userConfig.userService());
+    }
 }

@@ -10,8 +10,4 @@ import ru.guess_the_song.server.service.HealthCheckService;
 @Slf4j
 @Component
 public class HealthCheckServiceImpl implements HealthCheckService {
-//    @Override
-//    public Result<HealthCheckResponseDto> check(HealthCheckDto request) {
-//        return Result.of(HealthCheckResponseDto.builder().build());
-//    }
 }

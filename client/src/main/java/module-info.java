@@ -21,4 +21,5 @@ module ru.guess_the_song.client {
 
     exports ru.guess_the_song.client.main;
     exports ru.guess_the_song.client.config;
+    exports ru.guess_the_song.client.service;
 }

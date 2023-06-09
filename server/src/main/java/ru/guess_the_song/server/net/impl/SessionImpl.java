@@ -61,13 +61,13 @@ public class SessionImpl implements Session {
     @Override
     public synchronized void send(Object object) {
 //        synchronized (this.socket) {
-            log.info("send object : {}", object);
-            try {
-                this.out.writeObject(object);
-                this.out.flush();
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
+        log.info("send object : {}", object);
+        try {
+            this.out.writeObject(object);
+            this.out.flush();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
 //        }
     }
 

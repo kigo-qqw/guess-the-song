@@ -21,20 +21,13 @@ public class UserRepositoryImpl implements UserRepository {
     private final EntityManagerFactory entityManagerFactory;
 
     public UserRepositoryImpl() {
-        log.debug("UserRepositoryImpl created");
         this.entityManagerFactory = Persistence.createEntityManagerFactory("ru.guess_the_song.server");
     }
 
     @Override
     public Optional<User> findById(UUID id) {
-        log.debug("find user : " + id);
         EntityManager entityManager = this.entityManagerFactory.createEntityManager();
         entityManager.getTransaction().begin();
-//        User result = (User) entityManager
-//                .createQuery("FROM User u WHERE u.id = :userID")
-//                .setParameter("userID", id)
-//                .getResultList().get(0);
-////                .getSingleResult();
         List<User> result = entityManager
                 .createQuery("FROM User u WHERE u.id = :userID")
                 .setParameter("userID", id)
@@ -52,12 +45,6 @@ public class UserRepositoryImpl implements UserRepository {
     public <S extends User> S save(S entity) {
         EntityManager entityManager = this.entityManagerFactory.createEntityManager();
         entityManager.getTransaction().begin();
-//        entityManager.persist(entity);
-
-//        if (entity.getId() != null)
-//            entityManager.merge(entity);
-//        else
-//            entityManager.persist(entity);
 
         if (entity.getId() != null) {
             Optional<User> optionalUser = findById(entity.getId());
@@ -68,11 +55,9 @@ public class UserRepositoryImpl implements UserRepository {
         } else
             entityManager.persist(entity);
 
-
         entityManager.getTransaction().commit();
         entityManager.close();
 
-        log.debug("save user : " + entity);
         return entity;
     }
 }

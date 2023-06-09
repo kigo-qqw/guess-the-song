@@ -11,5 +11,6 @@ public interface PlayerRepository extends Repository<Player, UUID> {
     <S extends Player> S save(S entity);
 
     Optional<Player> findByGameAndUser(Game game, User user);
+
     Optional<Player> findById(UUID id);
 }

@@ -15,6 +15,7 @@ import java.net.Socket;
 public class SessionFactoryImpl implements SessionFactory {
     private final Dispatcher dispatcher;
     private final GameService gameService;
+
     public SessionFactoryImpl(Dispatcher dispatcher, GameService gameService) {
         this.dispatcher = dispatcher;
         this.gameService = gameService;

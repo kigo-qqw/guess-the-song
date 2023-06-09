@@ -7,10 +7,7 @@ import jakarta.persistence.PersistenceUnit;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import ru.guess_the_song.server.entity.Game;
-import ru.guess_the_song.server.entity.MusicPack;
-import ru.guess_the_song.server.entity.User;
 import ru.guess_the_song.server.repository.GameRepository;
-import ru.guess_the_song.server.repository.PlayerRepository;
 
 import java.util.List;
 import java.util.Optional;
@@ -22,27 +19,12 @@ public class GameRepositoryImpl implements GameRepository {
     @PersistenceUnit(name = "ru.guess_the_song.server")
     private final EntityManagerFactory entityManagerFactory;
 
-//    private final PlayerRepository playerRepository;
-
     public GameRepositoryImpl() {
-        log.debug("GameRepositoryImpl created");
         this.entityManagerFactory = Persistence.createEntityManagerFactory("ru.guess_the_song.server");
     }
 
     @Override
     public Optional<Game> findById(UUID id) {
-//        EntityManager entityManager = this.entityManagerFactory.createEntityManager();
-//        entityManager.getTransaction().begin();
-//        Game result = (Game) entityManager
-//                .createQuery("FROM Game g WHERE g.id = :gameID")
-//                .setParameter("gameID", id)
-//                .getResultList().get(0);
-////                .getSingleResult();
-//        entityManager.getTransaction().commit();
-//        entityManager.close();
-//
-//        return Optional.of(result);
-
         EntityManager entityManager = this.entityManagerFactory.createEntityManager();
         entityManager.getTransaction().begin();
         List<Game> result = entityManager
@@ -88,35 +70,17 @@ public class GameRepositoryImpl implements GameRepository {
 
     @Override
     public <S extends Game> S save(S entity) {
-//        EntityManager entityManager = this.entityManagerFactory.createEntityManager();
-//        entityManager.getTransaction().begin();
-//
-//        log.debug("GAME ID=" + entity.getId());
-//        if (entity.getId() != null)
-//            entityManager.merge(entity);
-//        else
-//            entityManager.persist(entity);
-//        entityManager.getTransaction().commit();
-//        entityManager.close();
-//
-//        return entity;
-
-        log.debug("SAVE GAME=" + entity);
-
         EntityManager entityManager = this.entityManagerFactory.createEntityManager();
         entityManager.getTransaction().begin();
 
         if (entity.getId() != null) {
             Optional<Game> optionalGame = findById(entity.getId());
             if (optionalGame.isPresent()) {
-                log.info("Game Repository 1");
                 entityManager.merge(entity);
             } else {
-                log.info("Game Repository 2");
                 entityManager.persist(entity);
             }
         } else {
-            log.info("Game Repository 3");
             entityManager.persist(entity);
         }
 

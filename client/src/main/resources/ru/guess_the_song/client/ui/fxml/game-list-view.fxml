@@ -1,16 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.ListView?>
-<?import javafx.scene.control.TableView?>
-<?import javafx.scene.control.TableColumn?>
 <VBox xmlns="http://javafx.com/javafx"
       xmlns:fx="http://javafx.com/fxml"
       fx:controller="ru.guess_the_song.client.ui.controller.GameListController"
       prefHeight="400.0" prefWidth="600.0">
 
-<!--    <ListView fx:id="activeGamesListView"/>-->
     <TableView fx:id="activeGamesTableView">
         <columns>
             <TableColumn fx:id="activeGamesUuidTableColumn"/>
@@ -19,5 +16,8 @@
             <TableColumn fx:id="activeGamesConnectTableColumn"/>
         </columns>
     </TableView>
-    <Button fx:id="createNewGameButton" text="create"/>
+    <HBox>
+        <Button fx:id="createNewGameButton" text="create"/>
+        <Button fx:id="updateButton" text="update"/>
+    </HBox>
 </VBox>

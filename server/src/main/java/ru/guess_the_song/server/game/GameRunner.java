@@ -4,10 +4,11 @@ import ru.guess_the_song.server.entity.Player;
 import ru.guess_the_song.server.net.Session;
 
 import java.net.Socket;
-import java.util.UUID;
 
 public interface GameRunner extends Runnable {
     void addPlayer(Player player, Session session);
+
+    void removePlayer(Player player);
 
     void giveAnswer(Player player, int answerId);
 

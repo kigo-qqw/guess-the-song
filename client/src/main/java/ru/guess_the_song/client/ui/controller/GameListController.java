@@ -46,6 +46,8 @@ public class GameListController extends BaseController {
     private TableColumn<GameItem, Button> activeGamesConnectTableColumn;
     @FXML
     private Button createNewGameButton;
+    @FXML
+    private Button updateButton;
 
     public GameListController(GameService gameService, UserService userService, PlayerRepository playerRepository) {
         this.gameService = gameService;
@@ -55,61 +57,6 @@ public class GameListController extends BaseController {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-
-
-//        this.songIndexTableColumn.setCellValueFactory(
-//                songCellDataFeatures -> songCellDataFeatures.getValue().indexProperty.asObject());
-//        this.songFilenameTableColumn.setCellValueFactory(
-//                songCellDataFeatures -> songCellDataFeatures.getValue().filenameProperty);
-//        this.songAnswersTableColumn.setCellValueFactory(
-//                songCellDataFeatures -> {
-//                    ListView<String> listView = new ListView<>(songCellDataFeatures.getValue().answersProperty);
-//
-//                    listView.setPrefHeight(songCellDataFeatures.getValue().answersProperty.size() * ROW_HEIGHT + 2);
-//                    listView.setEditable(true);
-//                    listView.setCellFactory(TextFieldListCell.forListView());
-//
-//                    return new SimpleObjectProperty<>(listView);
-//                });
-//
-//        this.correctAnswerTableColumn.setCellValueFactory(songCellDataFeatures -> {
-//            ChoiceBox<String> correctAnswerChoiceBox = new ChoiceBox<>(songCellDataFeatures.getValue().answersProperty);
-//            correctAnswerChoiceBox.setValue(
-//                    songCellDataFeatures.getValue().answersProperty.get(
-//                            songCellDataFeatures.getValue().correctAnswerIndexProperty.get()));
-//            correctAnswerChoiceBox.getSelectionModel()
-//                    .selectedIndexProperty()
-//                    .addListener((observable, oldValue, newValue) ->
-//                            songCellDataFeatures.getValue().correctAnswerIndexProperty.set(newValue.intValue()));
-//            return new SimpleObjectProperty<>(correctAnswerChoiceBox);
-//        });
-//
-//        this.deleteSongButtonTableColumn.setCellValueFactory(
-//                songCellDataFeatures -> songCellDataFeatures.getValue().deleteButtonProperty);
-//
-//        this.songsTableView.setItems(FXCollections.observableArrayList(List.of()));
-
-
-//        this.activeGamesUuidTableColumn.setCellValueFactory(gameCellDataFeatures ->
-//                new SimpleObjectProperty<>(gameCellDataFeatures.getValue().getId()));
-//        this.activeGamesLeaderTableColumn.setCellValueFactory(gameCellDataFeatures -> {
-//            String leaderName = "unknown";
-//            Optional<PlayerDto> optionalPlayerDto = this.playerRepository.get(gameCellDataFeatures.getValue().getLeaderId());
-//            if (optionalPlayerDto.isPresent()) {
-//                Optional<UserDto> optionalUserDto = this.userService.getById(optionalPlayerDto.get().getUserId());
-//                if (optionalUserDto.isPresent()) {
-//                    leaderName = optionalUserDto.get().getUsername();
-//                }
-//            }
-//            return new SimpleStringProperty(leaderName);
-//        });
-//        this.activeGamesPlayerAmountTableColumn.setCellValueFactory(gameCellDataFeatures -> {
-//            return new SimpleIntegerProperty(gameCellDataFeatures.getValue().getPlayers().length);
-//        });
-//        this.activeGamesConnectTableColumn.setCellValueFactory(gameCellDataFeatures -> {
-//            return new SimpleObjectProperty<>(new Button("connect"));
-//        });
-
         this.activeGamesUuidTableColumn.setCellValueFactory(gameCellDataFeatures ->
                 gameCellDataFeatures.getValue().uuidProperty);
         this.activeGamesLeaderTableColumn.setCellValueFactory(gameCellDataFeatures ->
@@ -119,7 +66,19 @@ public class GameListController extends BaseController {
         this.activeGamesConnectTableColumn.setCellValueFactory(gameCellDataFeatures ->
                 gameCellDataFeatures.getValue().connectButtonProperty);
 
+        updateGames();
 
+        this.createNewGameButton.setOnAction(event -> {
+            CreateGameController createGameController = this.openDialogWindow(CreateGameController.class);
+            Optional<GameDto> optionalGameDto = createGameController.result();
+            if (optionalGameDto.isPresent())
+                changeWindow(GameBeforeStartController.class);
+        });
+
+        this.updateButton.setOnAction(event -> updateGames());
+    }
+
+    private void updateGames() {
         try {
             ObservableList<GameDto> gameDtoObservableList = FXCollections.observableList(this.gameService.getAll());
             ObservableList<GameItem> gameItems = FXCollections.observableArrayList(
@@ -139,14 +98,6 @@ public class GameListController extends BaseController {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-
-
-        this.createNewGameButton.setOnAction(event -> {
-            CreateGameController createGameController = this.openDialogWindow(CreateGameController.class);
-            Optional<GameDto> optionalGameDto = createGameController.result();
-            if (optionalGameDto.isPresent())
-                changeWindow(GameBeforeStartController.class);
-        });
     }
 
     private GameItem mapGameDtoToGameItem(GameDto gameDto) {
@@ -154,10 +105,6 @@ public class GameListController extends BaseController {
 
         Optional<PlayerDto> optionalPlayerDto = this.playerRepository.get(gameDto.getLeaderId());
         if (optionalPlayerDto.isPresent()) {
-//            Optional<UserDto> optionalUserDto = this.userService.getById(optionalPlayerDto.get().getUser().getId());
-//            if (optionalUserDto.isPresent()) {
-//                leaderName = optionalUserDto.get().getUsername();
-//            }
             leaderName = optionalPlayerDto.get().getUser().getUsername();
         }
 

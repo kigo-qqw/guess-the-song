@@ -9,7 +9,6 @@ import ru.guess_the_song.server.mapper.PlayerToPlayerDtoMapper;
 public class GameToGameDtoMapperImpl implements GameToGameDtoMapper {
     private final PlayerToPlayerDtoMapper playerToPlayerDtoMapper;
 
-
     public GameToGameDtoMapperImpl(PlayerToPlayerDtoMapper playerToPlayerDtoMapper) {
         this.playerToPlayerDtoMapper = playerToPlayerDtoMapper;
     }

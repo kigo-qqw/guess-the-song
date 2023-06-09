@@ -21,7 +21,6 @@ import java.util.*;
 @Slf4j
 @Component
 public class GameRunnerImpl implements GameRunner {
-    //    @Value("${game.round.duration}")
     private final int roundLength;
     private Game game;
     private final Map<Player, Session> players = new TreeMap<>(Comparator.comparing(player -> player.getUser().getId()));
@@ -54,7 +53,8 @@ public class GameRunnerImpl implements GameRunner {
         log.info("this.roundLength={}", this.roundLength);
 
         this.game.setStarted(true);
-        this.game = this.gameRepository.findById(this.gameRepository.save(this.game).getId()).get();
+//        this.game = this.gameRepository.findById(this.gameRepository.save(this.game).getId()).get();
+        this.gameRepository.save(this.game);
 
         players.forEach((player, session) -> {
             session.send(StartGameNotificationDto.builder()
@@ -90,7 +90,8 @@ public class GameRunnerImpl implements GameRunner {
                     log.info("answerId={} correct={} player={}", answerId, songEntry.getCorrectAnswerIdx(), player);
                 }
             });
-            this.game = this.gameRepository.findById(this.gameRepository.save(this.game).getId()).get();
+//            this.game = this.gameRepository.findById(this.gameRepository.save(this.game).getId()).get();
+            this.gameRepository.save(this.game);
             log.info("players=" + this.game.getPlayers());
 
             EndRoundDto endRoundDto = EndRoundDto.builder()
@@ -121,7 +122,8 @@ public class GameRunnerImpl implements GameRunner {
         }
 
         this.game.setFinished(true);
-        this.game = this.gameRepository.findById(this.gameRepository.save(this.game).getId()).get();
+//        this.game = this.gameRepository.findById(this.gameRepository.save(this.game).getId()).get();
+        this.gameRepository.save(this.game);
     }
 
     @Override
@@ -129,13 +131,32 @@ public class GameRunnerImpl implements GameRunner {
         this.players.put(player, session);
         this.game.getPlayers().add(player);
 
-        log.debug("resave");
         this.game = this.gameRepository.save(this.game);
 
         this.players.forEach((p, s) -> {
             if (p.equals(player)) return;
-            s.send(PlayerJoinGameNotificationDto.builder().player(this.playerToPlayerDtoMapper.map(player)).build());
+            s.send(PlayerJoinGameNotificationDto.builder()
+                    .player(this.playerToPlayerDtoMapper.map(player))
+                    .build());
         });
+    }
+
+    @Override
+    public void removePlayer(Player player) {
+        this.players.remove(player);
+        this.game.getPlayers().removeIf(p -> p.getUser().getId().equals(player.getUser().getId()));
+        log.info("game={} players={}", this.game, this.players);
+
+        this.gameRepository.save(this.game);
+//        this.game = this.gameRepository.findById(this.gameRepository.save(this.game).getId()).get();
+
+        this.players.forEach((p, s) -> {
+            if (p.equals(player)) return;
+            s.send(PlayerLeftGameNotificationDto.builder()
+                    .player(this.playerToPlayerDtoMapper.map(player))
+                    .build());
+        });
+        log.info("player removed game={} players={}", this.game, this.players);
     }
 
     @Override
@@ -150,22 +171,6 @@ public class GameRunnerImpl implements GameRunner {
                 p -> this.players.get(p).getSocket().equals(socket)
         ).findFirst();
 
-        player.ifPresent(this.players::remove);
-
-        this.game.setPlayers(this.players.keySet().stream().toList());
-
-        if (this.game.getPlayers().size() < 1) {
-            this.game.setCanceled(true);
-        }
-
-        this.game = this.gameRepository.findById(this.gameRepository.save(this.game).getId()).get();
-
-        this.players.forEach((p, s) -> {
-            if (s.getSocket().equals(socket))
-                return;
-            s.send(PlayerLeaveDto.builder()
-                    .game(this.gameToGameDtoMapper.map(this.game))
-                    .build());
-        });
+        player.ifPresent(this::removePlayer);
     }
 }

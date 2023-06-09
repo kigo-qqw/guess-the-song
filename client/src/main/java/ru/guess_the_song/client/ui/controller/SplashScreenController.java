@@ -1,5 +1,6 @@
 package ru.guess_the_song.client.ui.controller;
 
+import javafx.application.Platform;
 import javafx.application.Preloader;
 import javafx.fxml.FXML;
 import javafx.scene.control.ProgressBar;
@@ -35,13 +36,15 @@ public class SplashScreenController extends BaseController {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        try {
-            this.connectionService.connect(serverAddress, serverPort);
-//            this.connectionService.setScreenManager(getScreenManager());
-            log.debug("set connectionService=" + this.connectionService);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+//        try {
+//            this.connectionService.connect(serverAddress, serverPort);
+////            this.connectionService.setScreenManager(getScreenManager());
+//            log.debug("set connectionService=" + this.connectionService);
+//        } catch (IOException e) {
+//            log.info("Cant connect");
+//            openDialogWindow(DisconnectController.class);
+////            throw new RuntimeException(e);
+//        }
     }
 
     @Override

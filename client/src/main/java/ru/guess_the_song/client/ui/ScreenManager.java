@@ -71,4 +71,8 @@ public class ScreenManager {
             throw new RuntimeException(e);
         }
     }
+
+    public void exit() {
+        this.stage.close();
+    }
 }

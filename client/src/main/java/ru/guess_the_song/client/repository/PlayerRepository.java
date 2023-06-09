@@ -36,7 +36,15 @@ public class PlayerRepository {
         log.debug("players=" + this.players);
     }
 
-    public  Optional<PlayerDto> get(UUID id) {
+    public synchronized void remove(PlayerDto player) {
+        Platform.runLater(() -> {
+//            this.players.remove(player);
+            this.players.removeIf(playerDto -> playerDto.getUser().getId().equals(player.getUser().getId()));
+            log.debug("players after remove = {}", this.players);
+        });
+    }
+
+    public Optional<PlayerDto> get(UUID id) {
         GetPlayerResponseDto getPlayerResponseDto;
         try {
             this.connectionService.send(GetPlayerDto.builder().id(id).build());

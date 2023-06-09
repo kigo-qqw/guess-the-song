@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import ru.guess_the_song.client.repository.PlayerRepository;
 import ru.guess_the_song.client.ui.ScreenManager;
+import ru.guess_the_song.client.ui.controller.DisconnectController;
 import ru.guess_the_song.client.ui.controller.GameController;
 import ru.guess_the_song.core.dto.*;
 
@@ -19,17 +20,10 @@ import java.util.concurrent.*;
 @Component
 public class ConnectionService {
     private Socket socket;
-    //    private final Map<Class<EntityDto>, List<EventListener>> listeners = new HashMap<>();
     private Connection connection;
     private Thread worker;
     private final PlayerRepository playerRepository;
-
     private ScreenManager screenManager;
-
-
-//    private ObjectInputStream ois;
-//    private ObjectOutputStream oos;
-
     private EntityDto lastEntity = null;
 
     public ConnectionService(
@@ -49,7 +43,10 @@ public class ConnectionService {
     public void send(Object object) throws IOException {
         if (this.connection != null)
             this.connection.send(object);
-        else throw new RuntimeException();
+        else {
+            Platform.runLater(() -> screenManager.openDialogWindow(DisconnectController.class));
+        }
+//        throw new RuntimeException();
     }
 
     public <T extends EntityDto> T waitObject(Class<T> entityClass) {
@@ -79,7 +76,7 @@ public class ConnectionService {
         private ObjectOutputStream oos;
         private GameController gameController = null;
 
-        public Connection(Socket socket) throws IOException {
+        public Connection(Socket socket) {
             this.socket = socket;
         }
 
@@ -95,10 +92,8 @@ public class ConnectionService {
                 InputStream is = this.socket.getInputStream();
                 this.oos = new ObjectOutputStream(os);
                 this.ois = new ObjectInputStream(is);
-
-                log.debug("ObjectStreams created");
             } catch (IOException e) {
-                throw new RuntimeException(e);
+                Platform.runLater(() -> screenManager.openDialogWindow(DisconnectController.class));
             }
 
             while (this.isRun) {
@@ -110,27 +105,19 @@ public class ConnectionService {
                     if (object instanceof PlayerJoinGameNotificationDto playerJoinGameNotificationDto) {
                         playerRepository.add(playerJoinGameNotificationDto.getPlayer());
                     }
-                    if (object instanceof PlayerLeaveDto playerLeaveDto) {
-
-                        playerRepository.update(Arrays.asList(playerLeaveDto.getGame().getPlayers()));
+                    if (object instanceof PlayerLeftGameNotificationDto playerLeftGameNotificationDto) {
+                        playerRepository.remove(playerLeftGameNotificationDto.getPlayer());
                     }
                     if (object instanceof StartGameNotificationDto) {
                         if (screenManager != null)
                             Platform.runLater(() ->
                                     gameController = screenManager.changeWindow(GameController.class));
-                        log.debug("screenManager=" + screenManager);
                     }
                     if (object instanceof StartRoundDto startRoundDto) {
                         Platform.runLater(() -> {
-                        if (gameController != null)
-//                            Platform.runLater(() -> {
-//                                try {
-//                                    Thread.sleep(10);
-//                                } catch (InterruptedException e) {
-//                                    throw new RuntimeException(e);
-//                                }
+                            if (gameController != null)
                                 gameController.startRound(startRoundDto);
-                            });
+                        });
                     }
                     if (object instanceof EndRoundDto endRoundDto) {
                         if (gameController != null) {
@@ -151,13 +138,19 @@ public class ConnectionService {
 
 
                 } catch (IOException | ClassNotFoundException e) {
-                    throw new RuntimeException(e);
+//                    throw new RuntimeException(e);
+                    Platform.runLater(() -> screenManager.openDialogWindow(DisconnectController.class));
+                    return;
                 }
             }
         }
 
-        public void send(Object object) throws IOException {
-            this.oos.writeObject(object);
+        public void send(Object object) {
+            try {
+                this.oos.writeObject(object);
+            } catch (IOException e) {
+                Platform.runLater(() -> screenManager.openDialogWindow(DisconnectController.class));
+            }
         }
     }
 }

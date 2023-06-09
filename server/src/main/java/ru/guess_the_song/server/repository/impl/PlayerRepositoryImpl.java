@@ -22,7 +22,6 @@ public class PlayerRepositoryImpl implements PlayerRepository {
     private final EntityManagerFactory entityManagerFactory;
 
     public PlayerRepositoryImpl() {
-        log.debug("PlayerRepositoryImpl created");
         this.entityManagerFactory = Persistence.createEntityManagerFactory("ru.guess_the_song.server");
     }
 
@@ -30,7 +29,6 @@ public class PlayerRepositoryImpl implements PlayerRepository {
     public <S extends Player> S save(S entity) {
         EntityManager entityManager = this.entityManagerFactory.createEntityManager();
         entityManager.getTransaction().begin();
-//        entityManager.persist(entity);
 
         if (entity.getId() != null) {
             Optional<Player> optionalPlayer = findById(entity.getId());
@@ -67,19 +65,6 @@ public class PlayerRepositoryImpl implements PlayerRepository {
 
     @Override
     public Optional<Player> findById(UUID id) {
-//        EntityManager entityManager = this.entityManagerFactory.createEntityManager();
-//        entityManager.getTransaction().begin();
-//        Player result = (Player) entityManager
-//                .createQuery("FROM Player p WHERE p.id = :id")
-//                .setParameter("id", id)
-//                .getSingleResult();
-//        entityManager.getTransaction().commit();
-//        entityManager.close();
-//
-//        return Optional.of(result);
-
-
-        log.debug("find player : " + id);
         EntityManager entityManager = this.entityManagerFactory.createEntityManager();
         entityManager.getTransaction().begin();
         List<Player> result = entityManager
