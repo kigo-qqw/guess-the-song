@@ -9,9 +9,7 @@ import java.util.UUID;
 
 @Getter
 @Setter
-//@Builder
 @NoArgsConstructor
-//@AllArgsConstructor
 @ToString
 @Entity
 @Table(name = "SongEntryTable")
@@ -19,10 +17,9 @@ import java.util.UUID;
 public class SongEntry extends BaseEntity {
     @Lob
     @ToString.Exclude
-//    @Transient
     private byte[] data;
 
-    @ElementCollection(fetch = FetchType.EAGER) // 1
+    @ElementCollection(fetch = FetchType.EAGER)
     private List<String> answers;
 
     private int correctAnswerIdx;

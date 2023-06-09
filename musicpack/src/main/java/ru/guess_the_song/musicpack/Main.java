@@ -4,7 +4,6 @@ package ru.guess_the_song.musicpack;
 import ru.guess_the_song.core.dto.*;
 
 import java.io.*;
-import java.net.Socket;
 import java.util.Objects;
 
 public class Main {

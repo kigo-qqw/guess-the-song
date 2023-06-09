@@ -3,13 +3,9 @@ package ru.guess_the_song.client.ui.components;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.security.SecurityProperties;
 import org.springframework.stereotype.Component;
-import ru.guess_the_song.client.repository.PlayerRepository;
 import ru.guess_the_song.client.service.UserService;
 import ru.guess_the_song.core.dto.PlayerDto;
-import ru.guess_the_song.core.dto.UserDto;
 
 @Slf4j
 @Component

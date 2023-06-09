@@ -16,7 +16,6 @@ import ru.guess_the_song.client.repository.PlayerRepository;
 import ru.guess_the_song.client.service.GameService;
 import ru.guess_the_song.client.service.UserService;
 import ru.guess_the_song.core.dto.GameDto;
-import ru.guess_the_song.core.dto.JoinGameResponseDto;
 import ru.guess_the_song.core.dto.PlayerDto;
 import ru.guess_the_song.core.dto.UserDto;
 

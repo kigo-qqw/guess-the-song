@@ -5,8 +5,6 @@ import lombok.NonNull;
 import lombok.ToString;
 import lombok.experimental.SuperBuilder;
 
-import java.util.UUID;
-
 @ToString(callSuper = true)
 @Getter
 @SuperBuilder

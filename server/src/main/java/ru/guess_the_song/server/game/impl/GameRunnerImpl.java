@@ -90,8 +90,8 @@ public class GameRunnerImpl implements GameRunner {
                     log.info("answerId={} correct={} player={}", answerId, songEntry.getCorrectAnswerIdx(), player);
                 }
             });
-//            this.game = this.gameRepository.findById(this.gameRepository.save(this.game).getId()).get();
-            this.gameRepository.save(this.game);
+            this.game = this.gameRepository.findById(this.gameRepository.save(this.game).getId()).get();
+//            this.game = this.gameRepository.save(this.game);
             log.info("players=" + this.game.getPlayers());
 
             EndRoundDto endRoundDto = EndRoundDto.builder()
@@ -147,8 +147,12 @@ public class GameRunnerImpl implements GameRunner {
         this.game.getPlayers().removeIf(p -> p.getUser().getId().equals(player.getUser().getId()));
         log.info("game={} players={}", this.game, this.players);
 
+        this.playerService.leaveFromGame(player);
+
+        log.info("GAME BEFORE = {}", this.gameRepository.findById(this.game.getId()));
         this.gameRepository.save(this.game);
 //        this.game = this.gameRepository.findById(this.gameRepository.save(this.game).getId()).get();
+        log.info("GAME AFTER = {}", this.gameRepository.findById(this.game.getId()));
 
         this.players.forEach((p, s) -> {
             if (p.equals(player)) return;

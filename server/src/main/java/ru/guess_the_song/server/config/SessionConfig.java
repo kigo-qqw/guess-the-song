@@ -6,7 +6,6 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 import ru.guess_the_song.core.dto.*;
 import ru.guess_the_song.server.controller.*;
-import ru.guess_the_song.server.controller.impl.GiveAnswerControllerImpl;
 import ru.guess_the_song.server.dispatcher.Dispatcher;
 import ru.guess_the_song.server.dispatcher.impl.DispatcherImpl;
 import ru.guess_the_song.server.net.SessionFactory;

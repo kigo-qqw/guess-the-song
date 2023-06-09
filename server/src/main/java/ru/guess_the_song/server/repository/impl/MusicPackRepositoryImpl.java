@@ -7,7 +7,6 @@ import jakarta.persistence.PersistenceUnit;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import ru.guess_the_song.server.entity.MusicPack;
-import ru.guess_the_song.server.entity.Player;
 import ru.guess_the_song.server.repository.MusicPackRepository;
 
 import java.util.List;

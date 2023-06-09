@@ -1,6 +1,5 @@
 package ru.guess_the_song.client.ui.controller;
 
-import javafx.application.Platform;
 import javafx.application.Preloader;
 import javafx.fxml.FXML;
 import javafx.scene.control.ProgressBar;
@@ -10,7 +9,6 @@ import org.springframework.stereotype.Component;
 import ru.guess_the_song.client.service.ConnectionService;
 import ru.guess_the_song.client.ui.ScreenManager;
 
-import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 

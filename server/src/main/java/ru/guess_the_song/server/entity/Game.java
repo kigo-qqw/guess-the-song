@@ -2,8 +2,6 @@ package ru.guess_the_song.server.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
-import org.hibernate.annotations.LazyCollection;
-import org.hibernate.annotations.LazyCollectionOption;
 import ru.guess_the_song.server.entity.base.BaseEntity;
 
 import java.util.ArrayList;
@@ -11,11 +9,8 @@ import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 
-
 @Getter
 @Setter
-//@Builder
-//@AllArgsConstructor
 @NoArgsConstructor
 @Entity
 @ToString
@@ -25,10 +20,7 @@ public class Game extends BaseEntity {
     @OneToOne
     @JoinColumn(name = "leader_id")
     private Player leader;
-    //    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
-//    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "game")
-//    @JoinColumn(name = "Players", referencedColumnName = "id", updatable = true)
     private List<Player> players;
     @OneToOne
     private MusicPack musicPack;

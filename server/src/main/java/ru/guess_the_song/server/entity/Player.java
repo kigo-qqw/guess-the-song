@@ -9,15 +9,12 @@ import java.util.UUID;
 
 @Getter
 @Setter
-//@Builder
 @NoArgsConstructor
-//@AllArgsConstructor
 @Entity
 @ToString
 @Table(name = "PlayerTable")
 @EqualsAndHashCode(callSuper = true)
 public class Player extends BaseEntity {
-    //    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
     private User user;
 
@@ -26,12 +23,14 @@ public class Player extends BaseEntity {
     @JoinColumn(name = "game_id", nullable = false)
     private Game game;
     private int points;
+    private boolean isInGame;
 
     @Builder
-    private Player(UUID id, User user, Game game, int points) {
+    private Player(UUID id, User user, Game game, int points, boolean isInGame) {
         super(id);
         this.user = user;
         this.game = game;
         this.points = points;
+        this.isInGame = isInGame;
     }
 }

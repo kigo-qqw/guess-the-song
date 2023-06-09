@@ -15,4 +15,6 @@ public interface PlayerService {
     Optional<Player> get(UUID id);
 
     void increasePoints(Player player, int points);
+
+    void leaveFromGame(Player player);
 }

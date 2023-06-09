@@ -2,7 +2,6 @@ package ru.guess_the_song.client.service;
 
 import javafx.application.Platform;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import ru.guess_the_song.client.repository.PlayerRepository;
@@ -14,7 +13,6 @@ import ru.guess_the_song.core.dto.*;
 import java.io.*;
 import java.net.Socket;
 import java.util.Arrays;
-import java.util.concurrent.*;
 
 @Slf4j
 @Component

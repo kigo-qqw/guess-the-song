@@ -1,11 +1,9 @@
 package ru.guess_the_song.server.controller.impl;
 
-import ru.guess_the_song.core.dto.GetPlayerResponseDto;
 import ru.guess_the_song.core.dto.GetUserDto;
 import ru.guess_the_song.core.dto.GetUserResponseDto;
 import ru.guess_the_song.core.dto.Status;
 import ru.guess_the_song.server.controller.GetUserController;
-import ru.guess_the_song.server.entity.Player;
 import ru.guess_the_song.server.entity.User;
 import ru.guess_the_song.server.mapper.UserToUserDtoMapper;
 import ru.guess_the_song.server.net.Session;

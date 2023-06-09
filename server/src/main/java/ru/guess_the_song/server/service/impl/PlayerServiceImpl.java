@@ -21,7 +21,12 @@ public class PlayerServiceImpl implements PlayerService {
     }
 
     public Optional<Player> create(Game game, User user) {
-        return Optional.of(this.playerRepository.save(Player.builder().game(game).user(user).build()));
+        return Optional.of(this.playerRepository.save(Player.builder()
+                .game(game)
+                .user(user)
+                .isInGame(true)
+                .build()
+        ));
     }
 
     @Override
@@ -37,6 +42,12 @@ public class PlayerServiceImpl implements PlayerService {
     @Override
     public void increasePoints(Player player, int points) {
         player.setPoints(player.getPoints() + points);
+        this.playerRepository.save(player);
+    }
+
+    @Override
+    public void leaveFromGame(Player player) {
+        player.setInGame(false);
         this.playerRepository.save(player);
     }
 }
